@@ -1,0 +1,62 @@
+import { SignJWT, jwtVerify } from "jose";
+import { cookies } from "next/headers";
+import { prisma } from "./db";
+
+const secret = () =>
+  new TextEncoder().encode(
+    process.env.AUTH_SECRET || "efootligue-dev-secret-change-me-please-32"
+  );
+
+export type SessionUser = {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+};
+
+export async function signToken(user: SessionUser) {
+  return new SignJWT(user)
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("14d")
+    .sign(secret());
+}
+
+export async function getSession(): Promise<SessionUser | null> {
+  const jar = await cookies();
+  const token = jar.get("efl_session")?.value;
+  if (!token) return null;
+  try {
+    const { payload } = await jwtVerify(token, secret());
+    return {
+      id: String(payload.id),
+      email: String(payload.email),
+      name: String(payload.name),
+      role: String(payload.role)
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function requireUser() {
+  const s = await getSession();
+  if (!s) throw new Error("UNAUTHENTICATED");
+  return s;
+}
+
+export async function requireOrganizer() {
+  const s = await requireUser();
+  if (s.role !== "ORGANIZER" && s.role !== "ADMIN") throw new Error("FORBIDDEN");
+  return s;
+}
+
+export async function dbUser(id: string) {
+  return prisma.user.findUnique({
+    where: { id },
+    include: { efootball: true }
+  });
+}
+
+export function jsonError(message: string, status = 400) {
+  return Response.json({ ok: false, error: message }, { status });
+}
