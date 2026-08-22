@@ -674,7 +674,10 @@
         </div>
         <div class="field">
           <label for="pLoginPwd">Mot de passe</label>
-          <input id="pLoginPwd" type="password" required placeholder="Votre mot de passe">
+          <div style="position:relative;display:flex;align-items:center">
+            <input id="pLoginPwd" type="password" required placeholder="Votre mot de passe" style="width:100%;padding-right:42px">
+            <button type="button" onclick="togglePasswordVisibility('pLoginPwd', this)" title="Afficher/Masquer" style="position:absolute;right:8px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:6px;line-height:1">👁️</button>
+          </div>
         </div>
         <div style="display:flex;justify-content:flex-end;margin-top:-6px;margin-bottom:12px">
           <a href="javascript:void(0)" onclick="switchPlayerAuthTab('forgot')" style="font-size:12px;color:var(--lime);text-decoration:none">🔑 Mot de passe oublié ?</a>
@@ -803,13 +806,15 @@
       <form id="loginForm">
         <div class="field">
           <label for="pinInput">Mot de passe / Code d'accès</label>
-          <input id="pinInput" type="password" autocomplete="current-password" placeholder="Entrez votre mot de passe">
+          <div style="position:relative;display:flex;align-items:center">
+            <input id="pinInput" type="password" autocomplete="current-password" placeholder="Entrez votre mot de passe" style="width:100%;padding-right:42px">
+            <button type="button" onclick="togglePasswordVisibility('pinInput', this)" title="Afficher/Masquer" style="position:absolute;right:8px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:6px;line-height:1">👁️</button>
+          </div>
         </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:-6px;margin-bottom:12px">
+        <div style="display:flex;justify-content:flex-end;margin-top:-4px;margin-bottom:12px">
           <a href="javascript:void(0)" onclick="$('loginModal').style.display='none'; openPlayerAuthModal('forgot')" style="font-size:12px;color:var(--lime);text-decoration:none">🔑 Mot de passe oublié ?</a>
         </div>
-        <div id="attemptsLeft" style="font-size:12px;color:var(--text-muted);margin-bottom:12px"></div>
-        <button class="btn btn-primary" type="submit" style="width:100%">Se connecter & Gérer</button>
+        <button class="btn btn-primary" type="submit" id="btnAdminLoginSubmit" style="width:100%">Se connecter & Gérer</button>
       </form>
     </div>
 
@@ -1049,13 +1054,20 @@
   let currentCompId = null;   // Compétition actuellement affichée
   let isAdmin = false;
   let adminSession = null;    // timestamp session
-  const SESSION_DURATION = 4 * 60 * 60 * 1000; // 4h
+  const SESSION_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 jours de session persistante
 
-  // Anti brute-force
-  let loginAttempts = parseInt(sessionStorage.getItem('loginAttempts') || '0');
-  let lockoutUntil = parseInt(sessionStorage.getItem('lockoutUntil') || '0');
-  const MAX_ATTEMPTS = 5;
-  const LOCKOUT_MS = 30 * 60 * 1000; // 30 min
+  function togglePasswordVisibility(inputId, btn){
+    const el = document.getElementById(inputId);
+    if(!el) return;
+    if(el.type === 'password'){
+      el.type = 'text';
+      if(btn) btn.textContent = '🙈';
+    } else {
+      el.type = 'password';
+      if(btn) btn.textContent = '👁️';
+    }
+  }
+  window.togglePasswordVisibility = togglePasswordVisibility;
 
   const $ = id => document.getElementById(id);
 
@@ -1719,14 +1731,15 @@
       await fbSet('global_config', globalConfig);
     }
 
-    // Restaurer session admin
-    const saved = sessionStorage.getItem('adminSession');
+    // Restaurer session admin (localStorage ou sessionStorage)
+    const saved = localStorage.getItem('adminSession') || sessionStorage.getItem('adminSession');
     if(saved){
       const ts = parseInt(saved);
       if(Date.now() - ts < SESSION_DURATION){
         isAdmin = true;
         adminSession = ts;
       } else {
+        localStorage.removeItem('adminSession');
         sessionStorage.removeItem('adminSession');
       }
     }
@@ -2056,58 +2069,59 @@
   $('loginForm').addEventListener('submit', async function(e){
     e.preventDefault();
     const val = ($('pinInput').value || '').trim();
-    if(!val){ showMsg('loginMsg','error','Entrez votre mot de passe.'); return; }
-    const now = Date.now();
-    const h = await hashPin(val);
-    const storedHash = globalConfig && globalConfig.pinHash ? globalConfig.pinHash : DEFAULT_ADMIN_HASH;
-
-    // Vérifie le hash stocké en Firebase OU un compte organisateur enregistré
-    const isChamMatch = (h === DEFAULT_ADMIN_HASH);
+    if(!val){ showMsg('loginMsg','error','Veuillez entrer votre mot de passe.'); return; }
     
-    // Vérifie aussi si c'est un compte organisateur enregistré
-    let isOrgaMatch = false;
-    let foundOrga = null;
-    const organizers = await fbGet('organizers');
-    if(organizers && typeof organizers === 'object'){
-      for(const org of Object.values(organizers)){
-        if(org && org.pinHash === h){
-          isOrgaMatch = true;
-          foundOrga = org;
-          break;
+    const btn = $('btnAdminLoginSubmit') || e.target.querySelector('button[type="submit"]');
+    if(btn){ btn.disabled = true; btn.textContent = 'Connexion...'; }
+
+    try {
+      const h = await hashPin(val);
+      
+      // S'assurer que globalConfig est bien chargé
+      if(!globalConfig){
+        globalConfig = await fbGet('global_config');
+      }
+      const storedHash = globalConfig && globalConfig.pinHash ? globalConfig.pinHash : DEFAULT_ADMIN_HASH;
+
+      const isChamMatch = (h === DEFAULT_ADMIN_HASH);
+      
+      // Vérifie aussi si c'est un compte organisateur enregistré
+      let isOrgaMatch = false;
+      let foundOrga = null;
+      const organizers = await fbGet('organizers');
+      if(organizers && typeof organizers === 'object'){
+        for(const org of Object.values(organizers)){
+          if(org && (org.pinHash === h || org.pinHash === val)){
+            isOrgaMatch = true;
+            foundOrga = org;
+            break;
+          }
         }
       }
-    }
 
-    const isValid = (h === storedHash || isChamMatch || isOrgaMatch);
+      const isValid = (h === storedHash || isChamMatch || isOrgaMatch);
 
-    if(isValid){
-      // Si mot de passe par défaut entré, s'assurer que Firebase est bien synchronisé
-      if(isChamMatch && globalConfig && globalConfig.pinHash !== DEFAULT_ADMIN_HASH){
-        globalConfig = Object.assign({}, globalConfig, { pinHash: DEFAULT_ADMIN_HASH });
-        await fbSet('global_config', globalConfig);
+      if(isValid){
+        isAdmin = true;
+        adminSession = Date.now();
+        localStorage.setItem('adminSession', String(adminSession));
+        sessionStorage.setItem('adminSession', String(adminSession));
+        if(foundOrga){
+          localStorage.setItem('currentOrganizer', JSON.stringify(foundOrga));
+          sessionStorage.setItem('currentOrganizer', JSON.stringify(foundOrga));
+        }
+        $('loginModal').style.display = 'none';
+        $('pinInput').value = '';
+        $('loginMsg').innerHTML = '';
+        openAdminPanel();
+        showMsg('adminMsg', 'ok', '🎉 Bienvenue dans votre panneau de gestion !');
+      } else {
+        showMsg('loginMsg','error','Mot de passe incorrect. Vérifiez votre saisie avec l\'œil 👁️.');
       }
-      isAdmin = true;
-      adminSession = Date.now();
-      sessionStorage.setItem('adminSession', String(adminSession));
-      if(foundOrga) sessionStorage.setItem('currentOrganizer', JSON.stringify(foundOrga));
-      loginAttempts = 0;
-      sessionStorage.setItem('loginAttempts','0');
-      lockoutUntil = 0;
-      sessionStorage.removeItem('lockoutUntil');
-      $('loginModal').style.display = 'none';
-      $('pinInput').value = '';
-      $('loginMsg').innerHTML = '';
-      openAdminPanel();
-    } else {
-      if(now < lockoutUntil){ updateLockoutDisplay(); return; }
-      loginAttempts++;
-      sessionStorage.setItem('loginAttempts', String(loginAttempts));
-      if(loginAttempts >= MAX_ATTEMPTS){
-        lockoutUntil = Date.now() + LOCKOUT_MS;
-        sessionStorage.setItem('lockoutUntil', String(lockoutUntil));
-      }
-      updateLockoutDisplay();
-      showMsg('loginMsg','error','Mot de passe incorrect.');
+    } catch(err){
+      showMsg('loginMsg','error','Erreur de connexion : ' + err.message);
+    } finally {
+      if(btn){ btn.disabled = false; btn.textContent = 'Se connecter & Gérer'; }
     }
   });
 
