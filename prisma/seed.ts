@@ -2,8 +2,9 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../src/lib/db";
 
 async function main() {
+  const defaultSeedPass = process.env.SEED_PASSWORD || "AdminPass@2026";
   // ─── Compte ADMIN ──────────────────────────────────────────────────────────
-  const adminHash = await bcrypt.hash("cham123@", 10);
+  const adminHash = await bcrypt.hash(defaultSeedPass, 10);
   await prisma.user.upsert({
     where: { email: "admin@efootligue.local" },
     update: { passwordHash: adminHash },
@@ -19,7 +20,7 @@ async function main() {
   });
 
   // ─── Compte ORGANISATEUR ───────────────────────────────────────────────────
-  const orgaHash = await bcrypt.hash("cham123@", 10);
+  const orgaHash = await bcrypt.hash(defaultSeedPass, 10);
   const organizer = await prisma.user.upsert({
     where: { email: "orga@efootligue.local" },
     update: { passwordHash: orgaHash },
@@ -146,8 +147,8 @@ async function main() {
 
   console.log("✅ Seed OK");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-  console.log("👑 Admin     : admin@efootligue.local / cham123@");
-  console.log("🗂️  Organisateur: orga@efootligue.local / cham123@");
+  console.log("👑 Admin     : admin@efootligue.local / " + defaultSeedPass);
+  console.log("🗂️  Organisateur: orga@efootligue.local / " + defaultSeedPass);
   console.log("🎮 Joueur démo : amina@efootligue.local / joueur1234");
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 }
