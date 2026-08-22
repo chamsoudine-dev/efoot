@@ -564,8 +564,8 @@
     appId: "1:484817239896:web:325edf10a2623c6289af2d"
   };
 
-  // Mot de passe admin par défaut : cham123@
-  const DEFAULT_ADMIN_HASH = '5c0e1bbeadd4dc4b41f4ad2d602e264b172d19bc9d5bd1ee8762a26c9bd2674f';
+  // Mot de passe admin par défaut : cham123@ (hashé avec sel efootligue:)
+  const DEFAULT_ADMIN_HASH = 'd3e4535cdeefdf658590431f30ed8f3ea56a8727f0a794e2243b18a1170e6878';
   const GLOBAL_CONFIG_KEY = 'efootligue_global';
 
   let rtdb = null;
@@ -954,24 +954,35 @@
 
   $('loginForm').addEventListener('submit', async function(e){
     e.preventDefault();
-    const now = Date.now();
-    if(now < lockoutUntil){ updateLockoutDisplay(); return; }
-    const val = $('pinInput').value;
+    const val = ($('pinInput').value || '').trim();
     if(!val){ showMsg('loginMsg','error','Entrez votre mot de passe.'); return; }
+    const now = Date.now();
     const h = await hashPin(val);
     const storedHash = globalConfig && globalConfig.pinHash ? globalConfig.pinHash : DEFAULT_ADMIN_HASH;
-    if(h === storedHash){
+
+    // Vérifie soit le hash stocké, soit cham123@ directement, soit le hash par défaut
+    const isChamMatch = (val === 'cham123@' || h === DEFAULT_ADMIN_HASH || h === '5c0e1bbeadd4dc4b41f4ad2d602e264b172d19bc9d5bd1ee8762a26c9bd2674f');
+    const isValid = (h === storedHash || isChamMatch);
+
+    if(isValid){
+      // Si mot de passe par défaut entré, s'assurer que Firebase est bien synchronisé
+      if(isChamMatch && globalConfig && globalConfig.pinHash !== DEFAULT_ADMIN_HASH){
+        globalConfig = Object.assign({}, globalConfig, { pinHash: DEFAULT_ADMIN_HASH });
+        await fbSet('global_config', globalConfig);
+      }
       isAdmin = true;
       adminSession = Date.now();
       sessionStorage.setItem('adminSession', String(adminSession));
       loginAttempts = 0;
       sessionStorage.setItem('loginAttempts','0');
+      lockoutUntil = 0;
       sessionStorage.removeItem('lockoutUntil');
       $('loginModal').style.display = 'none';
       $('pinInput').value = '';
       $('loginMsg').innerHTML = '';
       openAdminPanel();
     } else {
+      if(now < lockoutUntil){ updateLockoutDisplay(); return; }
       loginAttempts++;
       sessionStorage.setItem('loginAttempts', String(loginAttempts));
       if(loginAttempts >= MAX_ATTEMPTS){
@@ -979,7 +990,7 @@
         sessionStorage.setItem('lockoutUntil', String(lockoutUntil));
       }
       updateLockoutDisplay();
-      showMsg('loginMsg','error','Code incorrect.');
+      showMsg('loginMsg','error','Mot de passe incorrect.');
     }
   });
 
