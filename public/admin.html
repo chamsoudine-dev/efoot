@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="EFootLigue — Plateforme de championnats eFootball : inscriptions, cagnotte et tableau en direct.">
-<title>EFootLigue — Championnats eFootball</title>
+<title>EFootLigue — Espace Organisateur & Administration</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -241,7 +241,7 @@
       <a href="#classement" id="navJoueurs" style="display:none">Joueurs</a>
       <a href="#tableau" id="navTableau" style="display:none">Tableau</a>
     </div>
-    <a href="admin.html" class="admin-link" style="color:var(--lime);border:1px solid rgba(182,255,60,0.3);padding:4px 10px;border-radius:6px;text-decoration:none">🔐 Espace Organisateur</a>
+    <button class="admin-link" id="openAdminBtn" type="button">⚙ Admin</button>
   </div>
 </nav>
 
@@ -369,7 +369,7 @@
 <footer>
   <div class="wrap">
     <p id="footerContact">Des questions ? Contactez l'organisateur sur WhatsApp.</p>
-    <p style="margin-top:6px;opacity:0.6">Plateforme EFootLigue — Données synchronisées en temps réel via Firebase. • <a href="admin.html" style="color:var(--text-muted);text-decoration:underline">Accès Organisateur & Admin</a></p>
+    <p style="margin-top:6px;opacity:0.6">Plateforme EFootLigue — Données synchronisées en temps réel via Firebase.</p>
   </div>
 </footer>
 
@@ -1601,7 +1601,7 @@
   window.openSetupModal = openSetupModal;
 
   // DÉMARRAGE
-  init();
+  init(); setTimeout(() => { if(!isAdmin) openAdminLogin(); else openAdminPanel(); }, 300);
 })();
 </script>
 </body>
