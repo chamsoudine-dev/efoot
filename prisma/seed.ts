@@ -2,17 +2,35 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../src/lib/db";
 
 async function main() {
-  const passwordHash = await bcrypt.hash("admin1234", 10);
+  // ─── Compte ADMIN ──────────────────────────────────────────────────────────
+  const adminHash = await bcrypt.hash("cham123@", 10);
+  await prisma.user.upsert({
+    where: { email: "admin@efootligue.local" },
+    update: { passwordHash: adminHash },
+    create: {
+      email: "admin@efootligue.local",
+      passwordHash: adminHash,
+      name: "Administrateur",
+      role: "ADMIN",
+      phone: "",
+      elo: 1000,
+      isActive: true
+    }
+  });
+
+  // ─── Compte ORGANISATEUR ───────────────────────────────────────────────────
+  const orgaHash = await bcrypt.hash("cham123@", 10);
   const organizer = await prisma.user.upsert({
     where: { email: "orga@efootligue.local" },
-    update: {},
+    update: { passwordHash: orgaHash },
     create: {
       email: "orga@efootligue.local",
-      passwordHash,
+      passwordHash: orgaHash,
       name: "Organisateur",
       role: "ORGANIZER",
       phone: "22700000000",
       elo: 1200,
+      isActive: true,
       efootball: {
         create: {
           konamiId: "EFOOT-ORGA-001",
@@ -25,6 +43,7 @@ async function main() {
     }
   });
 
+  // ─── Joueurs démo ──────────────────────────────────────────────────────────
   const demoHash = await bcrypt.hash("joueur1234", 10);
   const names = [
     ["Amina", "Amina_EF"],
@@ -45,6 +64,7 @@ async function main() {
         name,
         role: "PLAYER",
         elo: 980 + Math.floor(Math.random() * 120),
+        isActive: true,
         efootball: {
           create: {
             konamiId: `KN-${gameId}`,
@@ -58,6 +78,7 @@ async function main() {
     users.push(u);
   }
 
+  // ─── Tournois démo ─────────────────────────────────────────────────────────
   const existing = await prisma.tournament.findUnique({
     where: { slug: "coupe-niamey-open" }
   });
@@ -72,6 +93,7 @@ async function main() {
         p1Pct: 50,
         p2Pct: 20,
         orgPct: 30,
+        type: "KNOCKOUT",
         drawDate: "Samedi 18h",
         payNum: "96 00 00 00",
         wa: "22796000000",
@@ -86,15 +108,49 @@ async function main() {
     }
   }
 
+  // Deuxième tournoi pour démontrer le multi-compétitions
+  const existing2 = await prisma.tournament.findUnique({
+    where: { slug: "ligue-niger-saison1" }
+  });
+  if (!existing2) {
+    const t2 = await prisma.tournament.create({
+      data: {
+        slug: "ligue-niger-saison1",
+        name: "Ligue Niger — Saison 1",
+        description: "Championnat par poules. Meilleur bilan qualifié en finale.",
+        fee: 1000,
+        maxPlayers: 8,
+        p1Pct: 60,
+        p2Pct: 25,
+        orgPct: 15,
+        type: "GROUPS",
+        drawDate: "Dimanche 16h",
+        payNum: "97 00 00 00",
+        wa: "22797000000",
+        status: "OPEN",
+        organizerId: organizer.id
+      }
+    });
+    for (const u of users.slice(2, 6)) {
+      await prisma.registration.create({
+        data: { tournamentId: t2.id, userId: u.id, paid: false }
+      });
+    }
+  }
+
   await prisma.livePulse.upsert({
     where: { id: "main" },
-    update: { message: "Inscriptions ouvertes — Coupe Niamey Open" },
-    create: { id: "main", message: "Inscriptions ouvertes — Coupe Niamey Open" }
+    update: { message: "2 compétitions ouvertes — Coupe Niamey Open & Ligue Niger Saison 1" },
+    create: { id: "main", message: "2 compétitions ouvertes — Coupe Niamey Open & Ligue Niger Saison 1" }
   });
 
-  console.log("Seed OK");
-  console.log("Organisateur: orga@efootligue.local / admin1234");
-  console.log("Joueur démo: amina@efootligue.local / joueur1234");
+  console.log("✅ Seed OK");
+  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+  console.log("👑 Admin     : admin@efootligue.local / cham123@");
+  console.log("🗂️  Organisateur: orga@efootligue.local / cham123@");
+  console.log("🎮 Joueur démo : amina@efootligue.local / joueur1234");
+  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 }
 
 main().finally(() => prisma.$disconnect());
+

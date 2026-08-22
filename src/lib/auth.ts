@@ -2,10 +2,13 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { prisma } from "./db";
 
-const secret = () =>
-  new TextEncoder().encode(
-    process.env.AUTH_SECRET || "efootligue-dev-secret-change-me-please-32"
-  );
+const secret = () => {
+  const s = process.env.AUTH_SECRET;
+  if (!s || s.length < 32) {
+    throw new Error("AUTH_SECRET manquant ou trop court (32 caractères min).");
+  }
+  return new TextEncoder().encode(s);
+};
 
 export type SessionUser = {
   id: string;
@@ -41,12 +44,21 @@ export async function getSession(): Promise<SessionUser | null> {
 export async function requireUser() {
   const s = await getSession();
   if (!s) throw new Error("UNAUTHENTICATED");
+  // Vérifier que le compte est toujours actif en base
+  const db = await prisma.user.findUnique({ where: { id: s.id }, select: { isActive: true } });
+  if (!db || !db.isActive) throw new Error("ACCOUNT_DISABLED");
   return s;
 }
 
 export async function requireOrganizer() {
   const s = await requireUser();
   if (s.role !== "ORGANIZER" && s.role !== "ADMIN") throw new Error("FORBIDDEN");
+  return s;
+}
+
+export async function requireAdmin() {
+  const s = await requireUser();
+  if (s.role !== "ADMIN") throw new Error("FORBIDDEN");
   return s;
 }
 
@@ -60,3 +72,4 @@ export async function dbUser(id: string) {
 export function jsonError(message: string, status = 400) {
   return Response.json({ ok: false, error: message }, { status });
 }
+

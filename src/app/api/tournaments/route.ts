@@ -4,10 +4,24 @@ import { prisma } from "@/lib/db";
 import { getSession, jsonError, requireOrganizer } from "@/lib/auth";
 import { slugify } from "@/lib/format";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const status = searchParams.get("status");   // OPEN | LIVE | ENDED
+  const mine = searchParams.get("mine");       // true → tournois de l'utilisateur connecté
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const where: any = {};
+  if (status) where.status = status;
+  if (mine === "true") {
+    const session = await getSession();
+    if (session) where.organizerId = session.id;
+  }
+
   const list = await prisma.tournament.findMany({
+    where,
     orderBy: { createdAt: "desc" },
     include: {
+      organizer: { select: { name: true } },
       _count: { select: { registrations: true } },
       registrations: { where: { paid: true }, select: { id: true } }
     }
@@ -31,6 +45,7 @@ const schema = z.object({
   p1Pct: z.number().int().min(0).max(100),
   p2Pct: z.number().int().min(0).max(100),
   orgPct: z.number().int().min(0).max(100),
+  type: z.enum(["KNOCKOUT", "GROUPS", "LEAGUE"]).optional(),
   drawDate: z.string().optional(),
   payNum: z.string().optional(),
   wa: z.string().optional(),
@@ -62,6 +77,7 @@ export async function POST(req: NextRequest) {
       p1Pct: body.data.p1Pct,
       p2Pct: body.data.p2Pct,
       orgPct: body.data.orgPct,
+      type: body.data.type || "KNOCKOUT",
       drawDate: body.data.drawDate || "",
       payNum: body.data.payNum || "",
       wa: body.data.wa || "",
@@ -71,3 +87,4 @@ export async function POST(req: NextRequest) {
   });
   return Response.json({ ok: true, tournament: t });
 }
+

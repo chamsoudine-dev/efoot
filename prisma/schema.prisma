@@ -15,6 +15,7 @@ model User {
   role         String   @default("PLAYER")
   phone        String   @default("")
   elo          Int      @default(1000)
+  isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
 
   efootball    EfootballLink?
@@ -50,6 +51,7 @@ model Tournament {
   p1Pct       Int
   p2Pct       Int
   orgPct      Int
+  type        String   @default("KNOCKOUT")
   drawDate    String   @default("")
   payNum      String   @default("")
   wa          String   @default("")
