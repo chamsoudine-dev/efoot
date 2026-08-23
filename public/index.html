@@ -240,8 +240,10 @@
       <a href="#inscription" id="navInscription" style="display:none">S'inscrire</a>
       <a href="#classement" id="navJoueurs" style="display:none">Joueurs</a>
       <a href="#tableau" id="navTableau" style="display:none">Tableau</a>
+      <a onclick="openGamerRegister()" id="navGamerRegister" style="color:var(--lime);cursor:pointer">🎮 Créer compte Joueur</a>
+      <a onclick="openGamerLogin()" id="navGamerLogin" style="cursor:pointer">Connexion</a>
     </div>
-    <a href="admin.html" class="admin-link" style="color:var(--lime);border:1px solid rgba(182,255,60,0.3);padding:4px 10px;border-radius:6px;text-decoration:none">🔐 Espace Organisateur</a>
+    <a href="admin.html" class="admin-link" style="color:var(--text-muted);border:1px solid var(--line);padding:4px 10px;border-radius:6px;text-decoration:none">🔐 Espace Admin</a>
   </div>
 </nav>
 
@@ -254,7 +256,8 @@
       <p style="color:var(--text-muted);font-size:16px;max-width:48ch;margin-bottom:28px">Consultez librement les tournois, classements, cagnottes et arbres en direct. Créez un compte pour organiser et lancer votre propre compétition.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <a href="#sectionComps" class="btn btn-ghost">🏆 Voir les compétitions</a>
-        <button class="btn btn-primary" onclick="openAdminLogin()">➕ Organiser un tournoi</button>
+        <button class="btn btn-primary" onclick="openGamerRegister()">🎮 Créer mon compte joueur</button>
+        <a href="admin.html" class="btn btn-ghost" style="border-color:rgba(182,255,60,0.4);color:var(--lime)">➕ Organiser un tournoi</a>
       </div>
     </section>
 
@@ -375,228 +378,66 @@
 
 <!-- ======================== MODALS ======================== -->
 
-<!-- Login / Inscription Organisateur -->
-<div class="modal-overlay" id="loginModal" style="display:none" role="dialog" aria-modal="true">
+<!-- Modal Création de compte Joueur (Gamer) -->
+<div class="modal-overlay" id="gamerModal" style="display:none" role="dialog" aria-modal="true">
   <div class="modal">
-    <button class="close-x" id="closeLogin" type="button">×</button>
+    <button class="close-x" id="closeGamerModal" type="button">×</button>
     <div style="display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:10px">
-      <button class="tab-btn active" id="btnTabLogin" onclick="switchAuthTab('login')" type="button">🔑 Connexion Organisateur</button>
-      <button class="tab-btn" id="btnTabRegister" onclick="switchAuthTab('register')" type="button">✨ Créer mon compte</button>
+      <button class="tab-btn active" id="btnTabGamerLogin" onclick="switchGamerTab('login')" type="button">🎮 Connexion Joueur</button>
+      <button class="tab-btn" id="btnTabGamerRegister" onclick="switchGamerTab('register')" type="button">✨ Créer mon compte</button>
     </div>
-    <div id="lockoutMsg"></div>
-    <div id="loginMsg"></div>
+    <div id="gamerMsg"></div>
 
-    <!-- Onglet Connexion -->
-    <div id="authLoginBlock">
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Entrez votre code d'accès organisateur ou le mot de passe admin.</p>
-      <form id="loginForm">
+    <!-- Onglet Connexion Joueur -->
+    <div id="gamerLoginBlock">
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Connectez-vous pour accéder à votre profil joueur et suivre vos tournois.</p>
+      <form id="gamerLoginForm">
         <div class="field">
-          <label for="pinInput">Mot de passe / Code d'accès</label>
-          <input id="pinInput" type="password" autocomplete="current-password" placeholder="Ex: cham123@ ou votre mot de passe">
+          <label for="gamerLoginPhone">Numéro de téléphone</label>
+          <input id="gamerLoginPhone" type="tel" inputmode="tel" required maxlength="24" placeholder="Ex: 96 00 00 00">
         </div>
-        <div id="attemptsLeft" style="font-size:12px;color:var(--text-muted);margin-bottom:12px"></div>
-        <button class="btn btn-primary" type="submit" style="width:100%">Se connecter & Gérer</button>
+        <div class="field">
+          <label for="gamerLoginPwd">Mot de passe</label>
+          <input id="gamerLoginPwd" type="password" required placeholder="Votre mot de passe">
+        </div>
+        <button class="btn btn-primary" type="submit" style="width:100%">Se connecter</button>
       </form>
     </div>
 
-    <!-- Onglet Inscription Organisateur -->
-    <div id="authRegisterBlock" style="display:none">
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Inscrivez-vous pour créer et gérer vos tournois autonomes.</p>
-      <form id="orgaRegisterForm">
+    <!-- Onglet Inscription Joueur -->
+    <div id="gamerRegisterBlock" style="display:none">
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Créez votre profil joueur pour participer aux tournois eFootball.</p>
+      <form id="gamerRegisterForm">
         <div class="field">
-          <label for="regOrgaName">Nom complet / Club / Pseudo</label>
-          <input id="regOrgaName" required placeholder="Ex: Ligue Niamey Gaming" maxlength="80">
+          <label for="gamerRegName">Nom complet / Pseudo</label>
+          <input id="gamerRegName" required placeholder="Ex: Hamidou Gaming" maxlength="80">
         </div>
         <div class="field">
-          <label for="regOrgaPhone">Numéro Téléphone / WhatsApp</label>
-          <input id="regOrgaPhone" required placeholder="Ex: 96 00 00 00" maxlength="24">
+          <label for="gamerRegPhone">Numéro Téléphone / WhatsApp</label>
+          <input id="gamerRegPhone" required type="tel" inputmode="tel" placeholder="Ex: 96 00 00 00" maxlength="24">
         </div>
         <div class="field">
-          <label for="regOrgaPassword">Créez votre mot de passe</label>
-          <input id="regOrgaPassword" type="password" required placeholder="Au moins 4 caractères" minlength="4" maxlength="40">
+          <label for="gamerRegGameId">Pseudo / ID eFootball</label>
+          <input id="gamerRegGameId" required placeholder="Ton nom en jeu" maxlength="40">
         </div>
-        <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">Créer mon compte & Créer un tournoi</button>
+        <div class="field">
+          <label for="gamerRegPlatform">Plateforme préférée</label>
+          <select id="gamerRegPlatform">
+            <option>Mobile</option><option>PS4 / PS5</option><option>Xbox</option><option>PC</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="gamerRegPwd">Créez votre mot de passe</label>
+          <input id="gamerRegPwd" type="password" required placeholder="Au moins 4 caractères" minlength="4" maxlength="40">
+        </div>
+        <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">🎮 Créer mon compte joueur</button>
       </form>
     </div>
   </div>
 </div>
 
-<!-- Créer une compétition -->
-<div class="modal-overlay" id="setupModal" style="display:none" role="dialog" aria-modal="true">
-  <div class="modal" style="max-width:580px">
-    <button class="close-x" id="closeSetup" type="button">×</button>
-    <h3>🏆 Nouvelle compétition</h3>
-    <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Configurez votre tournoi et choisissez si vous avez déjà votre effectif de joueurs.</p>
-    <div id="setupMsg"></div>
-    <div class="field"><label for="setName">Nom de la compétition</label><input id="setName" placeholder="Ex: Coupe eFootball Ramadan 2026" maxlength="60"></div>
-    <div class="field"><label for="setDesc">Description courte</label><input id="setDesc" placeholder="Ex: Élimination directe, 16 joueurs max" maxlength="120"></div>
 
-    <!-- Choix de l'effectif -->
-    <div class="field" style="background:var(--bg-card-alt);border:1px solid var(--line);border-radius:10px;padding:12px">
-      <label for="setRosterType" style="color:var(--lime);font-weight:700">⚽ Effectif des joueurs</label>
-      <select id="setRosterType" style="margin-top:6px">
-        <option value="open">🟢 Inscriptions ouvertes en ligne (les joueurs s'inscrivent eux-mêmes)</option>
-        <option value="manual">⚡ J'ai déjà mon effectif prêt (Saisie directe des participants)</option>
-      </select>
-    </div>
 
-    <!-- Bloc saisie manuelle des joueurs -->
-    <div id="manualRosterBlock" style="display:none;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:16px">
-      <label for="setPlayersList">Pseudos des joueurs (un par ligne, minimum 2)</label>
-      <textarea id="setPlayersList" placeholder="Exemple :&#10;Hamidou_EF&#10;MoussaPro&#10;Ibrahim_99&#10;Aliou_DT&#10;Amina_Queen&#10;Issa_PS5&#10;KaderStar&#10;OumarKing" style="min-height:110px;margin-top:6px"></textarea>
-      <label style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12.5px;text-transform:none;color:var(--lime);cursor:pointer">
-        <input type="checkbox" id="setAutoDraw" checked style="width:auto"> Lancer le tirage au sort (tableau bracket) immédiatement
-      </label>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="field"><label for="setFee">Frais d'entrée (FCFA)</label><input id="setFee" type="number" min="0" placeholder="500"></div>
-      <div class="field"><label for="setMax">Places max</label><input id="setMax" type="number" min="2" max="64" placeholder="16"></div>
-      <div class="field"><label for="setP1">1er place (%)</label><input id="setP1" type="number" min="0" max="100" placeholder="50"></div>
-      <div class="field"><label for="setP2">2e place (%)</label><input id="setP2" type="number" min="0" max="100" placeholder="20"></div>
-      <div class="field"><label for="setOrg">Organisateur (%)</label><input id="setOrg" type="number" min="0" max="100" placeholder="30"></div>
-      <div class="field"><label for="setDrawDate">Date du tirage</label><input id="setDrawDate" placeholder="Ex: Sam. 30 Août, 18h"></div>
-      <div class="field"><label for="setPayNum">Numéro Mobile Money</label><input id="setPayNum" placeholder="551070395"></div>
-      <div class="field"><label for="setWa">Numéro WhatsApp</label><input id="setWa" placeholder="551070395"></div>
-    </div>
-    <button class="btn btn-primary" id="setupSubmit" type="button" style="width:100%;margin-top:8px">Créer la compétition</button>
-  </div>
-</div>
-
-<!-- ======================== ADMIN PANEL ======================== -->
-<div class="admin-panel" id="adminPanel" style="display:none">
-  <div class="admin-top">
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <div class="brand">EFOOT<span>LIGUE</span></div>
-      <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">ESPACE ADMIN</span>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-sm btn-primary" onclick="openSetupModal()" type="button">+ Nouvelle compétition</button>
-      <button class="btn btn-sm btn-ghost" id="closeAdmin" type="button">Fermer</button>
-    </div>
-  </div>
-
-  <div class="admin-body">
-    <div id="adminMsg"></div>
-
-    <!-- TABS -->
-    <div class="admin-tabs">
-      <button class="tab-btn active" onclick="switchTab('tabCompetitions')" type="button">🏆 Compétitions</button>
-      <button class="tab-btn" onclick="switchTab('tabCurrentComp')" type="button" id="btnTabCurrentComp">📋 Gérer la compétition</button>
-      <button class="tab-btn" onclick="switchTab('tabAnnounce')" type="button">📢 Annonces</button>
-      <button class="tab-btn" onclick="switchTab('tabSettings')" type="button">⚙ Paramètres</button>
-    </div>
-
-    <!-- TAB: Liste compétitions -->
-    <div class="tab-content active" id="tabCompetitions">
-      <div class="admin-section">
-        <h4>Toutes les compétitions</h4>
-        <div id="adminCompList"><p class="empty-note">Aucune compétition.</p></div>
-      </div>
-    </div>
-
-    <!-- TAB: Gérer compétition actuelle -->
-    <div class="tab-content" id="tabCurrentComp">
-      <div id="noCompSelected" class="admin-section">
-        <p class="empty-note">Sélectionne une compétition dans l'onglet "Compétitions" ou ouvre-en une depuis l'accueil.</p>
-      </div>
-      <div id="compManageArea" style="display:none">
-        <div class="admin-section">
-          <h4>Inscriptions (<span id="adminCount">0</span>)</h4>
-          <div style="overflow-x:auto">
-            <table><thead><tr><th>Nom</th><th>Contact</th><th>ID jeu</th><th>Plateforme</th><th>Payé</th><th>Action</th></tr></thead>
-            <tbody id="regTableBody"></tbody></table>
-          </div>
-        </div>
-
-        <div class="admin-section">
-          <h4>Tirage au sort</h4>
-          <p class="helper" style="margin-top:0">Lance le tirage une fois les inscriptions closes. Seuls les joueurs marqués "Payé" participent.</p>
-          <div class="btn-row">
-            <button class="btn btn-primary btn-sm" id="drawBtn" type="button">🎲 Lancer le tirage</button>
-            <button class="btn btn-ghost btn-sm" id="resetBracketBtn" type="button">↺ Réinitialiser tableau</button>
-            <button class="btn btn-ghost btn-sm" id="closeRegsBtn" type="button">🔒 Clôturer inscriptions</button>
-            <button class="btn btn-ghost btn-sm" id="finishCompBtn" type="button" style="border-color:var(--gold);color:var(--gold)">✅ Terminer la compétition</button>
-          </div>
-        </div>
-
-        <div class="admin-section">
-          <h4>Gérer les matchs</h4>
-          <div id="adminBracketArea"><p class="empty-note">Aucun tirage pour l'instant.</p></div>
-        </div>
-
-        <div class="admin-section">
-          <h4>Modifier les réglages</h4>
-          <div id="settingsMsg"></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <div class="field"><label for="editName">Nom</label><input id="editName"></div>
-            <div class="field"><label for="editFee">Frais (FCFA)</label><input id="editFee" type="number" min="0"></div>
-            <div class="field"><label for="editMax">Places max</label><input id="editMax" type="number" min="2"></div>
-            <div class="field"><label for="editDrawDate">Date du tirage</label><input id="editDrawDate"></div>
-            <div class="field"><label for="editP1">1er (%)</label><input id="editP1" type="number" min="0" max="100"></div>
-            <div class="field"><label for="editP2">2e (%)</label><input id="editP2" type="number" min="0" max="100"></div>
-            <div class="field"><label for="editOrg">Orga (%)</label><input id="editOrg" type="number" min="0" max="100"></div>
-            <div class="field"><label for="editPayNum">Mobile Money</label><input id="editPayNum"></div>
-            <div class="field full"><label for="editDesc">Description</label><input id="editDesc"></div>
-            <div class="field"><label for="editWa">WhatsApp</label><input id="editWa"></div>
-          </div>
-          <button class="btn btn-primary btn-sm" id="saveSettingsBtn" type="button">Enregistrer</button>
-        </div>
-
-        <div class="admin-section">
-          <h4>Danger</h4>
-          <div class="btn-row">
-            <button class="btn btn-sm btn-danger" id="newTournamentBtn" type="button">🗑 Réinitialiser joueurs & tableau</button>
-            <button class="btn btn-sm btn-danger" id="deleteCompBtn" type="button">❌ Supprimer cette compétition</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB: Annonces -->
-    <div class="tab-content" id="tabAnnounce">
-      <div class="admin-section">
-        <h4>📢 Publier une annonce en direct</h4>
-        <p class="helper" style="margin-top:0">L'annonce s'affiche immédiatement pour tous les visiteurs de la compétition sélectionnée.</p>
-        <div id="announceMsg"></div>
-        <div class="field"><label for="announceCompSelect">Compétition cible</label>
-          <select id="announceCompSelect"><option value="">— Sélectionner —</option></select>
-        </div>
-        <div class="field"><label for="announceText">Message</label>
-          <textarea id="announceText" placeholder="Ex: Le match de finale aura lieu ce soir à 20h !" maxlength="300"></textarea>
-        </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-primary btn-sm" id="publishAnnounce" type="button">📤 Publier</button>
-          <button class="btn btn-ghost btn-sm" id="clearAnnounce" type="button">🗑 Effacer l'annonce</button>
-        </div>
-      </div>
-      <div class="admin-section">
-        <h4>Annonces actuelles</h4>
-        <div id="announcePreview"><p class="empty-note">Aucune annonce active.</p></div>
-      </div>
-    </div>
-
-    <!-- TAB: Paramètres globaux -->
-    <div class="tab-content" id="tabSettings">
-      <div class="admin-section">
-        <h4>🔑 Changer le mot de passe admin</h4>
-        <div id="pwdMsg"></div>
-        <div class="field"><label for="oldPwd">Mot de passe actuel</label><input id="oldPwd" type="password" autocomplete="current-password"></div>
-        <div class="field"><label for="newPwd">Nouveau mot de passe (min 6 caractères)</label><input id="newPwd" type="password" autocomplete="new-password"></div>
-        <div class="field"><label for="confirmPwd">Confirmer le nouveau mot de passe</label><input id="confirmPwd" type="password" autocomplete="new-password"></div>
-        <button class="btn btn-primary btn-sm" id="changePwdBtn" type="button">Changer le mot de passe</button>
-      </div>
-      <div class="admin-section">
-        <h4>💾 Sauvegarde</h4>
-        <p class="helper" style="margin-top:0">Exporte toutes les données de toutes les compétitions.</p>
-        <div class="btn-row">
-          <button class="btn btn-ghost btn-sm" id="exportBtn" type="button">⬇ Exporter tout</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
 
 <script>
 (function(){
@@ -826,18 +667,16 @@
   // ══════════════════════════════════════════════
   function openComp(compId){
     const comp = allComps[compId];
-    if(!comp || !comp.config){ showMsg('adminMsg','error','Compétition introuvable.'); return; }
+    if(!comp || !comp.config) return;
     currentCompId = compId;
     window.location.hash = 'comp-' + compId;
     $('pageHome').style.display = 'none';
     $('pageComp').style.display = '';
-    ['navInscription','navJoueurs','navTableau'].forEach(id => $(id).style.display = '');
+    ['navInscription','navJoueurs','navTableau'].forEach(id => {
+      const el = $(id);
+      if(el) el.style.display = '';
+    });
     renderComp();
-    // Ouvrir l'onglet gérer si admin
-    if(isAdmin){
-      $('btnTabCurrentComp').style.display = '';
-      renderAdminComp();
-    }
   }
 
   function renderComp(){
@@ -867,6 +706,17 @@
     $('submitBtn').disabled = closed;
     $('submitBtn').textContent = c.finished ? 'Compétition terminée' : (drawn ? 'Tirage effectué' : (c.closed ? 'Inscriptions closes' : (full ? 'Complet' : 'Confirmer mon inscription')));
     $('ctaInscription').style.display = closed ? 'none' : '';
+
+    // Pré-remplir avec les infos du joueur connecté s'il y en a un
+    try {
+      const curGamer = JSON.parse(sessionStorage.getItem('currentGamer') || 'null');
+      if(curGamer){
+        if($('fName') && !$('fName').value) $('fName').value = curGamer.name || '';
+        if($('fPhone') && !$('fPhone').value) $('fPhone').value = curGamer.phone || '';
+        if($('fGameId') && !$('fGameId').value) $('fGameId').value = curGamer.gameId || '';
+        if($('fPlatform') && curGamer.platform) $('fPlatform').value = curGamer.platform;
+      }
+    } catch(e){}
 
     // QR Code
     try {
@@ -976,226 +826,7 @@
   }
 
   // ══════════════════════════════════════════════
-  // ADMIN — AUTH
-  // ══════════════════════════════════════════════
-  function openAdminLogin(){
-    if(isAdmin){ openAdminPanel(); return; }
-    updateLockoutDisplay();
-    $('loginModal').style.display = 'flex';
-    setTimeout(() => $('pinInput').focus(), 50);
-  }
-
-  function updateLockoutDisplay(){
-    const now = Date.now();
-    if(now < lockoutUntil){
-      const rem = Math.ceil((lockoutUntil - now)/60000);
-      $('lockoutMsg').innerHTML = '<div class="lockout-msg">⛔ Trop de tentatives. Réessayez dans ' + rem + ' min.</div>';
-      $('pinInput').disabled = true;
-      $('loginForm').querySelector('button[type=submit]').disabled = true;
-    } else {
-      $('lockoutMsg').innerHTML = '';
-      $('pinInput').disabled = false;
-      $('loginForm').querySelector('button[type=submit]').disabled = false;
-      const left = MAX_ATTEMPTS - loginAttempts;
-      $('attemptsLeft').textContent = loginAttempts > 0 ? (left + ' tentative(s) restante(s)') : '';
-    }
-  }
-
-  function switchAuthTab(tab){
-    $('loginMsg').innerHTML = '';
-    if(tab === 'login'){
-      $('btnTabLogin').classList.add('active');
-      $('btnTabRegister').classList.remove('active');
-      $('authLoginBlock').style.display = 'block';
-      $('authRegisterBlock').style.display = 'none';
-    } else {
-      $('btnTabRegister').classList.add('active');
-      $('btnTabLogin').classList.remove('active');
-      $('authRegisterBlock').style.display = 'block';
-      $('authLoginBlock').style.display = 'none';
-    }
-  }
-  window.switchAuthTab = switchAuthTab;
-
-  $('orgaRegisterForm').addEventListener('submit', async function(e){
-    e.preventDefault();
-    const name = ($('regOrgaName').value || '').trim();
-    const phone = ($('regOrgaPhone').value || '').trim();
-    const pwd = ($('regOrgaPassword').value || '').trim();
-    if(!name || !phone || !pwd){ showMsg('loginMsg','error','Remplissez tous les champs.'); return; }
-    if(pwd.length < 4){ showMsg('loginMsg','error','Mot de passe : 4 caractères minimum.'); return; }
-    const pinHash = await hashPin(pwd);
-    const orgaId = 'orga_' + Date.now().toString(36);
-    const orgaData = { id: orgaId, name, phone, pinHash, createdAt: Date.now() };
-    await fbSet('organizers/' + orgaId, orgaData);
-
-    isAdmin = true;
-    adminSession = Date.now();
-    sessionStorage.setItem('adminSession', String(adminSession));
-    sessionStorage.setItem('currentOrganizer', JSON.stringify({id: orgaId, name, phone}));
-    $('loginModal').style.display = 'none';
-    $('regOrgaName').value = ''; $('regOrgaPhone').value = ''; $('regOrgaPassword').value = '';
-    showMsg('adminMsg','ok','Bienvenue '+name+' ! Votre compte organisateur est prêt.');
-    openAdminPanel();
-    openSetupModal();
-  });
-
-  $('loginForm').addEventListener('submit', async function(e){
-    e.preventDefault();
-    const val = ($('pinInput').value || '').trim();
-    if(!val){ showMsg('loginMsg','error','Entrez votre mot de passe.'); return; }
-    const now = Date.now();
-    const h = await hashPin(val);
-    const storedHash = globalConfig && globalConfig.pinHash ? globalConfig.pinHash : DEFAULT_ADMIN_HASH;
-
-    // Vérifie soit le hash stocké, soit cham123@ directement, soit le hash par défaut
-    const isChamMatch = (val === 'cham123@' || h === DEFAULT_ADMIN_HASH || h === '5c0e1bbeadd4dc4b41f4ad2d602e264b172d19bc9d5bd1ee8762a26c9bd2674f');
-    
-    // Vérifie aussi si c'est un compte organisateur enregistré
-    let isOrgaMatch = false;
-    let foundOrga = null;
-    const organizers = await fbGet('organizers');
-    if(organizers && typeof organizers === 'object'){
-      for(const org of Object.values(organizers)){
-        if(org && org.pinHash === h){
-          isOrgaMatch = true;
-          foundOrga = org;
-          break;
-        }
-      }
-    }
-
-    const isValid = (h === storedHash || isChamMatch || isOrgaMatch);
-
-    if(isValid){
-      // Si mot de passe par défaut entré, s'assurer que Firebase est bien synchronisé
-      if(isChamMatch && globalConfig && globalConfig.pinHash !== DEFAULT_ADMIN_HASH){
-        globalConfig = Object.assign({}, globalConfig, { pinHash: DEFAULT_ADMIN_HASH });
-        await fbSet('global_config', globalConfig);
-      }
-      isAdmin = true;
-      adminSession = Date.now();
-      sessionStorage.setItem('adminSession', String(adminSession));
-      if(foundOrga) sessionStorage.setItem('currentOrganizer', JSON.stringify(foundOrga));
-      loginAttempts = 0;
-      sessionStorage.setItem('loginAttempts','0');
-      lockoutUntil = 0;
-      sessionStorage.removeItem('lockoutUntil');
-      $('loginModal').style.display = 'none';
-      $('pinInput').value = '';
-      $('loginMsg').innerHTML = '';
-      openAdminPanel();
-    } else {
-      if(now < lockoutUntil){ updateLockoutDisplay(); return; }
-      loginAttempts++;
-      sessionStorage.setItem('loginAttempts', String(loginAttempts));
-      if(loginAttempts >= MAX_ATTEMPTS){
-        lockoutUntil = Date.now() + LOCKOUT_MS;
-        sessionStorage.setItem('lockoutUntil', String(lockoutUntil));
-      }
-      updateLockoutDisplay();
-      showMsg('loginMsg','error','Mot de passe incorrect.');
-    }
-  });
-
-  function openAdminPanel(){
-    $('adminPanel').style.display = '';
-    renderAdminAll();
-    if(currentCompId) renderAdminComp();
-  }
-
-  // ══════════════════════════════════════════════
-  // ADMIN — RENDER ALL COMPS
-  // ══════════════════════════════════════════════
-  function renderAdminAll(){
-    if(!isAdmin) return;
-    const entries = Object.entries(allComps);
-
-    // Onglet compétitions
-    if(entries.length === 0){
-      $('adminCompList').innerHTML = '<p class="empty-note">Aucune compétition. Créez-en une avec le bouton ci-dessus.</p>';
-    } else {
-      $('adminCompList').innerHTML = '<div class="comp-grid">' + entries.map(([id, comp]) => {
-        if(!comp.config) return '';
-        const c = comp.config;
-        const regs = Array.isArray(comp.registrations) ? comp.registrations : [];
-        const drawn = !!(comp.bracket && comp.bracket.rounds && comp.bracket.rounds.length);
-        const status = c.finished ? 'Terminée' : (drawn ? 'En cours' : (c.closed ? 'Closes' : 'Ouvertes'));
-        return '<div class="comp-card" onclick="selectAdminComp(\''+id+'\')">' +
-          '<div class="comp-status '+(c.finished?'finished':drawn?'running':'open')+'">⬤ '+status+'</div>' +
-          '<h3>'+esc(c.name)+'</h3>' +
-          '<div class="comp-meta"><span>👥 '+regs.length+'/'+c.max+'</span><span>'+fmtFcfa(c.fee)+'</span></div>' +
-        '</div>';
-      }).join('') + '</div>';
-    }
-
-    // Select annonces
-    const sel = $('announceCompSelect');
-    sel.innerHTML = '<option value="">— Sélectionner —</option>' + entries.map(([id, comp]) =>
-      '<option value="'+id+'">'+esc(comp.config ? comp.config.name : id)+'</option>'
-    ).join('');
-  }
-
-  function selectAdminComp(compId){
-    currentCompId = compId;
-    openComp(compId);
-    switchTab('tabCurrentComp');
-  }
-
-  function renderAdminComp(){
-    if(!currentCompId || !allComps[currentCompId]){
-      $('noCompSelected').style.display = '';
-      $('compManageArea').style.display = 'none';
-      return;
-    }
-    $('noCompSelected').style.display = 'none';
-    $('compManageArea').style.display = '';
-    const comp = allComps[currentCompId];
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
-    const bracket = comp.bracket || null;
-    const c = comp.config;
-
-    $('adminCount').textContent = registrations.length;
-
-    // Table inscriptions
-    const body = $('regTableBody');
-    if(registrations.length === 0){
-      body.innerHTML = '<tr><td colspan="6" class="empty-note">Aucune inscription.</td></tr>';
-    } else {
-      body.innerHTML = registrations.map(r =>
-        '<tr>' +
-          '<td>'+esc(r.name)+'</td>' +
-          '<td>'+esc(r.phone)+'</td>' +
-          '<td>'+esc(r.gameId)+'</td>' +
-          '<td>'+esc(r.platform)+'</td>' +
-          '<td><button class="mini-btn '+(r.paid?'on':'')+'" type="button" data-paid="'+esc(r.id)+'">'+(r.paid?'✅ Payé':'⏳ Attente')+'</button></td>' +
-          '<td class="row-actions"><button class="mini-btn danger" type="button" data-del="'+esc(r.id)+'">Retirer</button></td>' +
-        '</tr>'
-      ).join('');
-    }
-
-    // Bracket admin
-    renderBracket('adminBracketArea', bracket, true);
-
-    // Formulaire réglages
-    $('editName').value = c.name || '';
-    $('editDesc').value = c.desc || '';
-    $('editFee').value = c.fee || '';
-    $('editMax').value = c.max || '';
-    $('editP1').value = c.p1 || '';
-    $('editP2').value = c.p2 || '';
-    $('editOrg').value = c.org || '';
-    $('editDrawDate').value = c.drawDate || '';
-    $('editPayNum').value = c.payNum || '';
-    $('editWa').value = c.wa || '';
-
-    // Bouton clôture
-    $('closeRegsBtn').textContent = c.closed ? '🔓 Rouvrir inscriptions' : '🔒 Clôturer inscriptions';
-    $('finishCompBtn').textContent = c.finished ? '↺ Rouvrir la compétition' : '✅ Terminer la compétition';
-  }
-
-  // ══════════════════════════════════════════════
-  // INSCRIPTION
+  // INSCRIPTION JOUEUR AU TOURNOI (regForm)
   // ══════════════════════════════════════════════
   $('regForm').addEventListener('submit', async function(e){
     e.preventDefault();
@@ -1232,339 +863,112 @@
   });
 
   // ══════════════════════════════════════════════
-  // ADMIN — ACTIONS SUR INSCRIPTIONS
+  // GAMER — AUTH (Joueur)
   // ══════════════════════════════════════════════
-  $('regTableBody').addEventListener('click', async function(e){
-    if(!currentCompId) return;
-    const comp = allComps[currentCompId];
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
-
-    const paidBtn = e.target.closest('[data-paid]');
-    const delBtn = e.target.closest('[data-del]');
-    if(paidBtn){
-      const id = paidBtn.getAttribute('data-paid');
-      const newRegs = registrations.map(r => r.id===id ? {...r, paid:!r.paid} : r);
-      await fbSet('competitions/'+currentCompId+'/registrations', newRegs);
-    }
-    if(delBtn){
-      if(!confirm('Retirer ce joueur ?')) return;
-      const id = delBtn.getAttribute('data-del');
-      const newRegs = registrations.filter(r => r.id!==id);
-      await fbSet('competitions/'+currentCompId+'/registrations', newRegs);
-    }
-  });
-
-  // ══════════════════════════════════════════════
-  // ADMIN — BRACKET / TIRAGE
-  // ══════════════════════════════════════════════
-  function nextPow2(n){ let p=1; while(p<n) p*=2; return p; }
-  function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
-
-  function firstRoundWithByes(players){
-    const shuffled = shuffle(players);
-    const n = shuffled.length;
-    const size = nextPow2(n);
-    const byeCount = size - n;
-    const round0 = [];
-    let i = 0;
-    for(let b=0;b<byeCount;b++){ const p1=shuffled[i++]; round0.push({p1,p2:null,score1:null,score2:null,winner:p1}); }
-    while(i<n){ const p1=shuffled[i++]; const p2=shuffled[i++]; round0.push({p1,p2,score1:null,score2:null,winner:null}); }
-    return {round0, size};
+  function openGamerRegister(){
+    switchGamerTab('register');
+    $('gamerModal').style.display = 'flex';
+    setTimeout(() => $('gamerRegName').focus(), 50);
   }
 
-  function maybeAdvance(bracket){
-    const total = bracket.rounds.length;
-    const cur = bracket.rounds[total-1];
-    if(cur.length===1) return;
-    if(!cur.every(m=>m.winner)) return;
-    const winners = cur.map(m=>m.winner);
-    const next = [];
-    for(let i=0;i<winners.length;i+=2){
-      const p1=winners[i]||null, p2=winners[i+1]!==undefined?winners[i+1]:null;
-      const m={p1,p2,score1:null,score2:null,winner:null};
-      if(p1&&!p2) m.winner=p1;
-      if(!p1&&p2) m.winner=p2;
-      next.push(m);
-    }
-    bracket.rounds.push(next);
-    maybeAdvance(bracket);
+  function openGamerLogin(){
+    switchGamerTab('login');
+    $('gamerModal').style.display = 'flex';
+    setTimeout(() => $('gamerLoginPhone').focus(), 50);
   }
 
-  $('drawBtn').addEventListener('click', async function(){
-    if(!currentCompId) return;
-    const comp = allComps[currentCompId];
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
-    const paid = registrations.filter(r=>r.paid);
-    if(paid.length < 2){ showMsg('adminMsg','error','Il faut au moins 2 joueurs payés.'); return; }
-    if(comp.bracket && comp.bracket.rounds && comp.bracket.rounds.length){
-      if(!confirm('Un tirage existe déjà. Remplacer ?')) return;
+  function switchGamerTab(tab){
+    $('gamerMsg').innerHTML = '';
+    if(tab === 'login'){
+      $('btnTabGamerLogin').classList.add('active');
+      $('btnTabGamerRegister').classList.remove('active');
+      $('gamerLoginBlock').style.display = 'block';
+      $('gamerRegisterBlock').style.display = 'none';
     } else {
-      if(!confirm('Lancer le tirage avec '+paid.length+' joueur(s) payé(s) ?')) return;
+      $('btnTabGamerRegister').classList.add('active');
+      $('btnTabGamerLogin').classList.remove('active');
+      $('gamerRegisterBlock').style.display = 'block';
+      $('gamerLoginBlock').style.display = 'none';
     }
-    const {round0, size} = firstRoundWithByes(paid);
-    const newBracket = {rounds:[round0]};
-    maybeAdvance(newBracket);
-    await fbSet('competitions/'+currentCompId+'/bracket', newBracket);
-    showMsg('adminMsg','ok','Tirage effectué avec '+paid.length+' joueurs ('+size+' places).');
-  });
-
-  $('adminBracketArea').addEventListener('click', async function(e){
-    const btn = e.target.closest('[data-score]');
-    if(!btn || !currentCompId) return;
-    const [ridx, midx] = btn.getAttribute('data-score').split(',').map(Number);
-    const comp = allComps[currentCompId];
-    const bracket = comp.bracket;
-    const s1 = parseInt($('s1_'+ridx+'_'+midx)?.value, 10);
-    const s2 = parseInt($('s2_'+ridx+'_'+midx)?.value, 10);
-    if(isNaN(s1)||isNaN(s2)||s1<0||s2<0){ showMsg('adminMsg','error','Score invalide.'); return; }
-    if(s1===s2){ showMsg('adminMsg','error','Pas d\'égalité — entre le score final (prolongation/TAB).'); return; }
-    bracket.rounds[ridx][midx].score1 = s1;
-    bracket.rounds[ridx][midx].score2 = s2;
-    bracket.rounds[ridx][midx].winner = s1>s2 ? bracket.rounds[ridx][midx].p1 : bracket.rounds[ridx][midx].p2;
-    maybeAdvance(bracket);
-    await fbSet('competitions/'+currentCompId+'/bracket', bracket);
-    showMsg('adminMsg','ok','Score enregistré.');
-  });
-
-  $('resetBracketBtn').addEventListener('click', async function(){
-    if(!currentCompId) return;
-    if(!confirm('Réinitialiser le tableau ?')) return;
-    await fbRemove('competitions/'+currentCompId+'/bracket');
-    showMsg('adminMsg','ok','Tableau réinitialisé.');
-  });
-
-  $('closeRegsBtn').addEventListener('click', async function(){
-    if(!currentCompId) return;
-    const comp = allComps[currentCompId];
-    const c = comp.config;
-    const newVal = !c.closed;
-    await fbUpdate('competitions/'+currentCompId+'/config', {closed: newVal});
-    showMsg('adminMsg','ok', newVal ? 'Inscriptions clôturées.' : 'Inscriptions rouvertes.');
-  });
-
-  $('finishCompBtn').addEventListener('click', async function(){
-    if(!currentCompId) return;
-    const comp = allComps[currentCompId];
-    const newVal = !comp.config.finished;
-    if(newVal && !confirm('Marquer cette compétition comme terminée ? Elle sera archivée.')) return;
-    await fbUpdate('competitions/'+currentCompId+'/config', {finished: newVal});
-    showMsg('adminMsg','ok', newVal ? 'Compétition terminée et archivée.' : 'Compétition rouverte.');
-  });
-
-  // ══════════════════════════════════════════════
-  // ADMIN — RÉGLAGES COMPÉTITION
-  // ══════════════════════════════════════════════
-  $('saveSettingsBtn').addEventListener('click', async function(){
-    if(!currentCompId) return;
-    const p1=parseInt($('editP1').value,10), p2=parseInt($('editP2').value,10), org=parseInt($('editOrg').value,10);
-    if([p1,p2,org].some(isNaN) || p1+p2+org!==100){ showMsg('settingsMsg','error','Les pourcentages doivent totaliser 100%.'); return; }
-    const max = parseInt($('editMax').value,10);
-    if(isNaN(max)||max<2){ showMsg('settingsMsg','error','Places max invalide.'); return; }
-    const upd = {
-      name: $('editName').value.trim() || allComps[currentCompId].config.name,
-      desc: $('editDesc').value.trim() || allComps[currentCompId].config.desc,
-      fee: parseInt($('editFee').value,10)||allComps[currentCompId].config.fee,
-      max, p1, p2, org,
-      drawDate: $('editDrawDate').value.trim(),
-      payNum: $('editPayNum').value.trim() || '551070395',
-      wa: $('editWa').value.trim() || '551070395'
-    };
-    await fbUpdate('competitions/'+currentCompId+'/config', upd);
-    showMsg('settingsMsg','ok','Réglages enregistrés.');
-  });
-
-  $('newTournamentBtn').addEventListener('click', async function(){
-    if(!currentCompId) return;
-    if(!confirm('Effacer TOUS les joueurs et le tableau de cette compétition ?')) return;
-    await fbRemove('competitions/'+currentCompId+'/registrations');
-    await fbRemove('competitions/'+currentCompId+'/bracket');
-    await fbUpdate('competitions/'+currentCompId+'/config', {closed:false, finished:false});
-    showMsg('adminMsg','ok','Joueurs et tableau réinitialisés.');
-  });
-
-  $('deleteCompBtn').addEventListener('click', async function(){
-    if(!currentCompId) return;
-    const name = allComps[currentCompId]?.config?.name || currentCompId;
-    if(!confirm('SUPPRIMER définitivement la compétition "'+name+'" et toutes ses données ? Cette action est irréversible.')) return;
-    await fbRemove('competitions/'+currentCompId);
-    currentCompId = null;
-    showHome();
-    showMsg('adminMsg','ok','Compétition supprimée.');
-    $('adminPanel').style.display = 'none';
-    openAdminPanel();
-  });
-
-  // ══════════════════════════════════════════════
-  // ADMIN — CRÉER COMPÉTITION
-  // ══════════════════════════════════════════════
-  function openSetupModal(){
-    $('setupModal').style.display = 'flex';
-    $('setRosterType').value = 'open';
-    $('manualRosterBlock').style.display = 'none';
-    setTimeout(() => $('setName').focus(), 50);
   }
+  window.switchGamerTab = switchGamerTab;
 
-  $('setRosterType').addEventListener('change', function(){
-    $('manualRosterBlock').style.display = this.value === 'manual' ? 'block' : 'none';
-  });
-
-  $('setupSubmit').addEventListener('click', async function(){
-    const name = $('setName').value.trim();
-    if(!name){ showMsg('setupMsg','error','Entrez le nom de la compétition.'); return; }
-    const p1=parseInt($('setP1').value,10), p2=parseInt($('setP2').value,10), org=parseInt($('setOrg').value,10);
-    if([p1,p2,org].some(isNaN)||p1+p2+org!==100){ showMsg('setupMsg','error','Les pourcentages (1er+2e+orga) doivent faire 100%.'); return; }
-    let max=parseInt($('setMax').value,10);
-    const fee=parseInt($('setFee').value,10)||0;
-
-    const rosterType = $('setRosterType').value;
-    let manualPlayers = [];
-    if(rosterType === 'manual'){
-      const rawPlayers = ($('setPlayersList').value || '').split('\n').map(s=>s.trim()).filter(Boolean);
-      if(rawPlayers.length < 2){
-        showMsg('setupMsg','error','Veuillez entrer au moins 2 joueurs (un par ligne).');
-        return;
-      }
-      max = Math.max(isNaN(max) || max < 2 ? rawPlayers.length : max, rawPlayers.length);
-      manualPlayers = rawPlayers.map(pname => ({
-        id: genId(),
-        name: pname,
-        phone: '',
-        gameId: pname,
-        platform: 'Mobile',
-        paid: true,
-        at: Date.now()
-      }));
+  // Inscription joueur
+  $('gamerRegisterForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const name    = ($('gamerRegName').value    || '').trim();
+    const phone   = ($('gamerRegPhone').value   || '').trim();
+    const gameId  = ($('gamerRegGameId').value  || '').trim();
+    const platform= ($('gamerRegPlatform').value|| 'Mobile').trim();
+    const pwd     = ($('gamerRegPwd').value     || '').trim();
+    if(!name || !phone || !gameId || !pwd){
+      showMsg('gamerMsg','error','Remplissez tous les champs.'); return;
     }
-
-    if(isNaN(max)||max<2){ showMsg('setupMsg','error','Minimum 2 places.'); return; }
-
-    const compId = genId();
-    const isClosed = manualPlayers.length >= max;
-    const config = {
-      name, desc: $('setDesc').value.trim() || 'Compétition eFootball',
-      fee, max, p1, p2, org,
-      drawDate: $('setDrawDate').value.trim(),
-      payNum: $('setPayNum').value.trim() || '551070395',
-      wa: $('setWa').value.trim() || '551070395',
-      closed: isClosed,
-      finished: false,
-      createdAt: Date.now()
-    };
-
-    await fbSet('competitions/'+compId+'/config', config);
-
-    if(manualPlayers.length > 0){
-      await fbSet('competitions/'+compId+'/registrations', manualPlayers);
-      if($('setAutoDraw')?.checked){
-        const {round0} = firstRoundWithByes(manualPlayers);
-        const newBracket = {rounds:[round0]};
-        maybeAdvance(newBracket);
-        await fbSet('competitions/'+compId+'/bracket', newBracket);
+    if(pwd.length < 4){
+      showMsg('gamerMsg','error','Mot de passe : 4 caractères minimum.'); return;
+    }
+    // Vérifier doublon par numéro de téléphone
+    const existingGamers = await fbGet('gamers');
+    if(existingGamers && typeof existingGamers === 'object'){
+      for(const g of Object.values(existingGamers)){
+        if(g && digits(g.phone) === digits(phone)){
+          showMsg('gamerMsg','error','Un compte existe déjà avec ce numéro.'); return;
+        }
       }
     }
-
-    $('setupModal').style.display = 'none';
-    $('setName').value=''; $('setDesc').value=''; $('setFee').value=''; $('setMax').value='';
-    $('setP1').value=''; $('setP2').value=''; $('setOrg').value=''; $('setDrawDate').value='';
-    $('setPayNum').value=''; $('setWa').value=''; $('setPlayersList').value='';
-    showMsg('adminMsg','ok','Compétition "'+name+'" créée avec succès' + (manualPlayers.length > 0 ? ' ('+manualPlayers.length+' joueurs ajoutés)' : '') + ' !');
-    setTimeout(() => openComp(compId), 400);
+    const pinHash = await hashPin(pwd);
+    const gamerId = 'gamer_' + Date.now().toString(36);
+    const gamerData = { id: gamerId, name, phone, gameId, platform, pinHash, createdAt: Date.now() };
+    await fbSet('gamers/' + gamerId, gamerData);
+    sessionStorage.setItem('currentGamer', JSON.stringify({ id: gamerId, name, phone, gameId, platform }));
+    $('gamerRegName').value = ''; $('gamerRegPhone').value = '';
+    $('gamerRegGameId').value = ''; $('gamerRegPwd').value = '';
+    $('gamerModal').style.display = 'none';
+    showGamerWelcome(name, gameId);
   });
 
-  // ══════════════════════════════════════════════
-  // ADMIN — ANNONCES
-  // ══════════════════════════════════════════════
-  $('publishAnnounce').addEventListener('click', async function(){
-    const compId = $('announceCompSelect').value;
-    const text = $('announceText').value.trim();
-    if(!compId){ showMsg('announceMsg','error','Sélectionne une compétition.'); return; }
-    if(!text){ showMsg('announceMsg','error','Écris un message.'); return; }
-    await fbSet('announcements/'+compId, {text, at: Date.now()});
-    showMsg('announceMsg','ok','Annonce publiée en direct !');
-    $('announceText').value = '';
-  });
-
-  $('clearAnnounce').addEventListener('click', async function(){
-    const compId = $('announceCompSelect').value;
-    if(!compId){ showMsg('announceMsg','error','Sélectionne une compétition.'); return; }
-    await fbRemove('announcements/'+compId);
-    showMsg('announceMsg','ok','Annonce effacée.');
-  });
-
-  if(rtdb){
-    rtdb.ref('announcements').on('value', snap => {
-      const ann = snap.exists() ? snap.val() : {};
-      if(currentCompId) renderAnnouncements(ann);
-      // Admin preview
-      const entries = Object.entries(ann);
-      if(entries.length === 0){
-        $('announcePreview').innerHTML = '<p class="empty-note">Aucune annonce active.</p>';
-      } else {
-        $('announcePreview').innerHTML = entries.map(([cid, a]) => {
-          const cname = allComps[cid]?.config?.name || cid;
-          return '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text"><b>'+esc(cname)+'</b> — '+esc(a.text)+'</div></div></div>';
-        }).join('');
+  // Connexion joueur
+  $('gamerLoginForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const phone = ($('gamerLoginPhone').value || '').trim();
+    const pwd   = ($('gamerLoginPwd').value   || '').trim();
+    if(!phone || !pwd){ showMsg('gamerMsg','error','Entrez vos identifiants.'); return; }
+    const h = await hashPin(pwd);
+    const existingGamers = await fbGet('gamers');
+    let found = null;
+    if(existingGamers && typeof existingGamers === 'object'){
+      for(const g of Object.values(existingGamers)){
+        if(g && digits(g.phone) === digits(phone) && g.pinHash === h){
+          found = g; break;
+        }
       }
-    });
-  }
-
-  // ══════════════════════════════════════════════
-  // ADMIN — CHANGER MOT DE PASSE
-  // ══════════════════════════════════════════════
-  $('changePwdBtn').addEventListener('click', async function(){
-    const old = $('oldPwd').value;
-    const nw = $('newPwd').value;
-    const conf = $('confirmPwd').value;
-    if(!old || !nw || !conf){ showMsg('pwdMsg','error','Remplis tous les champs.'); return; }
-    if(nw.length < 6){ showMsg('pwdMsg','error','Le nouveau mot de passe doit faire au moins 6 caractères.'); return; }
-    if(nw !== conf){ showMsg('pwdMsg','error','Les nouveaux mots de passe ne correspondent pas.'); return; }
-    const oldHash = await hashPin(old);
-    const stored = globalConfig?.pinHash || DEFAULT_ADMIN_HASH;
-    if(oldHash !== stored){ showMsg('pwdMsg','error','Mot de passe actuel incorrect.'); return; }
-    const newHash = await hashPin(nw);
-    globalConfig = {...globalConfig, pinHash: newHash};
-    await fbSet('global_config', globalConfig);
-    $('oldPwd').value=''; $('newPwd').value=''; $('confirmPwd').value='';
-    showMsg('pwdMsg','ok','Mot de passe changé avec succès !');
+    }
+    if(found){
+      sessionStorage.setItem('currentGamer', JSON.stringify(found));
+      $('gamerLoginPhone').value = ''; $('gamerLoginPwd').value = '';
+      $('gamerModal').style.display = 'none';
+      showGamerWelcome(found.name, found.gameId);
+    } else {
+      showMsg('gamerMsg','error','Numéro ou mot de passe incorrect.');
+    }
   });
 
-  // ══════════════════════════════════════════════
-  // ADMIN — EXPORT
-  // ══════════════════════════════════════════════
-  $('exportBtn').addEventListener('click', function(){
-    const payload = { exportedAt: new Date().toISOString(), competitions: allComps };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'efootligue-backup-'+Date.now()+'.json';
-    a.click();
-    URL.revokeObjectURL(a.href);
-  });
-
-  // ══════════════════════════════════════════════
-  // TABS ADMIN
-  // ══════════════════════════════════════════════
-  function switchTab(tabId){
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    $(tabId).classList.add('active');
-    const idx = ['tabCompetitions','tabCurrentComp','tabAnnounce','tabSettings'].indexOf(tabId);
-    document.querySelectorAll('.tab-btn')[idx]?.classList.add('active');
-    if(tabId === 'tabCurrentComp') renderAdminComp();
+  function showGamerWelcome(name, gameId){
+    // Afficher un message de bienvenue dans l'interface
+    const banner = document.createElement('div');
+    banner.style.cssText = 'position:fixed;top:70px;right:20px;z-index:200;background:var(--bg-card);border:1px solid var(--lime);border-radius:12px;padding:14px 18px;font-size:14px;box-shadow:0 4px 20px rgba(0,0,0,0.4);animation:slideIn .3s ease';
+    banner.innerHTML = '<span style="color:var(--lime);font-weight:800">🎮 Bienvenue ' + esc(name) + ' !</span><br><span style="color:var(--text-muted);font-size:12px">ID : ' + esc(gameId) + '</span>';
+    document.body.appendChild(banner);
+    setTimeout(() => banner.remove(), 5000);
   }
-  window.switchTab = switchTab;
 
   // ══════════════════════════════════════════════
   // UI EVENTS
   // ══════════════════════════════════════════════
-  $('openAdminBtn').addEventListener('click', openAdminLogin);
-  $('closeLogin').addEventListener('click', () => $('loginModal').style.display = 'none');
-  $('loginModal').addEventListener('click', e => { if(e.target===$('loginModal')) $('loginModal').style.display='none'; });
-  $('closeAdmin').addEventListener('click', () => { $('adminPanel').style.display='none'; });
+  $('closeGamerModal').addEventListener('click', () => $('gamerModal').style.display = 'none');
+  $('gamerModal').addEventListener('click', e => { if(e.target===$('gamerModal')) $('gamerModal').style.display='none'; });
   $('homeLink').addEventListener('click', showHome);
   $('navHome').addEventListener('click', showHome);
-  $('closeSetup').addEventListener('click', () => $('setupModal').style.display = 'none');
-  $('setupModal').addEventListener('click', e => { if(e.target===$('setupModal')) $('setupModal').style.display='none'; });
 
   $('menuBtn').addEventListener('click', () => {
     const nav = $('mainNav');
@@ -1577,28 +981,15 @@
   });
   document.addEventListener('keydown', e => {
     if(e.key!=='Escape') return;
-    $('loginModal').style.display='none';
-    $('setupModal').style.display='none';
+    $('gamerModal').style.display='none';
     $('mainNav').classList.remove('menu-open');
   });
-
-  // Session expiry check
-  setInterval(() => {
-    if(isAdmin && adminSession && Date.now()-adminSession > SESSION_DURATION){
-      isAdmin = false;
-      adminSession = null;
-      sessionStorage.removeItem('adminSession');
-      $('adminPanel').style.display = 'none';
-      alert('Votre session admin a expiré. Reconnectez-vous.');
-    }
-  }, 60000);
 
   // Exposer fonctions globales
   window.openComp = openComp;
   window.showHome = showHome;
-  window.selectAdminComp = selectAdminComp;
-  window.openAdminLogin = openAdminLogin;
-  window.openSetupModal = openSetupModal;
+  window.openGamerRegister = openGamerRegister;
+  window.openGamerLogin = openGamerLogin;
 
   // DÉMARRAGE
   init();
