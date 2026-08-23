@@ -1,5 +1,7 @@
-﻿import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/db";
 import { jsonError, requireAdmin } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
 
 // GET /api/admin/tournaments — vue globale de tous les tournois
 export async function GET() {

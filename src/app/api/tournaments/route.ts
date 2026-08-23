@@ -4,6 +4,8 @@ import { prisma } from "@/lib/db";
 import { getSession, jsonError, requireOrganizer } from "@/lib/auth";
 import { slugify } from "@/lib/format";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status");   // OPEN | LIVE | ENDED

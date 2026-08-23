@@ -1,7 +1,9 @@
-﻿import { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { jsonError, requireAdmin } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
 
 // GET /api/admin/users — liste tous les utilisateurs
 export async function GET() {

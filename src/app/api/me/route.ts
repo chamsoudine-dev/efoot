@@ -2,6 +2,8 @@ import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { probeKonamiApi } from "@/lib/efootball";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const s = await getSession();
   if (!s) return Response.json({ ok: true, user: null });
