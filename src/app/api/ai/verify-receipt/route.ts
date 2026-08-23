@@ -106,7 +106,7 @@ Réponds STRICTEMENT au format JSON avec cette structure :
           analysis
         });
       } catch (geminiError) {
-        console.warn("Gemini API fallback:", geminiError?.message);
+        console.warn("Gemini API fallback:", geminiError instanceof Error ? geminiError.message : String(geminiError));
       }
     }
 

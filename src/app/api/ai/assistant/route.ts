@@ -38,7 +38,7 @@ Réponds de manière concise, percutante, professionnelle et prête à l'emploi 
           response: response.text
         });
       } catch (err) {
-        console.warn("Gemini Assistant error:", err?.message);
+        console.warn("Gemini Assistant error:", err instanceof Error ? err.message : String(err));
       }
     }
 

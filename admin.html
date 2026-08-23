@@ -873,14 +873,14 @@
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="field"><label for="setFee">Frais d'entrée (FCFA)</label><input id="setFee" type="number" min="0" placeholder="500"></div>
-      <div class="field"><label for="setMax">Places max</label><input id="setMax" type="number" min="2" max="64" placeholder="16"></div>
-      <div class="field"><label for="setP1">1er place (%)</label><input id="setP1" type="number" min="0" max="100" placeholder="50"></div>
-      <div class="field"><label for="setP2">2e place (%)</label><input id="setP2" type="number" min="0" max="100" placeholder="20"></div>
-      <div class="field"><label for="setOrg">Organisateur (%)</label><input id="setOrg" type="number" min="0" max="100" placeholder="30"></div>
+      <div class="field"><label for="setFee">Frais d'entrée (FCFA)</label><input id="setFee" type="number" min="0" value="500" placeholder="500"></div>
+      <div class="field"><label for="setMax">Places max</label><input id="setMax" type="number" min="2" max="64" value="16" placeholder="16"></div>
+      <div class="field"><label for="setP1">1er place (%)</label><input id="setP1" type="number" min="0" max="100" value="50" placeholder="50"></div>
+      <div class="field"><label for="setP2">2e place (%)</label><input id="setP2" type="number" min="0" max="100" value="20" placeholder="20"></div>
+      <div class="field"><label for="setOrg">Organisateur (%)</label><input id="setOrg" type="number" min="0" max="100" value="30" placeholder="30"></div>
       <div class="field"><label for="setDrawDate">Date du tirage</label><input id="setDrawDate" placeholder="Ex: Sam. 30 Août, 18h"></div>
-      <div class="field"><label for="setPayNum">Dépôt (Mynita / Amana)</label><input id="setPayNum" placeholder="91038061"></div>
-      <div class="field"><label for="setWa">Numéro WhatsApp</label><input id="setWa" placeholder="91038061"></div>
+      <div class="field"><label for="setPayNum">Dépôt (Mynita / Amana)</label><input id="setPayNum" value="91038061" placeholder="91038061"></div>
+      <div class="field"><label for="setWa">Numéro WhatsApp</label><input id="setWa" value="91038061" placeholder="91038061"></div>
     </div>
     <button class="btn btn-primary" id="setupSubmit" type="button" style="width:100%;margin-top:8px">Créer la compétition</button>
   </div>
@@ -1697,24 +1697,80 @@
   }
 
   // ══════════════════════════════════════════════
-  // FIREBASE READ / WRITE
+  // FIREBASE READ / WRITE (AVEC PERSISTANCE LOCALE & FALLBACK)
   // ══════════════════════════════════════════════
+  function localGet(path){
+    try {
+      const raw = localStorage.getItem('efl_store_' + path);
+      return raw ? JSON.parse(raw) : null;
+    } catch(e){ return null; }
+  }
+  function localSet(path, val){
+    try {
+      if(val === null || val === undefined){
+        localStorage.removeItem('efl_store_' + path);
+      } else {
+        localStorage.setItem('efl_store_' + path, JSON.stringify(val));
+      }
+    } catch(e){}
+  }
+
   async function fbGet(path){
-    if(!rtdb) return null;
-    const snap = await rtdb.ref(path).once('value');
-    return snap.exists() ? snap.val() : null;
+    const localVal = localGet(path);
+    if(!rtdb) return localVal;
+    try {
+      const snap = await rtdb.ref(path).once('value');
+      if(snap && snap.exists()){
+        const val = snap.val();
+        localSet(path, val);
+        return val;
+      }
+      return localVal;
+    } catch(e){
+      console.warn('fbGet fallback:', path, e);
+      return localVal;
+    }
   }
+
   async function fbSet(path, val){
+    localSet(path, val);
+    if(path.startsWith('competitions/')){
+      localSet('competitions', allComps);
+    }
     if(!rtdb) return;
-    await rtdb.ref(path).set(val);
+    try {
+      await rtdb.ref(path).set(val);
+    } catch(e){
+      console.warn('fbSet error (sauvegarde locale active):', path, e);
+    }
   }
+
   async function fbUpdate(path, val){
+    const current = localGet(path) || {};
+    const merged = (typeof current === 'object' && current !== null) ? Object.assign({}, current, val) : val;
+    localSet(path, merged);
+    if(path.startsWith('competitions/')){
+      localSet('competitions', allComps);
+    }
     if(!rtdb) return;
-    await rtdb.ref(path).update(val);
+    try {
+      await rtdb.ref(path).update(val);
+    } catch(e){
+      console.warn('fbUpdate error (sauvegarde locale active):', path, e);
+    }
   }
+
   async function fbRemove(path){
+    localSet(path, null);
+    if(path.startsWith('competitions/')){
+      localSet('competitions', allComps);
+    }
     if(!rtdb) return;
-    await rtdb.ref(path).remove();
+    try {
+      await rtdb.ref(path).remove();
+    } catch(e){
+      console.warn('fbRemove error (sauvegarde locale active):', path, e);
+    }
   }
 
   // ══════════════════════════════════════════════
@@ -1723,6 +1779,19 @@
   async function init(){
     // Charger session joueur
     loadPlayerSession();
+
+    // Charger les compétitions depuis le cache local immédiatement
+    const cachedComps = localGet('competitions');
+    if(cachedComps && typeof cachedComps === 'object'){
+      allComps = cachedComps;
+      Object.values(allComps).forEach(comp => {
+        if(comp && comp.registrations && !Array.isArray(comp.registrations)){
+          comp.registrations = Object.values(comp.registrations);
+        }
+      });
+      renderHome();
+      if(isAdmin) renderAdminAll();
+    }
 
     // Charger config globale (mot de passe admin)
     globalConfig = await fbGet('global_config');
@@ -1746,30 +1815,47 @@
 
     // Écouter toutes les compétitions en temps réel
     if(rtdb){
-      rtdb.ref('competitions').on('value', snap => {
-        allComps = snap.exists() ? snap.val() : {};
-        Object.values(allComps).forEach(comp => {
-          if(comp.registrations && !Array.isArray(comp.registrations)){
-            comp.registrations = Object.values(comp.registrations);
+      try {
+        rtdb.ref('competitions').on('value', snap => {
+          if(snap && snap.exists()){
+            allComps = snap.val() || {};
+          } else if(!Object.keys(allComps).length) {
+            allComps = localGet('competitions') || {};
           }
+          Object.values(allComps).forEach(comp => {
+            if(comp && comp.registrations && !Array.isArray(comp.registrations)){
+              comp.registrations = Object.values(comp.registrations);
+            }
+          });
+          localSet('competitions', allComps);
+          renderHome();
+          if(currentCompId && allComps[currentCompId]) renderComp();
+          if(isAdmin) renderAdminAll();
+        }, err => {
+          console.warn('Firebase competitions listener:', err);
         });
-        renderHome();
-        if(currentCompId && allComps[currentCompId]) renderComp();
-        if(isAdmin) renderAdminAll();
-      });
 
-      // Écouter annonces en temps réel
-      rtdb.ref('announcements').on('value', snap => {
-        const ann = snap.exists() ? snap.val() : {};
-        renderAnnouncements(ann);
-      });
+        // Écouter annonces en temps réel
+        rtdb.ref('announcements').on('value', snap => {
+          const ann = (snap && snap.exists()) ? snap.val() : (localGet('announcements') || {});
+          renderAnnouncements(ann);
+        }, err => {
+          console.warn('Firebase announcements listener:', err);
+        });
+      } catch(e){
+        console.warn('RTDB init listener err:', e);
+      }
     }
+
+    // Rendu initial
+    renderHome();
+    if(isAdmin) renderAdminAll();
 
     // Vérifier URL hash pour ouvrir directement une compétition
     const hash = window.location.hash.replace('#','');
     if(hash && hash.startsWith('comp-')){
       const cid = hash.replace('comp-','');
-      setTimeout(() => openComp(cid), 500);
+      setTimeout(() => openComp(cid), 300);
     }
   }
 
@@ -2230,21 +2316,23 @@
     const comp = allComps[currentCompId];
     if(!comp || !comp.config){ showMsg('formMsg','error','Compétition introuvable.'); return; }
     const c = comp.config;
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
+    const rawRegs = comp.registrations;
+    const registrations = Array.isArray(rawRegs) ? rawRegs : (rawRegs && typeof rawRegs === 'object' ? Object.values(rawRegs) : []);
     const drawn = !!(comp.bracket && comp.bracket.rounds && comp.bracket.rounds.length);
     if(c.finished || c.closed || registrations.length >= c.max || drawn){
-      showMsg('formMsg','error','Les inscriptions sont closes.'); return;
+      showMsg('formMsg','error','Les inscriptions sont closes pour cette compétition.'); return;
     }
-    const name = $('fName').value.trim();
-    const phone = $('fPhone').value.trim();
-    const gameId = $('fGameId').value.trim();
-    const platform = $('fPlatform').value;
-    if(!name || !phone || !gameId){ showMsg('formMsg','error','Remplis tous les champs.'); return; }
+    const name = ($('fName').value || '').trim();
+    const phone = ($('fPhone').value || '').trim();
+    const gameId = ($('fGameId').value || '').trim();
+    const platform = $('fPlatform').value || 'Mobile';
+    if(!name || !phone || !gameId){ showMsg('formMsg','error','Remplis tous les champs obligatoires.'); return; }
     const n = digits(phone);
-    if(n.length < 8 || n.length > 15){ showMsg('formMsg','error','Numéro invalide.'); return; }
+    if(n.length < 8 || n.length > 15){ showMsg('formMsg','error','Numéro de téléphone invalide (8 à 15 chiffres).'); return; }
     
     // VÉRIFICATION STRICTE : 1 SEULE INSCRIPTION PAR JOUEUR
     const alreadyRegistered = registrations.some(r => {
+      if(!r) return false;
       if(currentPlayer && r.playerId && r.playerId === currentPlayer.id) return true;
       if(digits(r.phone) === n) return true;
       if((r.gameId||'').trim().toLowerCase() === gameId.toLowerCase()) return true;
@@ -2267,16 +2355,34 @@
       createdAt: Date.now() 
     };
     const newRegs = [...registrations, entry];
+    
     try {
+      // Mise à jour immédiate locale & réactive
+      comp.registrations = newRegs;
+      allComps[currentCompId].registrations = newRegs;
+      renderComp();
+      renderHome();
+      if(isAdmin) renderAdminAll();
+
+      // Sauvegarde persistante (locale + Firebase)
       await fbSet('competitions/'+currentCompId+'/registrations', newRegs);
+      
       $('regForm').reset();
-      showMsg('formMsg','ok','Inscription validée ! Effectue ton dépôt pour confirmer définitivement ta place.');
+      if(currentPlayer){
+        if($('fName')) $('fName').value = currentPlayer.name || '';
+        if($('fPhone')) $('fPhone').value = currentPlayer.phone || '';
+        if($('fGameId')) $('fGameId').value = currentPlayer.username || '';
+      }
+      showMsg('formMsg','ok','✅ Inscription validée ! Effectue ton dépôt pour confirmer définitivement ta place.');
       if(digits(c.wa)){
         const msg = 'Salut, je viens de m\'inscrire à '+c.name+' (pseudo: '+gameId+'). Je t\'envoie la preuve de dépôt de '+fmtFcfa(c.fee)+'.';
         $('waAfter').style.display = 'block';
         $('waAfter').innerHTML = '<a class="btn btn-ghost btn-sm" href="'+esc(waLink(c.wa,msg))+'" target="_blank" rel="noopener">📱 Envoyer la preuve sur WhatsApp</a>';
       }
-    } catch(err){ showMsg('formMsg','error','Erreur d\'inscription. Réessaie.'); }
+    } catch(err){
+      console.error('Erreur inscription:', err);
+      showMsg('formMsg','error','Erreur d\'inscription. Réessaie.');
+    }
   });
 
   // ══════════════════════════════════════════════
@@ -2449,6 +2555,14 @@
     $('setupModal').style.display = 'flex';
     $('setRosterType').value = 'open';
     $('manualRosterBlock').style.display = 'none';
+    if(!$('setP1').value) $('setP1').value = '50';
+    if(!$('setP2').value) $('setP2').value = '20';
+    if(!$('setOrg').value) $('setOrg').value = '30';
+    if(!$('setMax').value) $('setMax').value = '16';
+    if(!$('setFee').value) $('setFee').value = '500';
+    if(!$('setPayNum').value) $('setPayNum').value = '91038061';
+    if(!$('setWa').value) $('setWa').value = '91038061';
+    $('setupMsg').innerHTML = '';
     setTimeout(() => $('setName').focus(), 50);
   }
 
@@ -2457,66 +2571,99 @@
   });
 
   $('setupSubmit').addEventListener('click', async function(){
-    const name = $('setName').value.trim();
-    if(!name){ showMsg('setupMsg','error','Entrez le nom de la compétition.'); return; }
-    const p1=parseInt($('setP1').value,10), p2=parseInt($('setP2').value,10), org=parseInt($('setOrg').value,10);
-    if([p1,p2,org].some(isNaN)||p1+p2+org!==100){ showMsg('setupMsg','error','Les pourcentages (1er+2e+orga) doivent faire 100%.'); return; }
-    let max=parseInt($('setMax').value,10);
-    const fee=parseInt($('setFee').value,10)||0;
-
-    const rosterType = $('setRosterType').value;
-    let manualPlayers = [];
-    if(rosterType === 'manual'){
-      const rawPlayers = ($('setPlayersList').value || '').split('\n').map(s=>s.trim()).filter(Boolean);
-      if(rawPlayers.length < 2){
-        showMsg('setupMsg','error','Veuillez entrer au moins 2 joueurs (un par ligne).');
+    try {
+      const name = ($('setName').value || '').trim();
+      if(!name){ showMsg('setupMsg','error','Entrez le nom de la compétition.'); return; }
+      
+      const p1Raw = $('setP1').value.trim();
+      const p2Raw = $('setP2').value.trim();
+      const orgRaw = $('setOrg').value.trim();
+      const p1 = p1Raw !== '' ? parseInt(p1Raw, 10) : 50;
+      const p2 = p2Raw !== '' ? parseInt(p2Raw, 10) : 20;
+      const org = orgRaw !== '' ? parseInt(orgRaw, 10) : 30;
+      
+      if([p1,p2,org].some(isNaN) || p1+p2+org !== 100){
+        showMsg('setupMsg','error','Les pourcentages (1er: '+(isNaN(p1)?0:p1)+'% + 2e: '+(isNaN(p2)?0:p2)+'% + orga: '+(isNaN(org)?0:org)+'%) doivent faire exactement 100%.');
         return;
       }
-      max = Math.max(isNaN(max) || max < 2 ? rawPlayers.length : max, rawPlayers.length);
-      manualPlayers = rawPlayers.map(pname => ({
-        id: genId(),
-        name: pname,
-        phone: '',
-        gameId: pname,
-        platform: 'Mobile',
-        paid: true,
-        at: Date.now()
-      }));
-    }
+      
+      const maxRaw = $('setMax').value.trim();
+      let max = maxRaw !== '' ? parseInt(maxRaw, 10) : 16;
+      const fee = parseInt($('setFee').value, 10) || 0;
 
-    if(isNaN(max)||max<2){ showMsg('setupMsg','error','Minimum 2 places.'); return; }
+      const rosterType = $('setRosterType').value;
+      let manualPlayers = [];
+      if(rosterType === 'manual'){
+        const rawPlayers = ($('setPlayersList').value || '').split('\n').map(s=>s.trim()).filter(Boolean);
+        if(rawPlayers.length < 2){
+          showMsg('setupMsg','error','Veuillez entrer au moins 2 joueurs (un par ligne).');
+          return;
+        }
+        max = Math.max(isNaN(max) || max < 2 ? rawPlayers.length : max, rawPlayers.length);
+        manualPlayers = rawPlayers.map(pname => ({
+          id: 'p_' + genId(),
+          name: pname,
+          phone: '',
+          gameId: pname,
+          platform: 'Mobile',
+          paid: true,
+          createdAt: Date.now()
+        }));
+      }
 
-    const compId = genId();
-    const isClosed = manualPlayers.length >= max;
-    const config = {
-      name, desc: $('setDesc').value.trim() || 'Compétition eFootball',
-      fee, max, p1, p2, org,
-      drawDate: $('setDrawDate').value.trim(),
-      payNum: $('setPayNum').value.trim() || '91038061',
-      wa: $('setWa').value.trim() || '91038061',
-      closed: isClosed,
-      finished: false,
-      createdAt: Date.now()
-    };
+      if(isNaN(max) || max < 2){ showMsg('setupMsg','error','Minimum 2 places.'); return; }
 
-    await fbSet('competitions/'+compId+'/config', config);
+      const compId = 'comp_' + genId();
+      const isClosed = manualPlayers.length >= max;
+      const config = {
+        name,
+        desc: ($('setDesc').value || '').trim() || 'Compétition eFootball',
+        fee,
+        max,
+        p1,
+        p2,
+        org,
+        drawDate: ($('setDrawDate').value || '').trim(),
+        payNum: ($('setPayNum').value || '').trim() || '91038061',
+        wa: ($('setWa').value || '').trim() || '91038061',
+        closed: isClosed,
+        finished: false,
+        createdAt: Date.now()
+      };
 
-    if(manualPlayers.length > 0){
-      await fbSet('competitions/'+compId+'/registrations', manualPlayers);
-      if($('setAutoDraw')?.checked){
+      let newBracket = null;
+      if(manualPlayers.length > 0 && $('setAutoDraw')?.checked){
         const {round0} = firstRoundWithByes(manualPlayers);
-        const newBracket = {rounds:[round0]};
+        newBracket = {rounds:[round0]};
         maybeAdvance(newBracket);
+      }
+
+      // Mise à jour immédiate de l'état local
+      allComps[compId] = {
+        config: config,
+        registrations: manualPlayers,
+        bracket: newBracket
+      };
+
+      // Sauvegarde persistante (locale + Firebase)
+      await fbSet('competitions/'+compId+'/config', config);
+      if(manualPlayers.length > 0){
+        await fbSet('competitions/'+compId+'/registrations', manualPlayers);
+      }
+      if(newBracket){
         await fbSet('competitions/'+compId+'/bracket', newBracket);
       }
-    }
 
-    $('setupModal').style.display = 'none';
-    $('setName').value=''; $('setDesc').value=''; $('setFee').value=''; $('setMax').value='';
-    $('setP1').value=''; $('setP2').value=''; $('setOrg').value=''; $('setDrawDate').value='';
-    $('setPayNum').value=''; $('setWa').value=''; $('setPlayersList').value='';
-    showMsg('adminMsg','ok','Compétition "'+name+'" créée avec succès' + (manualPlayers.length > 0 ? ' ('+manualPlayers.length+' joueurs ajoutés)' : '') + ' !');
-    setTimeout(() => openComp(compId), 400);
+      $('setupModal').style.display = 'none';
+      $('setName').value=''; $('setDesc').value=''; $('setPlayersList').value='';
+      renderHome();
+      if(isAdmin) renderAdminAll();
+      showMsg('adminMsg','ok','Compétition "'+name+'" créée avec succès' + (manualPlayers.length > 0 ? ' ('+manualPlayers.length+' joueurs ajoutés)' : '') + ' !');
+      setTimeout(() => openComp(compId), 200);
+    } catch(err){
+      console.error('Erreur création compétition:', err);
+      showMsg('setupMsg','error','Erreur lors de la création de la compétition.');
+    }
   });
 
   // ══════════════════════════════════════════════
