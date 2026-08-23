@@ -683,20 +683,37 @@
   // ══════════════════════════════════════════════
   async function fbGet(path){
     if(!rtdb) return null;
-    const snap = await rtdb.ref(path).once('value');
-    return snap.exists() ? snap.val() : null;
+    try {
+      const snap = await rtdb.ref(path).once('value');
+      return snap.exists() ? snap.val() : null;
+    } catch(e) {
+      console.warn('Firebase fbGet error (' + path + '):', e);
+      return null;
+    }
   }
   async function fbSet(path, val){
     if(!rtdb) return;
-    await rtdb.ref(path).set(val);
+    try {
+      await rtdb.ref(path).set(val);
+    } catch(e) {
+      console.warn('Firebase fbSet error (' + path + '):', e);
+    }
   }
   async function fbUpdate(path, val){
     if(!rtdb) return;
-    await rtdb.ref(path).update(val);
+    try {
+      await rtdb.ref(path).update(val);
+    } catch(e) {
+      console.warn('Firebase fbUpdate error (' + path + '):', e);
+    }
   }
   async function fbRemove(path){
     if(!rtdb) return;
-    await rtdb.ref(path).remove();
+    try {
+      await rtdb.ref(path).remove();
+    } catch(e) {
+      console.warn('Firebase fbRemove error (' + path + '):', e);
+    }
   }
 
   // ══════════════════════════════════════════════
