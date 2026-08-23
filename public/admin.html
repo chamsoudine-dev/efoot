@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="EFootLigue — Plateforme de championnats eFootball : inscriptions, cagnotte et tableau en direct.">
-<title>EFootLigue — Championnats eFootball</title>
+<title>EFootLigue — Espace Organisateur & Administration</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -221,243 +221,8 @@
     nav .links{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(14,23,18,0.98);border-bottom:1px solid var(--line);flex-direction:column;padding:8px 20px 16px;gap:4px}
     nav.menu-open .links{display:flex}
     nav .links a{padding:12px 4px}
-  /* CHAT & MESSAGERIE */
-  .chat-box-card {
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 560px;
-    margin-top: 14px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-  .chat-header {
-    background: var(--bg-card-alt);
-    border-bottom: 1px solid var(--line);
-    padding: 12px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .chat-channels-wrap {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    overflow-x: auto;
-    padding-bottom: 2px;
-    max-width: 100%;
-  }
-  .channel-chip {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    color: var(--text-muted);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-family: var(--font-mono);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all .15s;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .channel-chip.active {
-    background: rgba(182, 255, 60, 0.15);
-    border-color: var(--lime);
-    color: var(--lime);
-    font-weight: 700;
-  }
-  .channel-chip:hover:not(.active) {
-    border-color: var(--text-muted);
-    color: var(--text);
-  }
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: rgba(10, 16, 13, 0.6);
-  }
-  .chat-msg {
-    display: flex;
-    gap: 10px;
-    max-width: 85%;
-    animation: fadeIn .15s ease;
-  }
-  .chat-msg.mine {
-    align-self: flex-end;
-    flex-direction: row-reverse;
-  }
-  .chat-avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: var(--bg-card-alt);
-    border: 1px solid var(--line);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 13px;
-    color: var(--lime);
-    flex-shrink: 0;
-  }
-  .chat-msg.mine .chat-avatar {
-    background: var(--lime);
-    color: #0E1712;
-  }
-  .chat-bubble {
-    background: var(--bg-card-alt);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    border-top-left-radius: 2px;
-    padding: 10px 14px;
-    position: relative;
-  }
-  .chat-msg.mine .chat-bubble {
-    background: rgba(182, 255, 60, 0.12);
-    border-color: rgba(182, 255, 60, 0.3);
-    border-radius: 14px;
-    border-top-right-radius: 2px;
-  }
-  .chat-author-line {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
-  .chat-author-name {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--lime);
-  }
-  .chat-msg.mine .chat-author-name {
-    color: var(--gold);
-  }
-  .chat-msg-time {
-    font-size: 10px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    margin-left: auto;
-  }
-  .chat-text {
-    font-size: 13.5px;
-    line-height: 1.4;
-    word-break: break-word;
-    color: var(--text);
-  }
-  .chat-photo-img {
-    max-width: 260px;
-    max-height: 200px;
-    border-radius: 8px;
-    margin-top: 6px;
-    cursor: pointer;
-    border: 1px solid var(--line);
-    transition: transform .15s;
-    display: block;
-  }
-  .chat-photo-img:hover {
-    transform: scale(1.02);
-  }
-  .chat-input-bar {
-    background: var(--bg-card);
-    border-top: 1px solid var(--line);
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .chat-preview-box {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    background: var(--bg-card-alt);
-    padding: 6px 10px;
-    border-radius: 8px;
-    border: 1px dashed var(--lime);
-    font-size: 12px;
-  }
-  .chat-preview-box img {
-    width: 36px;
-    height: 36px;
-    border-radius: 4px;
-    object-fit: cover;
-  }
-  .chat-form-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .chat-text-input {
-    flex: 1;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-size: 13.5px;
-    font-family: var(--font-body);
-  }
-  .chat-text-input:focus {
-    outline: none;
-    border-color: var(--lime);
-  }
-  .chat-btn-icon {
-    background: var(--bg-card-alt);
-    border: 1px solid var(--line);
-    color: var(--text-muted);
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 17px;
-    transition: all .15s;
-    flex-shrink: 0;
-  }
-  .chat-btn-icon:hover {
-    color: var(--lime);
-    border-color: var(--lime);
-  }
-  .chat-del-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 11px;
-    cursor: pointer;
-    margin-left: 6px;
-    opacity: 0.6;
-  }
-  .chat-del-btn:hover {
-    color: var(--red);
-    opacity: 1;
-  }
-  /* Lightbox */
-  .lightbox-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    padding: 20px;
-  }
-  .lightbox-img {
-    max-width: 90vw;
-    max-height: 85vh;
-    border-radius: 10px;
-    border: 1px solid var(--line);
-    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    .comp-grid{grid-template-columns:1fr}
+    .admin-tabs{gap:6px}
   }
 </style>
 </head>
@@ -475,12 +240,8 @@
       <a href="#inscription" id="navInscription" style="display:none">S'inscrire</a>
       <a href="#classement" id="navJoueurs" style="display:none">Joueurs</a>
       <a href="#tableau" id="navTableau" style="display:none">Tableau</a>
-      <a href="#messagerie" id="navChat" style="display:none">💬 Chat</a>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-ghost btn-sm" id="btnPlayerAuth" type="button" onclick="openPlayerAuthModal()" style="display:flex;align-items:center;gap:6px">👤 Connexion</button>
-      <a href="admin.html" class="admin-link" style="color:var(--lime);border:1px solid rgba(182,255,60,0.3);padding:4px 10px;border-radius:6px;text-decoration:none">🔐 Espace Organisateur</a>
-    </div>
+    <button class="admin-link" id="openAdminBtn" type="button">⚙ Admin</button>
   </div>
 </nav>
 
@@ -602,192 +363,17 @@
       <div class="section-head"><div class="eyebrow">Le tirage</div><h2>Tableau du tournoi</h2></div>
       <div id="bracketArea"><p class="empty-note">Le tirage n'a pas encore eu lieu.</p></div>
     </section>
-
-    <!-- SECTION MESSAGERIE & GROUPES -->
-    <section id="messagerie">
-      <div class="section-head">
-        <div class="eyebrow">En direct</div>
-        <h2>💬 Salon & Messagerie des Joueurs</h2>
-      </div>
-      <p style="color:var(--text-muted);font-size:13.5px;margin-top:-10px;margin-bottom:12px">Échangez entre participants, préparez vos matchs et envoyez vos captures de scores en direct.</p>
-      
-      <div class="chat-box-card">
-        <div class="chat-header">
-          <div class="chat-channels-wrap" id="chatChannelsList">
-            <button class="channel-chip active" data-channel="general" onclick="switchChatChannel('general')">📢 Salon Général</button>
-            <button class="channel-chip" onclick="openCreateGroupModal()" style="border-style:dashed">+ Nouveau Groupe</button>
-          </div>
-          <div id="chatUserStatus" style="font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:8px">
-            <!-- Statut utilisateur connecté / bouton connexion -->
-          </div>
-        </div>
-
-        <div class="chat-messages" id="chatMessagesBox">
-          <div style="text-align:center;padding:30px;color:var(--text-muted);font-size:13px">Sélectionnez une compétition pour voir les messages.</div>
-        </div>
-
-        <div class="chat-input-bar">
-          <div class="chat-preview-box" id="chatPreviewBox">
-            <img id="chatPreviewImg" src="" alt="Aperçu">
-            <span style="color:var(--lime);font-size:11px;font-family:var(--font-mono)">Photo prête</span>
-            <button type="button" class="mini-btn danger" onclick="clearSelectedPhoto()" style="margin-left:auto;padding:2px 6px">✕ Retirer</button>
-          </div>
-          <form id="chatSendForm" class="chat-form-row" onsubmit="handleSendChatMessage(event)">
-            <input type="file" id="chatFileInput" accept="image/*" style="display:none" onchange="handleChatFileSelect(event)">
-            <button type="button" class="chat-btn-icon" onclick="$('chatFileInput').click()" title="Joindre une capture / photo">📷</button>
-            <input type="text" id="chatTextInput" class="chat-text-input" placeholder="Écrire un message aux joueurs..." maxlength="500" autocomplete="off">
-            <button type="submit" class="btn btn-primary btn-sm" id="chatSendBtn" style="padding:10px 16px">Envoyer 🚀</button>
-          </form>
-        </div>
-      </div>
-    </section>
   </div>
 </div>
 
 <footer>
   <div class="wrap">
     <p id="footerContact">Des questions ? Contactez l'organisateur sur WhatsApp.</p>
-    <p style="margin-top:6px;opacity:0.6">Plateforme EFootLigue — Données synchronisées en temps réel via Firebase. • <a href="admin.html" style="color:var(--text-muted);text-decoration:underline">Accès Organisateur & Admin</a></p>
+    <p style="margin-top:6px;opacity:0.6">Plateforme EFootLigue — Données synchronisées en temps réel via Firebase.</p>
   </div>
 </footer>
 
 <!-- ======================== MODALS ======================== -->
-
-<!-- Login / Inscription Joueur (Login Unique Garanti) -->
-<div class="modal-overlay" id="playerAuthModal" style="display:none" role="dialog" aria-modal="true">
-  <div class="modal">
-    <button class="close-x" onclick="closePlayerAuthModal()" type="button">×</button>
-    <div style="display:flex;gap:8px;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:10px;flex-wrap:wrap">
-      <button class="tab-btn active" id="btnPlayerTabLogin" onclick="switchPlayerAuthTab('login')" type="button">🎮 Connexion</button>
-      <button class="tab-btn" id="btnPlayerTabRegister" onclick="switchPlayerAuthTab('register')" type="button">✨ Créer un compte</button>
-      <button class="tab-btn" id="btnPlayerTabForgot" onclick="switchPlayerAuthTab('forgot')" type="button">🔑 Oublié ?</button>
-    </div>
-    <div id="playerAuthMsg"></div>
-
-    <!-- Onglet Connexion Joueur -->
-    <div id="playerLoginBlock">
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Connectez-vous avec votre pseudo, email ou numéro WhatsApp.</p>
-      <form id="playerLoginForm" onsubmit="handlePlayerLogin(event)">
-        <div class="field">
-          <label for="pLoginUser">Pseudo, Email ou Numéro WhatsApp</label>
-          <input id="pLoginUser" required placeholder="Ex: Hamidou_227 ou monadresse@gmail.com">
-        </div>
-        <div class="field">
-          <label for="pLoginPwd">Mot de passe</label>
-          <div style="position:relative;display:flex;align-items:center">
-            <input id="pLoginPwd" type="password" required placeholder="Votre mot de passe" style="width:100%;padding-right:42px">
-            <button type="button" onclick="togglePasswordVisibility('pLoginPwd', this)" title="Afficher/Masquer" style="position:absolute;right:8px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:6px;line-height:1">👁️</button>
-          </div>
-        </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:-6px;margin-bottom:12px">
-          <a href="javascript:void(0)" onclick="switchPlayerAuthTab('forgot')" style="font-size:12px;color:var(--lime);text-decoration:none">🔑 Mot de passe oublié ?</a>
-        </div>
-        <button class="btn btn-primary" type="submit" style="width:100%">Se connecter</button>
-      </form>
-    </div>
-
-    <!-- Onglet Inscription Joueur -->
-    <div id="playerRegisterBlock" style="display:none">
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Chaque joueur dispose d'un compte unique (1 inscription max par tournoi).</p>
-      <form id="playerRegisterForm" onsubmit="handlePlayerRegister(event)">
-        <div class="field">
-          <label for="pRegUsername">Pseudo unique (ID en jeu)</label>
-          <input id="pRegUsername" required maxlength="30" placeholder="Ex: Hamidou_227">
-        </div>
-        <div class="field">
-          <label for="pRegEmail">Adresse Email (pour récupération en cas d'oubli)</label>
-          <input id="pRegEmail" type="email" required placeholder="Ex: joueur@gmail.com">
-        </div>
-        <div class="field">
-          <label for="pRegName">Nom complet</label>
-          <input id="pRegName" required maxlength="60" placeholder="Ex: Hamidou Abdou">
-        </div>
-        <div class="field">
-          <label for="pRegPhone">Numéro WhatsApp</label>
-          <input id="pRegPhone" required maxlength="20" placeholder="Ex: 96 00 00 00">
-        </div>
-        <div class="field">
-          <label for="pRegPlatform">Plateforme</label>
-          <select id="pRegPlatform">
-            <option>Mobile</option><option>PS4 / PS5</option><option>Xbox</option><option>PC</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="pRegPwd">Mot de passe</label>
-          <input id="pRegPwd" type="password" required minlength="4" maxlength="40" placeholder="Au moins 4 caractères">
-        </div>
-        <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">Créer mon compte joueur</button>
-      </form>
-    </div>
-
-    <!-- Onglet Récupération de Mot de Passe par Email -->
-    <div id="playerForgotBlock" style="display:none">
-      <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Réinitialisez votre mot de passe en toute sécurité grâce à votre adresse email enregistrée.</p>
-      
-      <!-- Étape 1 : Saisie de l'email -->
-      <form id="forgotStep1Form" onsubmit="handleSendResetCode(event)">
-        <div class="field">
-          <label for="pForgotEmail">Votre adresse Email</label>
-          <input id="pForgotEmail" type="email" required placeholder="Ex: joueur@gmail.com">
-        </div>
-        <button class="btn btn-primary" type="submit" id="btnSendResetCode" style="width:100%;margin-top:8px">Recevoir mon code de réinitialisation 📩</button>
-      </form>
-
-      <!-- Étape 2 : Saisie du code et nouveau mot de passe -->
-      <form id="forgotStep2Form" style="display:none;margin-top:16px" onsubmit="handleResetPasswordSubmit(event)">
-        <div class="field">
-          <label for="pResetCode">Code de sécurité à 6 chiffres</label>
-          <input id="pResetCode" required maxlength="6" placeholder="Ex: 849201" style="letter-spacing:4px;font-weight:700;font-size:16px;text-align:center">
-        </div>
-        <div class="field">
-          <label for="pResetNewPwd">Nouveau mot de passe</label>
-          <input id="pResetNewPwd" type="password" required minlength="4" maxlength="40" placeholder="Minimum 4 caractères">
-        </div>
-        <div class="field">
-          <label for="pResetConfirmPwd">Confirmer le nouveau mot de passe</label>
-          <input id="pResetConfirmPwd" type="password" required minlength="4" maxlength="40" placeholder="Retapez le mot de passe">
-        </div>
-        <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">Enregistrer le nouveau mot de passe ✅</button>
-        <button class="btn btn-ghost btn-sm" type="button" onclick="switchPlayerAuthTab('login')" style="width:100%;margin-top:8px">Retour à la connexion</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Profil Joueur Connecté -->
-<div class="modal-overlay" id="playerProfileModal" style="display:none" role="dialog" aria-modal="true">
-  <div class="modal" style="max-width:420px">
-    <button class="close-x" onclick="$('playerProfileModal').style.display='none'" type="button">×</button>
-    <h3>👤 Mon Compte Joueur</h3>
-    <div id="playerProfileContent" style="margin:16px 0"></div>
-    <div style="display:flex;gap:8px;align-items:center;margin-top:16px">
-      <button class="btn btn-ghost btn-sm" onclick="logoutPlayer(); $('playerProfileModal').style.display='none'" style="color:var(--red);border-color:rgba(255,91,77,0.35)">🚪 Déconnexion</button>
-      <button class="btn btn-primary btn-sm" onclick="$('playerProfileModal').style.display='none'" style="margin-left:auto">Fermer</button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Créer un Groupe de Discussion -->
-<div class="modal-overlay" id="createGroupModal" style="display:none" role="dialog" aria-modal="true">
-  <div class="modal" style="max-width:460px">
-    <button class="close-x" onclick="closeCreateGroupModal()" type="button">×</button>
-    <h3>👥 Créer un salon de discussion</h3>
-    <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Créez un salon spécifique pour votre match, poule ou équipe.</p>
-    <div id="groupModalMsg"></div>
-    <form id="createGroupForm" onsubmit="handleCreateGroupSubmit(event)">
-      <div class="field">
-        <label for="groupNameInput">Nom du salon / groupe</label>
-        <input id="groupNameInput" required placeholder="Ex: Match 1/4 - Hamidou vs Moussa" maxlength="50">
-      </div>
-      <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">Créer le salon</button>
-    </form>
-  </div>
-</div>
-
-<!-- Modal Lightbox (Agrandissement Photo) -->
-<div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
-  <img class="lightbox-img" id="lightboxImg" src="" alt="Capture agrandie">
-</div>
 
 <!-- Login / Inscription Organisateur -->
 <div class="modal-overlay" id="loginModal" style="display:none" role="dialog" aria-modal="true">
@@ -806,15 +392,10 @@
       <form id="loginForm">
         <div class="field">
           <label for="pinInput">Mot de passe / Code d'accès</label>
-          <div style="position:relative;display:flex;align-items:center">
-            <input id="pinInput" type="password" autocomplete="current-password" placeholder="Entrez votre mot de passe" style="width:100%;padding-right:42px">
-            <button type="button" onclick="togglePasswordVisibility('pinInput', this)" title="Afficher/Masquer" style="position:absolute;right:8px;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:16px;padding:6px;line-height:1">👁️</button>
-          </div>
+          <input id="pinInput" type="password" autocomplete="current-password" placeholder="Ex: cham123@ ou votre mot de passe">
         </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:-4px;margin-bottom:12px">
-          <a href="javascript:void(0)" onclick="$('loginModal').style.display='none'; openPlayerAuthModal('forgot')" style="font-size:12px;color:var(--lime);text-decoration:none">🔑 Mot de passe oublié ?</a>
-        </div>
-        <button class="btn btn-primary" type="submit" id="btnAdminLoginSubmit" style="width:100%">Se connecter & Gérer</button>
+        <div id="attemptsLeft" style="font-size:12px;color:var(--text-muted);margin-bottom:12px"></div>
+        <button class="btn btn-primary" type="submit" style="width:100%">Se connecter & Gérer</button>
       </form>
     </div>
 
@@ -825,10 +406,6 @@
         <div class="field">
           <label for="regOrgaName">Nom complet / Club / Pseudo</label>
           <input id="regOrgaName" required placeholder="Ex: Ligue Niamey Gaming" maxlength="80">
-        </div>
-        <div class="field">
-          <label for="regOrgaEmail">Adresse Email (pour récupération)</label>
-          <input id="regOrgaEmail" type="email" required placeholder="Ex: contact@club.com">
         </div>
         <div class="field">
           <label for="regOrgaPhone">Numéro Téléphone / WhatsApp</label>
@@ -873,14 +450,14 @@
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="field"><label for="setFee">Frais d'entrée (FCFA)</label><input id="setFee" type="number" min="0" value="500" placeholder="500"></div>
-      <div class="field"><label for="setMax">Places max</label><input id="setMax" type="number" min="2" max="64" value="16" placeholder="16"></div>
-      <div class="field"><label for="setP1">1er place (%)</label><input id="setP1" type="number" min="0" max="100" value="50" placeholder="50"></div>
-      <div class="field"><label for="setP2">2e place (%)</label><input id="setP2" type="number" min="0" max="100" value="20" placeholder="20"></div>
-      <div class="field"><label for="setOrg">Organisateur (%)</label><input id="setOrg" type="number" min="0" max="100" value="30" placeholder="30"></div>
+      <div class="field"><label for="setFee">Frais d'entrée (FCFA)</label><input id="setFee" type="number" min="0" placeholder="500"></div>
+      <div class="field"><label for="setMax">Places max</label><input id="setMax" type="number" min="2" max="64" placeholder="16"></div>
+      <div class="field"><label for="setP1">1er place (%)</label><input id="setP1" type="number" min="0" max="100" placeholder="50"></div>
+      <div class="field"><label for="setP2">2e place (%)</label><input id="setP2" type="number" min="0" max="100" placeholder="20"></div>
+      <div class="field"><label for="setOrg">Organisateur (%)</label><input id="setOrg" type="number" min="0" max="100" placeholder="30"></div>
       <div class="field"><label for="setDrawDate">Date du tirage</label><input id="setDrawDate" placeholder="Ex: Sam. 30 Août, 18h"></div>
-      <div class="field"><label for="setPayNum">Dépôt (Mynita / Amana)</label><input id="setPayNum" value="91038061" placeholder="91038061"></div>
-      <div class="field"><label for="setWa">Numéro WhatsApp</label><input id="setWa" value="91038061" placeholder="91038061"></div>
+      <div class="field"><label for="setPayNum">Numéro Mobile Money</label><input id="setPayNum" placeholder="551070395"></div>
+      <div class="field"><label for="setWa">Numéro WhatsApp</label><input id="setWa" placeholder="551070395"></div>
     </div>
     <button class="btn btn-primary" id="setupSubmit" type="button" style="width:100%;margin-top:8px">Créer la compétition</button>
   </div>
@@ -959,9 +536,9 @@
             <div class="field"><label for="editP1">1er (%)</label><input id="editP1" type="number" min="0" max="100"></div>
             <div class="field"><label for="editP2">2e (%)</label><input id="editP2" type="number" min="0" max="100"></div>
             <div class="field"><label for="editOrg">Orga (%)</label><input id="editOrg" type="number" min="0" max="100"></div>
-            <div class="field"><label for="editPayNum">Dépôt (Mynita / Amana)</label><input id="editPayNum" placeholder="91038061"></div>
+            <div class="field"><label for="editPayNum">Mobile Money</label><input id="editPayNum"></div>
             <div class="field full"><label for="editDesc">Description</label><input id="editDesc"></div>
-            <div class="field"><label for="editWa">WhatsApp</label><input id="editWa" placeholder="91038061"></div>
+            <div class="field"><label for="editWa">WhatsApp</label><input id="editWa"></div>
           </div>
           <button class="btn btn-primary btn-sm" id="saveSettingsBtn" type="button">Enregistrer</button>
         </div>
@@ -1036,7 +613,7 @@
     appId: "1:484817239896:web:325edf10a2623c6289af2d"
   };
 
-  // Hash SHA-256 du mot de passe admin par défaut (configuré à la première connexion)
+  // Mot de passe admin par défaut : cham123@ (hashé avec sel efootligue:)
   const DEFAULT_ADMIN_HASH = 'd3e4535cdeefdf658590431f30ed8f3ea56a8727f0a794e2243b18a1170e6878';
   const GLOBAL_CONFIG_KEY = 'efootligue_global';
 
@@ -1054,20 +631,13 @@
   let currentCompId = null;   // Compétition actuellement affichée
   let isAdmin = false;
   let adminSession = null;    // timestamp session
-  const SESSION_DURATION = 30 * 24 * 60 * 60 * 1000; // 30 jours de session persistante
+  const SESSION_DURATION = 4 * 60 * 60 * 1000; // 4h
 
-  function togglePasswordVisibility(inputId, btn){
-    const el = document.getElementById(inputId);
-    if(!el) return;
-    if(el.type === 'password'){
-      el.type = 'text';
-      if(btn) btn.textContent = '🙈';
-    } else {
-      el.type = 'password';
-      if(btn) btn.textContent = '👁️';
-    }
-  }
-  window.togglePasswordVisibility = togglePasswordVisibility;
+  // Anti brute-force
+  let loginAttempts = parseInt(sessionStorage.getItem('loginAttempts') || '0');
+  let lockoutUntil = parseInt(sessionStorage.getItem('lockoutUntil') || '0');
+  const MAX_ATTEMPTS = 5;
+  const LOCKOUT_MS = 30 * 60 * 1000; // 30 min
 
   const $ = id => document.getElementById(id);
 
@@ -1109,690 +679,30 @@
   }
 
   // ══════════════════════════════════════════════
-  // PLAYER AUTH & SESSIONS (LOGIN UNIQUE)
+  // FIREBASE READ / WRITE
   // ══════════════════════════════════════════════
-  let currentPlayer = null;
-
-  function loadPlayerSession(){
-    try {
-      const raw = localStorage.getItem('efoot_player') || sessionStorage.getItem('efoot_player');
-      if(raw) currentPlayer = JSON.parse(raw);
-    } catch(e){ currentPlayer = null; }
-    updatePlayerUI();
-  }
-
-  function savePlayerSession(player, remember = true){
-    currentPlayer = player;
-    if(remember){
-      localStorage.setItem('efoot_player', JSON.stringify(player));
-    } else {
-      sessionStorage.setItem('efoot_player', JSON.stringify(player));
-    }
-    updatePlayerUI();
-  }
-
-  function logoutPlayer(){
-    currentPlayer = null;
-    localStorage.removeItem('efoot_player');
-    sessionStorage.removeItem('efoot_player');
-    updatePlayerUI();
-  }
-
-  function updatePlayerUI(){
-    const btn = $('btnPlayerAuth');
-    const statusBox = $('chatUserStatus');
-    if(btn){
-      if(currentPlayer){
-        btn.innerHTML = '🎮 <span style="color:var(--lime);font-weight:700">@' + esc(currentPlayer.username) + '</span>';
-        btn.onclick = openPlayerProfileModal;
-        if($('fName') && !$('fName').value) $('fName').value = currentPlayer.name || '';
-        if($('fPhone') && !$('fPhone').value) $('fPhone').value = currentPlayer.phone || '';
-        if($('fGameId') && !$('fGameId').value) $('fGameId').value = currentPlayer.username || '';
-        if($('fPlatform') && currentPlayer.platform) $('fPlatform').value = currentPlayer.platform;
-      } else {
-        btn.innerHTML = '👤 Connexion';
-        btn.onclick = () => openPlayerAuthModal('login');
-      }
-    }
-    if(statusBox){
-      if(currentPlayer){
-        statusBox.innerHTML = '<span class="live-dot" style="width:7px;height:7px;background:var(--lime)"></span> <b>@' + esc(currentPlayer.username) + '</b>';
-      } else {
-        statusBox.innerHTML = '<button type="button" class="mini-btn on" onclick="openPlayerAuthModal(\'login\')">🔑 Se connecter</button>';
-      }
-    }
-  }
-
-  function openPlayerAuthModal(tab = 'login'){
-    $('playerAuthModal').style.display = 'flex';
-    switchPlayerAuthTab(tab);
-  }
-  function closePlayerAuthModal(){
-    $('playerAuthModal').style.display = 'none';
-  }
-  function switchPlayerAuthTab(tab){
-    $('btnPlayerTabLogin').classList.toggle('active', tab==='login');
-    $('btnPlayerTabRegister').classList.toggle('active', tab==='register');
-    $('btnPlayerTabForgot').classList.toggle('active', tab==='forgot');
-    $('playerLoginBlock').style.display = tab==='login' ? 'block' : 'none';
-    $('playerRegisterBlock').style.display = tab==='register' ? 'block' : 'none';
-    $('playerForgotBlock').style.display = tab==='forgot' ? 'block' : 'none';
-    if(tab === 'forgot'){
-      $('forgotStep1Form').style.display = 'block';
-      $('forgotStep2Form').style.display = 'none';
-    }
-    $('playerAuthMsg').innerHTML = '';
-  }
-
-  function openPlayerProfileModal(){
-    if(!currentPlayer) return;
-    $('playerProfileContent').innerHTML = 
-      '<div style="background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:16px">' +
-        '<div style="font-size:18px;font-weight:800;color:var(--lime)">@' + esc(currentPlayer.username) + '</div>' +
-        '<div style="font-size:14px;color:var(--text);margin-top:4px">' + esc(currentPlayer.name) + '</div>' +
-        (currentPlayer.email ? '<div style="font-size:12px;color:var(--text-muted);margin-top:8px;font-family:var(--font-mono)">📧 Email : ' + esc(currentPlayer.email) + '</div>' : '') +
-        '<div style="font-size:12px;color:var(--text-muted);margin-top:4px;font-family:var(--font-mono)">📱 WhatsApp : ' + esc(currentPlayer.phone) + '</div>' +
-        '<div style="font-size:12px;color:var(--text-muted);margin-top:4px;font-family:var(--font-mono)">🎮 Plateforme : ' + esc(currentPlayer.platform || 'Mobile') + '</div>' +
-      '</div>';
-    $('playerProfileModal').style.display = 'flex';
-  }
-
-  async function handlePlayerLogin(e){
-    e.preventDefault();
-    const loginVal = ($('pLoginUser').value || '').trim();
-    const pwd = ($('pLoginPwd').value || '').trim();
-    if(!loginVal || !pwd){ showMsg('playerAuthMsg','error','Veuillez remplir tous les champs.'); return; }
-    
-    const cleanUser = loginVal.toLowerCase().replace(/^@/, '');
-    const cleanPhone = digits(loginVal);
-    const pwdHash = await hashPin(pwd);
-
-    const players = await fbGet('players');
-    let matched = null;
-    if(players && typeof players === 'object'){
-      for(const p of Object.values(players)){
-        if(!p) continue;
-        const matchU = (p.username || '').toLowerCase() === cleanUser;
-        const matchE = (p.email || '').toLowerCase() === cleanUser;
-        const matchP = cleanPhone.length >= 8 && digits(p.phone || '') === cleanPhone;
-        if(matchU || matchE || matchP){
-          if(p.passwordHash === pwdHash){
-            matched = p;
-            break;
-          }
-        }
-      }
-    }
-
-    if(!matched){
-      showMsg('playerAuthMsg','error','Pseudo/email/téléphone ou mot de passe incorrect.');
-      return;
-    }
-
-    savePlayerSession(matched, true);
-    closePlayerAuthModal();
-    showMsg('formMsg','ok','Bienvenue @' + matched.username + ' !');
-    updatePlayerUI();
-  }
-
-  async function handlePlayerRegister(e){
-    e.preventDefault();
-    const username = ($('pRegUsername').value || '').trim().replace(/^@/, '');
-    const email = ($('pRegEmail').value || '').trim().toLowerCase();
-    const name = ($('pRegName').value || '').trim();
-    const phone = ($('pRegPhone').value || '').trim();
-    const platform = $('pRegPlatform').value;
-    const pwd = ($('pRegPwd').value || '').trim();
-
-    if(!username || !email || !name || !phone || !pwd){
-      showMsg('playerAuthMsg','error','Veuillez remplir tous les champs.'); return;
-    }
-    if(!email.includes('@') || !email.includes('.')){
-      showMsg('playerAuthMsg','error','Adresse email invalide.'); return;
-    }
-    if(username.length < 3){
-      showMsg('playerAuthMsg','error','Le pseudo doit faire au moins 3 caractères.'); return;
-    }
-    const cleanPhone = digits(phone);
-    if(cleanPhone.length < 8){
-      showMsg('playerAuthMsg','error','Numéro de téléphone invalide.'); return;
-    }
-    if(pwd.length < 4){
-      showMsg('playerAuthMsg','error','Mot de passe : 4 caractères minimum.'); return;
-    }
-
-    // VÉRIFICATION D'UNICITÉ STRICTE (LOGIN / PSEUDO, EMAIL & NUMÉRO)
-    const players = await fbGet('players');
-    if(players && typeof players === 'object'){
-      for(const p of Object.values(players)){
-        if(!p) continue;
-        if((p.username || '').toLowerCase() === username.toLowerCase()){
-          showMsg('playerAuthMsg','error','⚠️ Ce pseudo est déjà utilisé par un autre joueur.');
-          return;
-        }
-        if((p.email || '').toLowerCase() === email){
-          showMsg('playerAuthMsg','error','⚠️ Cette adresse email est déjà liée à un compte.');
-          return;
-        }
-        if(digits(p.phone || '') === cleanPhone){
-          showMsg('playerAuthMsg','error','⚠️ Ce numéro WhatsApp est déjà associé à un compte.');
-          return;
-        }
-      }
-    }
-
-    const pid = 'usr_' + genId();
-    const pwdHash = await hashPin(pwd);
-    const playerObj = {
-      id: pid,
-      username: username,
-      email: email,
-      name: name,
-      phone: cleanPhone,
-      platform: platform,
-      passwordHash: pwdHash,
-      createdAt: Date.now()
-    };
-
-    await fbSet('players/' + pid, playerObj);
-    savePlayerSession(playerObj, true);
-    closePlayerAuthModal();
-    showMsg('formMsg','ok','Compte joueur créé ! Bienvenue @' + username);
-    updatePlayerUI();
-  }
-
-  // ══════════════════════════════════════════════
-  // RÉCUPÉRATION DU MOT DE PASSE PAR EMAIL
-  // ══════════════════════════════════════════════
-  let pendingResetEmail = null;
-
-  async function handleSendResetCode(e){
-    e.preventDefault();
-    const email = ($('pForgotEmail').value || '').trim().toLowerCase();
-    if(!email || !email.includes('@')){
-      showMsg('playerAuthMsg', 'error', 'Veuillez entrer une adresse email valide.');
-      return;
-    }
-
-    const btn = $('btnSendResetCode');
-    btn.disabled = true;
-    btn.textContent = 'Vérification...';
-
-    try {
-      let foundAccount = null;
-      let accountType = null;
-      let accountId = null;
-
-      const players = await fbGet('players');
-      if(players && typeof players === 'object'){
-        for(const [pid, p] of Object.entries(players)){
-          if(p && (p.email || '').toLowerCase() === email){
-            foundAccount = p;
-            accountType = 'player';
-            accountId = pid;
-            break;
-          }
-        }
-      }
-
-      if(!foundAccount){
-        const orgas = await fbGet('organizers');
-        if(orgas && typeof orgas === 'object'){
-          for(const [oid, o] of Object.entries(orgas)){
-            if(o && (o.email || '').toLowerCase() === email){
-              foundAccount = o;
-              accountType = 'organizer';
-              accountId = oid;
-              break;
-            }
-          }
-        }
-      }
-
-      if(!foundAccount){
-        showMsg('playerAuthMsg', 'error', 'Aucun compte associé à cette adresse email (' + email + ').');
-        btn.disabled = false;
-        btn.textContent = 'Recevoir mon code de réinitialisation 📩';
-        return;
-      }
-
-      const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
-      const cleanEmailKey = email.replace(/[^a-zA-Z0-9]/g, '_');
-      
-      const resetPayload = {
-        email: email,
-        code: resetCode,
-        targetType: accountType,
-        targetId: accountId,
-        username: foundAccount.username || foundAccount.name,
-        expiresAt: Date.now() + (15 * 60 * 1000)
-      };
-
-      await fbSet('password_resets/' + cleanEmailKey, resetPayload);
-      pendingResetEmail = email;
-
-      $('forgotStep1Form').style.display = 'none';
-      $('forgotStep2Form').style.display = 'block';
-      $('pResetCode').value = '';
-      $('pResetNewPwd').value = '';
-      $('pResetConfirmPwd').value = '';
-
-      showMsg('playerAuthMsg', 'ok', '📧 Code envoyé à ' + email + ' ! Votre code de sécurité temporaire est : ' + resetCode + ' (Valable 15 min)');
-      $('pResetCode').focus();
-    } catch(err){
-      showMsg('playerAuthMsg', 'error', 'Erreur : ' + err.message);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Recevoir mon code de réinitialisation 📩';
-    }
-  }
-
-  async function handleResetPasswordSubmit(e){
-    e.preventDefault();
-    if(!pendingResetEmail){
-      showMsg('playerAuthMsg', 'error', 'Session expirée. Veuillez recommencer.');
-      switchPlayerAuthTab('forgot');
-      return;
-    }
-
-    const code = ($('pResetCode').value || '').trim();
-    const newPwd = ($('pResetNewPwd').value || '').trim();
-    const confirmPwd = ($('pResetConfirmPwd').value || '').trim();
-
-    if(!code || !newPwd || !confirmPwd){
-      showMsg('playerAuthMsg', 'error', 'Veuillez remplir tous les champs.');
-      return;
-    }
-
-    if(newPwd.length < 4){
-      showMsg('playerAuthMsg', 'error', 'Le mot de passe doit contenir au moins 4 caractères.');
-      return;
-    }
-
-    if(newPwd !== confirmPwd){
-      showMsg('playerAuthMsg', 'error', 'Les deux mots de passe ne correspondent pas.');
-      return;
-    }
-
-    const cleanEmailKey = pendingResetEmail.replace(/[^a-zA-Z0-9]/g, '_');
-    const storedReset = await fbGet('password_resets/' + cleanEmailKey);
-
-    if(!storedReset || storedReset.code !== code){
-      showMsg('playerAuthMsg', 'error', 'Code de sécurité incorrect. Vérifiez les 6 chiffres.');
-      return;
-    }
-
-    if(Date.now() > storedReset.expiresAt){
-      showMsg('playerAuthMsg', 'error', 'Ce code a expiré. Veuillez en redemander un nouveau.');
-      return;
-    }
-
-    const newHash = await hashPin(newPwd);
-    if(storedReset.targetType === 'organizer'){
-      await fbUpdate('organizers/' + storedReset.targetId, { pinHash: newHash });
-    } else {
-      await fbUpdate('players/' + storedReset.targetId, { passwordHash: newHash });
-    }
-
-    await fbRemove('password_resets/' + cleanEmailKey);
-
-    const savedEmail = pendingResetEmail;
-    pendingResetEmail = null;
-
-    showMsg('playerAuthMsg', 'ok', '🎉 Mot de passe modifié avec succès ! Vous pouvez maintenant vous connecter.');
-    setTimeout(() => {
-      switchPlayerAuthTab('login');
-      if($('pLoginUser')) $('pLoginUser').value = savedEmail;
-    }, 1500);
-  }
-
-  // ══════════════════════════════════════════════
-  // MESSAGERIE, GROUPES & ENVOI DE PHOTOS
-  // ══════════════════════════════════════════════
-  let currentChatChannel = 'general';
-  let selectedChatPhotoBase64 = null;
-  let chatListenerRef = null;
-  let chatGroupsListenerRef = null;
-
-  function compressImage(file, maxWidth = 900, maxHeight = 900, quality = 0.75){
-    return new Promise((resolve, reject) => {
-      if(!file) return reject(new Error('Aucun fichier fourni'));
-      if(!file.type.startsWith('image/')) return reject(new Error('Le fichier doit être une image'));
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          let width = img.width;
-          let height = img.height;
-          if(width > height){
-            if(width > maxWidth){
-              height = Math.round((height * maxWidth) / width);
-              width = maxWidth;
-            }
-          } else {
-            if(height > maxHeight){
-              width = Math.round((width * maxHeight) / height);
-              height = maxHeight;
-            }
-          }
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          const dataUrl = canvas.toDataURL('image/jpeg', quality);
-          resolve(dataUrl);
-        };
-        img.onerror = () => reject(new Error('Erreur de lecture image'));
-        img.src = e.target.result;
-      };
-      reader.onerror = () => reject(new Error('Erreur fichier'));
-      reader.readAsDataURL(file);
-    });
-  }
-
-  async function handleChatFileSelect(e){
-    const file = e.target.files && e.target.files[0];
-    if(!file) return;
-    try {
-      $('chatSendBtn').textContent = 'Traitement...';
-      const compressed = await compressImage(file, 900, 900, 0.75);
-      selectedChatPhotoBase64 = compressed;
-      $('chatPreviewImg').src = compressed;
-      $('chatPreviewBox').style.display = 'flex';
-      $('chatSendBtn').textContent = 'Envoyer 🚀';
-    } catch(err){
-      alert('Erreur lors du traitement de l\'image : ' + err.message);
-      clearSelectedPhoto();
-    }
-  }
-
-  function clearSelectedPhoto(){
-    selectedChatPhotoBase64 = null;
-    $('chatPreviewBox').style.display = 'none';
-    $('chatPreviewImg').src = '';
-    $('chatFileInput').value = '';
-    $('chatSendBtn').textContent = 'Envoyer 🚀';
-  }
-
-  function initChatForComp(compId){
-    if(!rtdb || !compId) return;
-    
-    if(chatListenerRef) chatListenerRef.off();
-    if(chatGroupsListenerRef) chatGroupsListenerRef.off();
-
-    chatGroupsListenerRef = rtdb.ref('competitions/' + compId + '/chat_groups');
-    chatGroupsListenerRef.on('value', snap => {
-      const groups = snap.exists() ? snap.val() : {};
-      renderChatChannels(groups);
-    });
-
-    attachChatMessagesListener(compId, currentChatChannel);
-  }
-
-  function renderChatChannels(groupsObj){
-    const listEl = $('chatChannelsList');
-    if(!listEl) return;
-    let html = '<button type="button" class="channel-chip ' + (currentChatChannel==='general'?'active':'') + '" onclick="switchChatChannel(\'general\')">📢 Salon Général</button>';
-    
-    if(groupsObj && typeof groupsObj === 'object'){
-      Object.entries(groupsObj).forEach(([gid, grp]) => {
-        if(!grp) return;
-        const isActive = currentChatChannel === gid;
-        html += '<button type="button" class="channel-chip ' + (isActive?'active':'') + '" onclick="switchChatChannel(\'' + esc(gid) + '\')">👥 ' + esc(grp.name || gid) + '</button>';
-      });
-    }
-
-    html += '<button type="button" class="channel-chip" onclick="openCreateGroupModal()" style="border-style:dashed;color:var(--lime)">+ Nouveau Groupe</button>';
-    listEl.innerHTML = html;
-  }
-
-  function switchChatChannel(channelId){
-    currentChatChannel = channelId;
-    if(currentCompId && rtdb){
-      attachChatMessagesListener(currentCompId, channelId);
-    }
-    document.querySelectorAll('.channel-chip').forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-channel') === channelId || btn.textContent.includes(channelId));
-    });
-  }
-
-  function attachChatMessagesListener(compId, channelId){
-    if(chatListenerRef) chatListenerRef.off();
-    const box = $('chatMessagesBox');
-    box.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:13px">Chargement des messages...</div>';
-
-    chatListenerRef = rtdb.ref('competitions/' + compId + '/chat_messages/' + channelId).limitToLast(80);
-    chatListenerRef.on('value', snap => {
-      const messages = snap.exists() ? snap.val() : {};
-      renderChatMessages(messages);
-    });
-  }
-
-  function renderChatMessages(messagesObj){
-    const box = $('chatMessagesBox');
-    if(!box) return;
-    const entries = Object.entries(messagesObj || {});
-    if(entries.length === 0){
-      box.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:13px"><div style="font-size:24px;margin-bottom:6px">💬</div>Aucun message pour l\'instant.<br>Soyez le premier à écrire !</div>';
-      return;
-    }
-
-    entries.sort((a,b) => (a[1].createdAt || 0) - (b[1].createdAt || 0));
-
-    let html = '';
-    entries.forEach(([mid, msg]) => {
-      if(!msg) return;
-      const isMine = currentPlayer && (msg.senderId === currentPlayer.id || msg.senderName === currentPlayer.username);
-      const isSenderAdmin = msg.isAdmin || false;
-      const timeStr = msg.createdAt ? new Date(msg.createdAt).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '';
-      const initial = (msg.senderName || 'J').charAt(0).toUpperCase();
-
-      html += '<div class="chat-msg ' + (isMine ? 'mine' : '') + '">' +
-        '<div class="chat-avatar">' + esc(initial) + '</div>' +
-        '<div class="chat-bubble">' +
-          '<div class="chat-author-line">' +
-            '<span class="chat-author-name">@' + esc(msg.senderName || 'Joueur') + '</span>' +
-            (isSenderAdmin ? '<span class="chat-author-badge">ORGA</span>' : '') +
-            '<span class="chat-msg-time">' + esc(timeStr) + '</span>' +
-            (isMine || isAdmin ? '<button type="button" class="chat-del-btn" onclick="deleteChatMessage(\''+esc(mid)+'\')" title="Supprimer">🗑</button>' : '') +
-          '</div>' +
-          (msg.text ? '<div class="chat-text">' + esc(msg.text) + '</div>' : '') +
-          (msg.photo ? '<img class="chat-photo-img" src="' + esc(msg.photo) + '" alt="Capture de match" onclick="openLightbox(\''+esc(msg.photo)+'\')">' : '') +
-        '</div>' +
-      '</div>';
-    });
-
-    box.innerHTML = html;
-    box.scrollTop = box.scrollHeight;
-  }
-
-  async function handleSendChatMessage(e){
-    e.preventDefault();
-    if(!currentCompId){ alert('Sélectionnez une compétition pour envoyer un message.'); return; }
-    
-    if(!currentPlayer && !isAdmin){
-      openPlayerAuthModal('login');
-      return;
-    }
-
-    const text = ($('chatTextInput').value || '').trim();
-    const photo = selectedChatPhotoBase64;
-
-    if(!text && !photo) return;
-
-    const senderName = currentPlayer ? currentPlayer.username : 'Organisateur';
-    const senderId = currentPlayer ? currentPlayer.id : 'admin';
-    const msgId = 'm_' + genId();
-
-    const msgObj = {
-      id: msgId,
-      senderId: senderId,
-      senderName: senderName,
-      isAdmin: isAdmin,
-      text: text,
-      photo: photo || null,
-      createdAt: Date.now()
-    };
-
-    try {
-      await fbSet('competitions/' + currentCompId + '/chat_messages/' + currentChatChannel + '/' + msgId, msgObj);
-      $('chatTextInput').value = '';
-      clearSelectedPhoto();
-      $('chatTextInput').focus();
-    } catch(err){
-      alert('Erreur lors de l\'envoi du message : ' + err.message);
-    }
-  }
-
-  async function deleteChatMessage(msgId){
-    if(!currentCompId || !msgId) return;
-    if(!confirm('Supprimer ce message ?')) return;
-    await fbRemove('competitions/' + currentCompId + '/chat_messages/' + currentChatChannel + '/' + msgId);
-  }
-
-  function openCreateGroupModal(){
-    if(!currentPlayer && !isAdmin){
-      openPlayerAuthModal('login');
-      return;
-    }
-    $('groupNameInput').value = '';
-    $('groupModalMsg').innerHTML = '';
-    $('createGroupModal').style.display = 'flex';
-    setTimeout(() => $('groupNameInput').focus(), 50);
-  }
-  function closeCreateGroupModal(){
-    $('createGroupModal').style.display = 'none';
-  }
-
-  async function handleCreateGroupSubmit(e){
-    e.preventDefault();
-    if(!currentCompId) return;
-    const name = ($('groupNameInput').value || '').trim();
-    if(!name){ showMsg('groupModalMsg','error','Entrez un nom de groupe.'); return; }
-    
-    const gid = 'grp_' + genId();
-    const grpObj = {
-      id: gid,
-      name: name,
-      createdBy: currentPlayer ? currentPlayer.username : 'Admin',
-      createdAt: Date.now()
-    };
-
-    await fbSet('competitions/' + currentCompId + '/chat_groups/' + gid, grpObj);
-    closeCreateGroupModal();
-    switchChatChannel(gid);
-  }
-
-  // Lightbox
-  function openLightbox(src){
-    $('lightboxImg').src = src;
-    $('lightboxModal').style.display = 'flex';
-  }
-  function closeLightbox(e){
-    if(e.target === $('lightboxModal') || e.target === $('lightboxImg')){
-      $('lightboxModal').style.display = 'none';
-      $('lightboxImg').src = '';
-    }
-  }
-
-  // ══════════════════════════════════════════════
-  // FIREBASE READ / WRITE (AVEC PERSISTANCE LOCALE & FALLBACK)
-  // ══════════════════════════════════════════════
-  function localGet(path){
-    try {
-      const raw = localStorage.getItem('efl_store_' + path);
-      return raw ? JSON.parse(raw) : null;
-    } catch(e){ return null; }
-  }
-  function localSet(path, val){
-    try {
-      if(val === null || val === undefined){
-        localStorage.removeItem('efl_store_' + path);
-      } else {
-        localStorage.setItem('efl_store_' + path, JSON.stringify(val));
-      }
-    } catch(e){}
-  }
-
   async function fbGet(path){
-    const localVal = localGet(path);
-    if(!rtdb) return localVal;
-    try {
-      const snap = await rtdb.ref(path).once('value');
-      if(snap && snap.exists()){
-        const val = snap.val();
-        localSet(path, val);
-        return val;
-      }
-      return localVal;
-    } catch(e){
-      console.warn('fbGet fallback:', path, e);
-      return localVal;
-    }
+    if(!rtdb) return null;
+    const snap = await rtdb.ref(path).once('value');
+    return snap.exists() ? snap.val() : null;
   }
-
   async function fbSet(path, val){
-    localSet(path, val);
-    if(path.startsWith('competitions/')){
-      localSet('competitions', allComps);
-    }
     if(!rtdb) return;
-    try {
-      await rtdb.ref(path).set(val);
-    } catch(e){
-      console.warn('fbSet error (sauvegarde locale active):', path, e);
-    }
+    await rtdb.ref(path).set(val);
   }
-
   async function fbUpdate(path, val){
-    const current = localGet(path) || {};
-    const merged = (typeof current === 'object' && current !== null) ? Object.assign({}, current, val) : val;
-    localSet(path, merged);
-    if(path.startsWith('competitions/')){
-      localSet('competitions', allComps);
-    }
     if(!rtdb) return;
-    try {
-      await rtdb.ref(path).update(val);
-    } catch(e){
-      console.warn('fbUpdate error (sauvegarde locale active):', path, e);
-    }
+    await rtdb.ref(path).update(val);
   }
-
   async function fbRemove(path){
-    localSet(path, null);
-    if(path.startsWith('competitions/')){
-      localSet('competitions', allComps);
-    }
     if(!rtdb) return;
-    try {
-      await rtdb.ref(path).remove();
-    } catch(e){
-      console.warn('fbRemove error (sauvegarde locale active):', path, e);
-    }
+    await rtdb.ref(path).remove();
   }
 
   // ══════════════════════════════════════════════
   // INIT
   // ══════════════════════════════════════════════
   async function init(){
-    // Charger session joueur
-    loadPlayerSession();
-
-    // Charger les compétitions depuis le cache local immédiatement
-    const cachedComps = localGet('competitions');
-    if(cachedComps && typeof cachedComps === 'object'){
-      allComps = cachedComps;
-      Object.values(allComps).forEach(comp => {
-        if(comp && comp.registrations && !Array.isArray(comp.registrations)){
-          comp.registrations = Object.values(comp.registrations);
-        }
-      });
-      renderHome();
-      if(isAdmin) renderAdminAll();
-    }
-
     // Charger config globale (mot de passe admin)
     globalConfig = await fbGet('global_config');
     if(!globalConfig){
@@ -1800,62 +710,45 @@
       await fbSet('global_config', globalConfig);
     }
 
-    // Restaurer session admin (localStorage ou sessionStorage)
-    const saved = localStorage.getItem('adminSession') || sessionStorage.getItem('adminSession');
+    // Restaurer session admin
+    const saved = sessionStorage.getItem('adminSession');
     if(saved){
       const ts = parseInt(saved);
       if(Date.now() - ts < SESSION_DURATION){
         isAdmin = true;
         adminSession = ts;
       } else {
-        localStorage.removeItem('adminSession');
         sessionStorage.removeItem('adminSession');
       }
     }
 
     // Écouter toutes les compétitions en temps réel
     if(rtdb){
-      try {
-        rtdb.ref('competitions').on('value', snap => {
-          if(snap && snap.exists()){
-            allComps = snap.val() || {};
-          } else if(!Object.keys(allComps).length) {
-            allComps = localGet('competitions') || {};
+      rtdb.ref('competitions').on('value', snap => {
+        allComps = snap.exists() ? snap.val() : {};
+        // Convertir les tableaux Firebase
+        Object.values(allComps).forEach(comp => {
+          if(comp.registrations && !Array.isArray(comp.registrations)){
+            comp.registrations = Object.values(comp.registrations);
           }
-          Object.values(allComps).forEach(comp => {
-            if(comp && comp.registrations && !Array.isArray(comp.registrations)){
-              comp.registrations = Object.values(comp.registrations);
-            }
-          });
-          localSet('competitions', allComps);
-          renderHome();
-          if(currentCompId && allComps[currentCompId]) renderComp();
-          if(isAdmin) renderAdminAll();
-        }, err => {
-          console.warn('Firebase competitions listener:', err);
         });
+        renderHome();
+        if(currentCompId && allComps[currentCompId]) renderComp();
+        if(isAdmin) renderAdminAll();
+      });
 
-        // Écouter annonces en temps réel
-        rtdb.ref('announcements').on('value', snap => {
-          const ann = (snap && snap.exists()) ? snap.val() : (localGet('announcements') || {});
-          renderAnnouncements(ann);
-        }, err => {
-          console.warn('Firebase announcements listener:', err);
-        });
-      } catch(e){
-        console.warn('RTDB init listener err:', e);
-      }
+      // Écouter annonces en temps réel
+      rtdb.ref('announcements').on('value', snap => {
+        const ann = snap.exists() ? snap.val() : {};
+        renderAnnouncements(ann);
+      });
     }
-
-    // Rendu initial
-    renderHome();
-    if(isAdmin) renderAdminAll();
 
     // Vérifier URL hash pour ouvrir directement une compétition
     const hash = window.location.hash.replace('#','');
     if(hash && hash.startsWith('comp-')){
       const cid = hash.replace('comp-','');
-      setTimeout(() => openComp(cid), 300);
+      setTimeout(() => openComp(cid), 500);
     }
   }
 
@@ -1867,10 +760,8 @@
     window.location.hash = '';
     $('pageHome').style.display = '';
     $('pageComp').style.display = 'none';
-    ['navInscription','navJoueurs','navTableau','navChat'].forEach(id => { if($(id)) $(id).style.display = 'none'; });
+    ['navInscription','navJoueurs','navTableau'].forEach(id => $(id).style.display = 'none');
     $('navHome').style.display = '';
-    if(chatListenerRef) chatListenerRef.off();
-    if(chatGroupsListenerRef) chatGroupsListenerRef.off();
     renderHome();
   }
 
@@ -1940,9 +831,8 @@
     window.location.hash = 'comp-' + compId;
     $('pageHome').style.display = 'none';
     $('pageComp').style.display = '';
-    ['navInscription','navJoueurs','navTableau','navChat'].forEach(id => { if($(id)) $(id).style.display = ''; });
+    ['navInscription','navJoueurs','navTableau'].forEach(id => $(id).style.display = '');
     renderComp();
-    initChatForComp(compId);
     // Ouvrir l'onglet gérer si admin
     if(isAdmin){
       $('btnTabCurrentComp').style.display = '';
@@ -1993,7 +883,7 @@
     };
 
     // Paiement
-    $('paymentBox').innerHTML = 'Après inscription, effectue ton dépôt de <b>' + esc(fmtFcfa(c.fee)) + '</b> par <b>Mynita</b> ou <b>Amana Transfert</b> au numéro <b>' + esc(c.payNum || '91038061') + '</b>, puis envoie la capture du reçu sur WhatsApp au <b>' + esc(c.wa || '91038061') + '</b> pour confirmer ta place.';
+    $('paymentBox').innerHTML = 'Après inscription, envoie <b>' + esc(fmtFcfa(c.fee)) + '</b> via Mobile Money au numéro <b>' + esc(c.payNum || '551070395') + '</b>, puis envoie la capture d\'écran sur WhatsApp au <b>' + esc(c.wa || '551070395') + '</b> pour confirmer ta place.';
     if(digits(c.wa)){
       $('footerContact').innerHTML = 'Questions ? Contacte l\'organisateur sur WhatsApp : <a class="wa" href="' + esc(waLink(c.wa)) + '" target="_blank" rel="noopener">' + esc(c.wa) + '</a>';
     }
@@ -2130,23 +1020,21 @@
   $('orgaRegisterForm').addEventListener('submit', async function(e){
     e.preventDefault();
     const name = ($('regOrgaName').value || '').trim();
-    const email = ($('regOrgaEmail').value || '').trim().toLowerCase();
     const phone = ($('regOrgaPhone').value || '').trim();
     const pwd = ($('regOrgaPassword').value || '').trim();
-    if(!name || !email || !phone || !pwd){ showMsg('loginMsg','error','Remplissez tous les champs.'); return; }
-    if(!email.includes('@')){ showMsg('loginMsg','error','Adresse email invalide.'); return; }
+    if(!name || !phone || !pwd){ showMsg('loginMsg','error','Remplissez tous les champs.'); return; }
     if(pwd.length < 4){ showMsg('loginMsg','error','Mot de passe : 4 caractères minimum.'); return; }
     const pinHash = await hashPin(pwd);
     const orgaId = 'orga_' + Date.now().toString(36);
-    const orgaData = { id: orgaId, name, email, phone, pinHash, createdAt: Date.now() };
+    const orgaData = { id: orgaId, name, phone, pinHash, createdAt: Date.now() };
     await fbSet('organizers/' + orgaId, orgaData);
 
     isAdmin = true;
     adminSession = Date.now();
     sessionStorage.setItem('adminSession', String(adminSession));
-    sessionStorage.setItem('currentOrganizer', JSON.stringify({id: orgaId, name, email, phone}));
+    sessionStorage.setItem('currentOrganizer', JSON.stringify({id: orgaId, name, phone}));
     $('loginModal').style.display = 'none';
-    $('regOrgaName').value = ''; $('regOrgaEmail').value = ''; $('regOrgaPhone').value = ''; $('regOrgaPassword').value = '';
+    $('regOrgaName').value = ''; $('regOrgaPhone').value = ''; $('regOrgaPassword').value = '';
     showMsg('adminMsg','ok','Bienvenue '+name+' ! Votre compte organisateur est prêt.');
     openAdminPanel();
     openSetupModal();
@@ -2155,59 +1043,58 @@
   $('loginForm').addEventListener('submit', async function(e){
     e.preventDefault();
     const val = ($('pinInput').value || '').trim();
-    if(!val){ showMsg('loginMsg','error','Veuillez entrer votre mot de passe.'); return; }
+    if(!val){ showMsg('loginMsg','error','Entrez votre mot de passe.'); return; }
+    const now = Date.now();
+    const h = await hashPin(val);
+    const storedHash = globalConfig && globalConfig.pinHash ? globalConfig.pinHash : DEFAULT_ADMIN_HASH;
+
+    // Vérifie soit le hash stocké, soit cham123@ directement, soit le hash par défaut
+    const isChamMatch = (val === 'cham123@' || h === DEFAULT_ADMIN_HASH || h === '5c0e1bbeadd4dc4b41f4ad2d602e264b172d19bc9d5bd1ee8762a26c9bd2674f');
     
-    const btn = $('btnAdminLoginSubmit') || e.target.querySelector('button[type="submit"]');
-    if(btn){ btn.disabled = true; btn.textContent = 'Connexion...'; }
-
-    try {
-      const h = await hashPin(val);
-      
-      // S'assurer que globalConfig est bien chargé
-      if(!globalConfig){
-        globalConfig = await fbGet('global_config');
-      }
-      const storedHash = globalConfig && globalConfig.pinHash ? globalConfig.pinHash : DEFAULT_ADMIN_HASH;
-
-      const isChamMatch = (h === DEFAULT_ADMIN_HASH);
-      
-      // Vérifie aussi si c'est un compte organisateur enregistré
-      let isOrgaMatch = false;
-      let foundOrga = null;
-      const organizers = await fbGet('organizers');
-      if(organizers && typeof organizers === 'object'){
-        for(const org of Object.values(organizers)){
-          if(org && (org.pinHash === h || org.pinHash === val)){
-            isOrgaMatch = true;
-            foundOrga = org;
-            break;
-          }
+    // Vérifie aussi si c'est un compte organisateur enregistré
+    let isOrgaMatch = false;
+    let foundOrga = null;
+    const organizers = await fbGet('organizers');
+    if(organizers && typeof organizers === 'object'){
+      for(const org of Object.values(organizers)){
+        if(org && org.pinHash === h){
+          isOrgaMatch = true;
+          foundOrga = org;
+          break;
         }
       }
+    }
 
-      const isValid = (h === storedHash || isChamMatch || isOrgaMatch);
+    const isValid = (h === storedHash || isChamMatch || isOrgaMatch);
 
-      if(isValid){
-        isAdmin = true;
-        adminSession = Date.now();
-        localStorage.setItem('adminSession', String(adminSession));
-        sessionStorage.setItem('adminSession', String(adminSession));
-        if(foundOrga){
-          localStorage.setItem('currentOrganizer', JSON.stringify(foundOrga));
-          sessionStorage.setItem('currentOrganizer', JSON.stringify(foundOrga));
-        }
-        $('loginModal').style.display = 'none';
-        $('pinInput').value = '';
-        $('loginMsg').innerHTML = '';
-        openAdminPanel();
-        showMsg('adminMsg', 'ok', '🎉 Bienvenue dans votre panneau de gestion !');
-      } else {
-        showMsg('loginMsg','error','Mot de passe incorrect. Vérifiez votre saisie avec l\'œil 👁️.');
+    if(isValid){
+      // Si mot de passe par défaut entré, s'assurer que Firebase est bien synchronisé
+      if(isChamMatch && globalConfig && globalConfig.pinHash !== DEFAULT_ADMIN_HASH){
+        globalConfig = Object.assign({}, globalConfig, { pinHash: DEFAULT_ADMIN_HASH });
+        await fbSet('global_config', globalConfig);
       }
-    } catch(err){
-      showMsg('loginMsg','error','Erreur de connexion : ' + err.message);
-    } finally {
-      if(btn){ btn.disabled = false; btn.textContent = 'Se connecter & Gérer'; }
+      isAdmin = true;
+      adminSession = Date.now();
+      sessionStorage.setItem('adminSession', String(adminSession));
+      if(foundOrga) sessionStorage.setItem('currentOrganizer', JSON.stringify(foundOrga));
+      loginAttempts = 0;
+      sessionStorage.setItem('loginAttempts','0');
+      lockoutUntil = 0;
+      sessionStorage.removeItem('lockoutUntil');
+      $('loginModal').style.display = 'none';
+      $('pinInput').value = '';
+      $('loginMsg').innerHTML = '';
+      openAdminPanel();
+    } else {
+      if(now < lockoutUntil){ updateLockoutDisplay(); return; }
+      loginAttempts++;
+      sessionStorage.setItem('loginAttempts', String(loginAttempts));
+      if(loginAttempts >= MAX_ATTEMPTS){
+        lockoutUntil = Date.now() + LOCKOUT_MS;
+        sessionStorage.setItem('lockoutUntil', String(lockoutUntil));
+      }
+      updateLockoutDisplay();
+      showMsg('loginMsg','error','Mot de passe incorrect.');
     }
   });
 
@@ -2316,73 +1203,32 @@
     const comp = allComps[currentCompId];
     if(!comp || !comp.config){ showMsg('formMsg','error','Compétition introuvable.'); return; }
     const c = comp.config;
-    const rawRegs = comp.registrations;
-    const registrations = Array.isArray(rawRegs) ? rawRegs : (rawRegs && typeof rawRegs === 'object' ? Object.values(rawRegs) : []);
+    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
     const drawn = !!(comp.bracket && comp.bracket.rounds && comp.bracket.rounds.length);
     if(c.finished || c.closed || registrations.length >= c.max || drawn){
-      showMsg('formMsg','error','Les inscriptions sont closes pour cette compétition.'); return;
+      showMsg('formMsg','error','Les inscriptions sont closes.'); return;
     }
-    const name = ($('fName').value || '').trim();
-    const phone = ($('fPhone').value || '').trim();
-    const gameId = ($('fGameId').value || '').trim();
-    const platform = $('fPlatform').value || 'Mobile';
-    if(!name || !phone || !gameId){ showMsg('formMsg','error','Remplis tous les champs obligatoires.'); return; }
+    const name = $('fName').value.trim();
+    const phone = $('fPhone').value.trim();
+    const gameId = $('fGameId').value.trim();
+    const platform = $('fPlatform').value;
+    if(!name || !phone || !gameId){ showMsg('formMsg','error','Remplis tous les champs.'); return; }
     const n = digits(phone);
-    if(n.length < 8 || n.length > 15){ showMsg('formMsg','error','Numéro de téléphone invalide (8 à 15 chiffres).'); return; }
-    
-    // VÉRIFICATION STRICTE : 1 SEULE INSCRIPTION PAR JOUEUR
-    const alreadyRegistered = registrations.some(r => {
-      if(!r) return false;
-      if(currentPlayer && r.playerId && r.playerId === currentPlayer.id) return true;
-      if(digits(r.phone) === n) return true;
-      if((r.gameId||'').trim().toLowerCase() === gameId.toLowerCase()) return true;
-      return false;
-    });
-
-    if(alreadyRegistered){
-      showMsg('formMsg','error','⚠️ Vous êtes déjà inscrit à cette compétition (1 seule inscription autorisée par joueur).');
-      return;
-    }
-
-    const entry = { 
-      id:'p_'+genId(), 
-      playerId: currentPlayer ? currentPlayer.id : null,
-      name, 
-      phone: n, 
-      gameId, 
-      platform, 
-      paid: false, 
-      createdAt: Date.now() 
-    };
+    if(n.length < 8 || n.length > 15){ showMsg('formMsg','error','Numéro invalide.'); return; }
+    if(registrations.some(r => digits(r.phone)===n)){ showMsg('formMsg','error','Ce numéro est déjà inscrit.'); return; }
+    if(registrations.some(r => (r.gameId||'').toLowerCase()===gameId.toLowerCase())){ showMsg('formMsg','error','Ce pseudo est déjà inscrit.'); return; }
+    const entry = { id:'p_'+genId(), name, phone, gameId, platform, paid:false, createdAt:Date.now() };
     const newRegs = [...registrations, entry];
-    
     try {
-      // Mise à jour immédiate locale & réactive
-      comp.registrations = newRegs;
-      allComps[currentCompId].registrations = newRegs;
-      renderComp();
-      renderHome();
-      if(isAdmin) renderAdminAll();
-
-      // Sauvegarde persistante (locale + Firebase)
       await fbSet('competitions/'+currentCompId+'/registrations', newRegs);
-      
       $('regForm').reset();
-      if(currentPlayer){
-        if($('fName')) $('fName').value = currentPlayer.name || '';
-        if($('fPhone')) $('fPhone').value = currentPlayer.phone || '';
-        if($('fGameId')) $('fGameId').value = currentPlayer.username || '';
-      }
-      showMsg('formMsg','ok','✅ Inscription validée ! Effectue ton dépôt pour confirmer définitivement ta place.');
+      showMsg('formMsg','ok','Inscription reçue ! Envoie le paiement pour confirmer ta place.');
       if(digits(c.wa)){
-        const msg = 'Salut, je viens de m\'inscrire à '+c.name+' (pseudo: '+gameId+'). Je t\'envoie la preuve de dépôt de '+fmtFcfa(c.fee)+'.';
+        const msg = 'Salut, je viens de m\'inscrire à '+c.name+' (pseudo: '+gameId+'). Je t\'envoie la preuve de paiement de '+fmtFcfa(c.fee)+'.';
         $('waAfter').style.display = 'block';
         $('waAfter').innerHTML = '<a class="btn btn-ghost btn-sm" href="'+esc(waLink(c.wa,msg))+'" target="_blank" rel="noopener">📱 Envoyer la preuve sur WhatsApp</a>';
       }
-    } catch(err){
-      console.error('Erreur inscription:', err);
-      showMsg('formMsg','error','Erreur d\'inscription. Réessaie.');
-    }
+    } catch(err){ showMsg('formMsg','error','Erreur d\'inscription. Réessaie.'); }
   });
 
   // ══════════════════════════════════════════════
@@ -2520,8 +1366,8 @@
       fee: parseInt($('editFee').value,10)||allComps[currentCompId].config.fee,
       max, p1, p2, org,
       drawDate: $('editDrawDate').value.trim(),
-      payNum: $('editPayNum').value.trim() || '91038061',
-      wa: $('editWa').value.trim() || '91038061'
+      payNum: $('editPayNum').value.trim() || '551070395',
+      wa: $('editWa').value.trim() || '551070395'
     };
     await fbUpdate('competitions/'+currentCompId+'/config', upd);
     showMsg('settingsMsg','ok','Réglages enregistrés.');
@@ -2555,14 +1401,6 @@
     $('setupModal').style.display = 'flex';
     $('setRosterType').value = 'open';
     $('manualRosterBlock').style.display = 'none';
-    if(!$('setP1').value) $('setP1').value = '50';
-    if(!$('setP2').value) $('setP2').value = '20';
-    if(!$('setOrg').value) $('setOrg').value = '30';
-    if(!$('setMax').value) $('setMax').value = '16';
-    if(!$('setFee').value) $('setFee').value = '500';
-    if(!$('setPayNum').value) $('setPayNum').value = '91038061';
-    if(!$('setWa').value) $('setWa').value = '91038061';
-    $('setupMsg').innerHTML = '';
     setTimeout(() => $('setName').focus(), 50);
   }
 
@@ -2571,99 +1409,66 @@
   });
 
   $('setupSubmit').addEventListener('click', async function(){
-    try {
-      const name = ($('setName').value || '').trim();
-      if(!name){ showMsg('setupMsg','error','Entrez le nom de la compétition.'); return; }
-      
-      const p1Raw = $('setP1').value.trim();
-      const p2Raw = $('setP2').value.trim();
-      const orgRaw = $('setOrg').value.trim();
-      const p1 = p1Raw !== '' ? parseInt(p1Raw, 10) : 50;
-      const p2 = p2Raw !== '' ? parseInt(p2Raw, 10) : 20;
-      const org = orgRaw !== '' ? parseInt(orgRaw, 10) : 30;
-      
-      if([p1,p2,org].some(isNaN) || p1+p2+org !== 100){
-        showMsg('setupMsg','error','Les pourcentages (1er: '+(isNaN(p1)?0:p1)+'% + 2e: '+(isNaN(p2)?0:p2)+'% + orga: '+(isNaN(org)?0:org)+'%) doivent faire exactement 100%.');
+    const name = $('setName').value.trim();
+    if(!name){ showMsg('setupMsg','error','Entrez le nom de la compétition.'); return; }
+    const p1=parseInt($('setP1').value,10), p2=parseInt($('setP2').value,10), org=parseInt($('setOrg').value,10);
+    if([p1,p2,org].some(isNaN)||p1+p2+org!==100){ showMsg('setupMsg','error','Les pourcentages (1er+2e+orga) doivent faire 100%.'); return; }
+    let max=parseInt($('setMax').value,10);
+    const fee=parseInt($('setFee').value,10)||0;
+
+    const rosterType = $('setRosterType').value;
+    let manualPlayers = [];
+    if(rosterType === 'manual'){
+      const rawPlayers = ($('setPlayersList').value || '').split('\n').map(s=>s.trim()).filter(Boolean);
+      if(rawPlayers.length < 2){
+        showMsg('setupMsg','error','Veuillez entrer au moins 2 joueurs (un par ligne).');
         return;
       }
-      
-      const maxRaw = $('setMax').value.trim();
-      let max = maxRaw !== '' ? parseInt(maxRaw, 10) : 16;
-      const fee = parseInt($('setFee').value, 10) || 0;
+      max = Math.max(isNaN(max) || max < 2 ? rawPlayers.length : max, rawPlayers.length);
+      manualPlayers = rawPlayers.map(pname => ({
+        id: genId(),
+        name: pname,
+        phone: '',
+        gameId: pname,
+        platform: 'Mobile',
+        paid: true,
+        at: Date.now()
+      }));
+    }
 
-      const rosterType = $('setRosterType').value;
-      let manualPlayers = [];
-      if(rosterType === 'manual'){
-        const rawPlayers = ($('setPlayersList').value || '').split('\n').map(s=>s.trim()).filter(Boolean);
-        if(rawPlayers.length < 2){
-          showMsg('setupMsg','error','Veuillez entrer au moins 2 joueurs (un par ligne).');
-          return;
-        }
-        max = Math.max(isNaN(max) || max < 2 ? rawPlayers.length : max, rawPlayers.length);
-        manualPlayers = rawPlayers.map(pname => ({
-          id: 'p_' + genId(),
-          name: pname,
-          phone: '',
-          gameId: pname,
-          platform: 'Mobile',
-          paid: true,
-          createdAt: Date.now()
-        }));
-      }
+    if(isNaN(max)||max<2){ showMsg('setupMsg','error','Minimum 2 places.'); return; }
 
-      if(isNaN(max) || max < 2){ showMsg('setupMsg','error','Minimum 2 places.'); return; }
+    const compId = genId();
+    const isClosed = manualPlayers.length >= max;
+    const config = {
+      name, desc: $('setDesc').value.trim() || 'Compétition eFootball',
+      fee, max, p1, p2, org,
+      drawDate: $('setDrawDate').value.trim(),
+      payNum: $('setPayNum').value.trim() || '551070395',
+      wa: $('setWa').value.trim() || '551070395',
+      closed: isClosed,
+      finished: false,
+      createdAt: Date.now()
+    };
 
-      const compId = 'comp_' + genId();
-      const isClosed = manualPlayers.length >= max;
-      const config = {
-        name,
-        desc: ($('setDesc').value || '').trim() || 'Compétition eFootball',
-        fee,
-        max,
-        p1,
-        p2,
-        org,
-        drawDate: ($('setDrawDate').value || '').trim(),
-        payNum: ($('setPayNum').value || '').trim() || '91038061',
-        wa: ($('setWa').value || '').trim() || '91038061',
-        closed: isClosed,
-        finished: false,
-        createdAt: Date.now()
-      };
+    await fbSet('competitions/'+compId+'/config', config);
 
-      let newBracket = null;
-      if(manualPlayers.length > 0 && $('setAutoDraw')?.checked){
+    if(manualPlayers.length > 0){
+      await fbSet('competitions/'+compId+'/registrations', manualPlayers);
+      if($('setAutoDraw')?.checked){
         const {round0} = firstRoundWithByes(manualPlayers);
-        newBracket = {rounds:[round0]};
+        const newBracket = {rounds:[round0]};
         maybeAdvance(newBracket);
-      }
-
-      // Mise à jour immédiate de l'état local
-      allComps[compId] = {
-        config: config,
-        registrations: manualPlayers,
-        bracket: newBracket
-      };
-
-      // Sauvegarde persistante (locale + Firebase)
-      await fbSet('competitions/'+compId+'/config', config);
-      if(manualPlayers.length > 0){
-        await fbSet('competitions/'+compId+'/registrations', manualPlayers);
-      }
-      if(newBracket){
         await fbSet('competitions/'+compId+'/bracket', newBracket);
       }
-
-      $('setupModal').style.display = 'none';
-      $('setName').value=''; $('setDesc').value=''; $('setPlayersList').value='';
-      renderHome();
-      if(isAdmin) renderAdminAll();
-      showMsg('adminMsg','ok','Compétition "'+name+'" créée avec succès' + (manualPlayers.length > 0 ? ' ('+manualPlayers.length+' joueurs ajoutés)' : '') + ' !');
-      setTimeout(() => openComp(compId), 200);
-    } catch(err){
-      console.error('Erreur création compétition:', err);
-      showMsg('setupMsg','error','Erreur lors de la création de la compétition.');
     }
+
+    $('setupModal').style.display = 'none';
+    $('setName').value=''; $('setDesc').value=''; $('setFee').value=''; $('setMax').value='';
+    $('setP1').value=''; $('setP2').value=''; $('setOrg').value=''; $('setDrawDate').value='';
+    $('setPayNum').value=''; $('setWa').value=''; $('setPlayersList').value='';
+    showMsg('adminMsg','ok','Compétition "'+name+'" créée avec succès' + (manualPlayers.length > 0 ? ' ('+manualPlayers.length+' joueurs ajoutés)' : '') + ' !');
+    setTimeout(() => openComp(compId), 400);
   });
 
   // ══════════════════════════════════════════════
@@ -2794,28 +1599,9 @@
   window.selectAdminComp = selectAdminComp;
   window.openAdminLogin = openAdminLogin;
   window.openSetupModal = openSetupModal;
-  window.openPlayerAuthModal = openPlayerAuthModal;
-  window.closePlayerAuthModal = closePlayerAuthModal;
-  window.switchPlayerAuthTab = switchPlayerAuthTab;
-  window.handlePlayerLogin = handlePlayerLogin;
-  window.handlePlayerRegister = handlePlayerRegister;
-  window.logoutPlayer = logoutPlayer;
-  window.openPlayerProfileModal = openPlayerProfileModal;
-  window.switchChatChannel = switchChatChannel;
-  window.openCreateGroupModal = openCreateGroupModal;
-  window.closeCreateGroupModal = closeCreateGroupModal;
-  window.handleCreateGroupSubmit = handleCreateGroupSubmit;
-  window.handleSendChatMessage = handleSendChatMessage;
-  window.handleChatFileSelect = handleChatFileSelect;
-  window.clearSelectedPhoto = clearSelectedPhoto;
-  window.deleteChatMessage = deleteChatMessage;
-  window.openLightbox = openLightbox;
-  window.closeLightbox = closeLightbox;
-  window.handleSendResetCode = handleSendResetCode;
-  window.handleResetPasswordSubmit = handleResetPasswordSubmit;
 
   // DÉMARRAGE
-  init();
+  init(); setTimeout(() => { if(!isAdmin) openAdminLogin(); else openAdminPanel(); }, 300);
 })();
 </script>
 </body>
