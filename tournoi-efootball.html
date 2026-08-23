@@ -580,19 +580,30 @@
       }
     }
 
+    // Charger compétitions locales en cache immédiatement
+    try {
+      const localCached = localStorage.getItem('efoot_allComps');
+      if(localCached){
+        allComps = JSON.parse(localCached) || {};
+        renderHome();
+      }
+    } catch(e){}
+
     // Écouter toutes les compétitions en temps réel
     if(rtdb){
       rtdb.ref('competitions').on('value', snap => {
-        allComps = snap.exists() ? snap.val() : {};
-        // Convertir les tableaux Firebase
-        Object.values(allComps).forEach(comp => {
-          if(comp.registrations && !Array.isArray(comp.registrations)){
-            comp.registrations = Object.values(comp.registrations);
-          }
-        });
+        if(snap.exists()){
+          allComps = snap.val() || {};
+          // Convertir les tableaux Firebase
+          Object.values(allComps).forEach(comp => {
+            if(comp.registrations && !Array.isArray(comp.registrations)){
+              comp.registrations = Object.values(comp.registrations);
+            }
+          });
+          try { localStorage.setItem('efoot_allComps', JSON.stringify(allComps)); } catch(e){}
+        }
         renderHome();
         if(currentCompId && allComps[currentCompId]) renderComp();
-        if(isAdmin) renderAdminAll();
       });
 
       // Écouter annonces en temps réel

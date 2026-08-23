@@ -739,16 +739,28 @@
       }
     }
 
+    // Charger compétitions locales en cache immédiatement
+    try {
+      const localCached = localStorage.getItem('efoot_allComps');
+      if(localCached){
+        allComps = JSON.parse(localCached) || {};
+        renderHome();
+      }
+    } catch(e){}
+
     // Écouter toutes les compétitions en temps réel
     if(rtdb){
       rtdb.ref('competitions').on('value', snap => {
-        allComps = snap.exists() ? snap.val() : {};
-        // Convertir les tableaux Firebase
-        Object.values(allComps).forEach(comp => {
-          if(comp.registrations && !Array.isArray(comp.registrations)){
-            comp.registrations = Object.values(comp.registrations);
-          }
-        });
+        if(snap.exists()){
+          allComps = snap.val() || {};
+          // Convertir les tableaux Firebase
+          Object.values(allComps).forEach(comp => {
+            if(comp.registrations && !Array.isArray(comp.registrations)){
+              comp.registrations = Object.values(comp.registrations);
+            }
+          });
+          try { localStorage.setItem('efoot_allComps', JSON.stringify(allComps)); } catch(e){}
+        }
         renderHome();
         if(currentCompId && allComps[currentCompId]) renderComp();
         if(isAdmin) renderAdminAll();
@@ -1468,15 +1480,29 @@
       createdAt: Date.now()
     };
 
-    await fbSet('competitions/'+compId+'/config', config);
+    let newCompEntry = {
+      config: config,
+      registrations: manualPlayers,
+      bracket: null
+    };
 
+    if(manualPlayers.length > 0 && $('setAutoDraw')?.checked){
+      const {round0} = firstRoundWithByes(manualPlayers);
+      const newBracket = {rounds:[round0]};
+      maybeAdvance(newBracket);
+      newCompEntry.bracket = newBracket;
+    }
+
+    // Mise à jour locale immédiate
+    allComps[compId] = newCompEntry;
+    try { localStorage.setItem('efoot_allComps', JSON.stringify(allComps)); } catch(e){}
+
+    // Sauvegarde Firebase en arrière-plan
+    await fbSet('competitions/'+compId+'/config', config);
     if(manualPlayers.length > 0){
       await fbSet('competitions/'+compId+'/registrations', manualPlayers);
-      if($('setAutoDraw')?.checked){
-        const {round0} = firstRoundWithByes(manualPlayers);
-        const newBracket = {rounds:[round0]};
-        maybeAdvance(newBracket);
-        await fbSet('competitions/'+compId+'/bracket', newBracket);
+      if(newCompEntry.bracket){
+        await fbSet('competitions/'+compId+'/bracket', newCompEntry.bracket);
       }
     }
 
@@ -1485,7 +1511,9 @@
     $('setP1').value=''; $('setP2').value=''; $('setOrg').value=''; $('setDrawDate').value='';
     $('setPayNum').value=''; $('setWa').value=''; $('setPlayersList').value='';
     showMsg('adminMsg','ok','Compétition "'+name+'" créée avec succès' + (manualPlayers.length > 0 ? ' ('+manualPlayers.length+' joueurs ajoutés)' : '') + ' !');
-    setTimeout(() => openComp(compId), 400);
+    renderHome();
+    if(isAdmin) renderAdminAll();
+    openComp(compId);
   });
 
   // ══════════════════════════════════════════════
