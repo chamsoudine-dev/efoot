@@ -243,7 +243,6 @@
       <a onclick="openGamerRegister()" id="navGamerRegister" style="color:var(--lime);cursor:pointer">🎮 Créer compte Joueur</a>
       <a onclick="openGamerLogin()" id="navGamerLogin" style="cursor:pointer">Connexion</a>
     </div>
-    <a href="admin.html" class="admin-link" style="color:var(--text-muted);border:1px solid var(--line);padding:4px 10px;border-radius:6px;text-decoration:none">🔐 Espace Admin</a>
   </div>
 </nav>
 
@@ -253,11 +252,10 @@
     <section class="hero" style="border-top:none;padding-top:40px">
       <div class="live-pill" style="margin-bottom:14px;background:rgba(182,255,60,0.12);color:var(--lime)">🌐 Accès 100% libre pour tous les visiteurs</div>
       <h1 style="font-size:44px;margin:10px 0 12px">Championnats<br><span style="color:var(--lime)">eFootball</span></h1>
-      <p style="color:var(--text-muted);font-size:16px;max-width:48ch;margin-bottom:28px">Consultez librement les tournois, classements, cagnottes et arbres en direct. Créez un compte pour organiser et lancer votre propre compétition.</p>
+      <p style="color:var(--text-muted);font-size:16px;max-width:48ch;margin-bottom:28px">Consultez librement les tournois, classements, cagnottes et arbres en direct. Inscrivez-vous pour participer et remporter la cagnotte !</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <a href="#sectionComps" class="btn btn-ghost">🏆 Voir les compétitions</a>
         <button class="btn btn-primary" onclick="openGamerRegister()">🎮 Créer mon compte joueur</button>
-        <a href="admin.html" class="btn btn-ghost" style="border-color:rgba(182,255,60,0.4);color:var(--lime)">➕ Organiser un tournoi</a>
       </div>
     </section>
 
@@ -372,7 +370,7 @@
 <footer>
   <div class="wrap">
     <p id="footerContact">Des questions ? Contactez l'organisateur sur WhatsApp.</p>
-    <p style="margin-top:6px;opacity:0.6">Plateforme EFootLigue — Données synchronisées en temps réel via Firebase. • <a href="admin.html" style="color:var(--text-muted);text-decoration:underline">Accès Organisateur & Admin</a></p>
+    <p style="margin-top:6px;opacity:0.6">Plateforme EFootLigue — Données des championnats et tournois synchronisées en direct.</p>
   </div>
 </footer>
 
@@ -645,7 +643,7 @@
 
     // Actives
     if(active.length === 0){
-      $('compList').innerHTML = '<div class="empty-state"><div class="icon">🏆</div><p>Aucune compétition en cours.<br>Connectez-vous en admin pour en créer une.</p></div>';
+      $('compList').innerHTML = '<div class="empty-state"><div class="icon">🏆</div><p>Aucune compétition en cours pour le moment.<br>Revenez bientôt pour de nouveaux tournois !</p></div>';
     } else {
       $('compList').innerHTML = '<div class="comp-grid">' + active.map(({id, comp}) => {
         const c = comp.config;
