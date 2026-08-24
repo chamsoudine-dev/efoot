@@ -62,6 +62,30 @@ model Tournament {
   organizer   User     @relation("Organizer", fields: [organizerId], references: [id])
   registrations Registration[]
   matches     Match[]
+  standings   Standing[]
+}
+
+model Standing {
+  id           String     @id @default(cuid())
+  tournamentId String
+  tournament   Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  userId       String?
+  playerName   String
+  gameId       String     @default("")
+  played       Int        @default(0)
+  won          Int        @default(0)
+  drawn        Int        @default(0)
+  lost         Int        @default(0)
+  goalsFor     Int        @default(0)
+  goalsAgainst Int        @default(0)
+  goalDiff     Int        @default(0)
+  points       Int        @default(0)
+  form         String     @default("")
+  rank         Int        @default(1)
+  zone         String     @default("TOP8")
+  updatedAt    DateTime   @updatedAt
+
+  @@unique([tournamentId, playerName])
 }
 
 model Registration {
