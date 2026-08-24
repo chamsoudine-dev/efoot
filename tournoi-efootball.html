@@ -793,6 +793,31 @@
     el.innerHTML = html;
   }
 
+  const API_SYNC_URL = '/api/sync';
+
+  async function fetchAllFromDb(){
+    try {
+      const res = await fetch(API_SYNC_URL);
+      const json = await res.json();
+      if(json && json.ok && json.competitions){
+        const comps = json.competitions || {};
+        allComps = { ...allComps, ...comps };
+        Object.values(allComps).forEach(comp => {
+          if(comp.registrations && !Array.isArray(comp.registrations)){
+            comp.registrations = Object.values(comp.registrations);
+          }
+        });
+        try { localStorage.setItem('efoot_allComps', JSON.stringify(allComps)); } catch(e){}
+        renderHome();
+        if(currentCompId && allComps[currentCompId]) renderComp();
+        if(json.announcements && currentCompId && json.announcements[currentCompId]){
+          const a = json.announcements[currentCompId];
+          $('announcementsArea').innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
+        }
+      }
+    } catch(e){ console.warn('fetchAllFromDb error:', e); }
+  }
+
   // ══════════════════════════════════════════════
   // INSCRIPTION JOUEUR
   // ══════════════════════════════════════════════
@@ -816,7 +841,19 @@
     const newRegs = [...registrations, entry];
     comp.registrations = newRegs;
 
-    if(rtdb) await rtdb.ref('competitions/' + currentCompId + '/registrations').set(newRegs);
+    // Sauvegarde DB PostgreSQL Render
+    try {
+      await fetch(API_SYNC_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: currentCompId, data: comp })
+      });
+    } catch(e){}
+
+    if(rtdb){
+      try { await rtdb.ref('competitions/' + currentCompId + '/registrations').set(newRegs); } catch(e){}
+    }
+
     $('regForm').reset();
     showMsg('formMsg','ok','Inscription confirmée ! Effectuez le paiement pour valider votre place.');
 
@@ -868,7 +905,9 @@
 
     const gamerId = 'gamer_' + Date.now().toString(36);
     const gamerData = { id: gamerId, name, phone, gameId, platform, createdAt: Date.now() };
-    if(rtdb) await rtdb.ref('gamers/' + gamerId).set(gamerData);
+    if(rtdb){
+      try { await rtdb.ref('gamers/' + gamerId).set(gamerData); } catch(e){}
+    }
     currentGamer = gamerData;
     sessionStorage.setItem('currentGamer', JSON.stringify(gamerData));
 
@@ -911,28 +950,24 @@
       if(local){ allComps = JSON.parse(local) || {}; renderHome(); }
     } catch(e){}
 
+    // Charger les compétitions depuis PostgreSQL
+    await fetchAllFromDb();
+
+    // Polling continu toutes les 3.5 secondes
+    setInterval(fetchAllFromDb, 3500);
+
     if(rtdb){
       rtdb.ref('competitions').on('value', snap => {
         if(snap.exists()){
-          allComps = snap.val() || {};
+          allComps = { ...allComps, ...(snap.val() || {}) };
           Object.values(allComps).forEach(comp => {
             if(comp.registrations && !Array.isArray(comp.registrations)){
               comp.registrations = Object.values(comp.registrations);
             }
           });
           try { localStorage.setItem('efoot_allComps', JSON.stringify(allComps)); } catch(e){}
-        }
-        renderHome();
-        if(currentCompId && allComps[currentCompId]) renderComp();
-      });
-
-      rtdb.ref('announcements').on('value', snap => {
-        const ann = snap.exists() ? snap.val() : {};
-        if(currentCompId && ann[currentCompId]){
-          const a = ann[currentCompId];
-          $('announcementsArea').innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
-        } else {
-          $('announcementsArea').innerHTML = '';
+          renderHome();
+          if(currentCompId && allComps[currentCompId]) renderComp();
         }
       });
     }

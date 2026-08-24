@@ -129,3 +129,17 @@ model LivePulse {
   message   String
   updatedAt DateTime @updatedAt
 }
+
+model CompetitionStore {
+  id        String   @id
+  data      Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model AnnouncementStore {
+  id        String   @id
+  text      String
+  at        DateTime @default(now())
+}
+
