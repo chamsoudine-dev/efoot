@@ -241,6 +241,8 @@
 <div id="pageHome">
   <div class="wrap">
     <section class="hero" style="border-top:none;padding-top:36px">
+      <!-- Zone d'annonces globales sur l'accueil -->
+      <div id="homeAnnouncementsArea" style="margin-bottom:18px"></div>
       <div class="live-pill" style="margin-bottom:14px;background:rgba(182,255,60,0.12);color:var(--lime)">🌐 Accès 100% libre pour tous les joueurs</div>
       <h1 style="font-size:42px;margin:8px 0 12px">Championnats<br><span style="color:var(--lime)">eFootball</span></h1>
       <p style="color:var(--text-muted);font-size:15.5px;max-width:48ch;margin-bottom:24px">Consultez les tournois, classements Phase de Ligue UEFA, cagnottes et arbres en direct. Inscrivez-vous pour jouer et remporter le cash !</p>
@@ -584,6 +586,7 @@
     $('navJoueurs').style.display = 'none';
     $('navTableau').style.display = 'none';
     renderHome();
+    renderAnnouncements();
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
@@ -595,6 +598,7 @@
     $('navJoueurs').style.display = 'inline';
     $('navTableau').style.display = 'inline';
     renderComp();
+    renderAnnouncements();
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
@@ -969,6 +973,31 @@
   // ══════════════════════════════════════════════
 
   let sseLastTs = 0;
+  let allAnnouncements = {};
+
+  function renderAnnouncements(){
+    // Annonces sur l'accueil : affiche la dernière annonce active
+    const homeAnnEl = $('homeAnnouncementsArea');
+    if(homeAnnEl){
+      const annList = Object.values(allAnnouncements).filter(a => a && a.text);
+      if(annList.length > 0){
+        const latest = annList[annList.length - 1];
+        homeAnnEl.innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(latest.text)+'</div></div></div>';
+      } else {
+        homeAnnEl.innerHTML = '';
+      }
+    }
+    // Annonces sur la page compétition sélectionnée
+    const annEl = $('announcementsArea');
+    if(annEl){
+      if(currentCompId && allAnnouncements[currentCompId] && allAnnouncements[currentCompId].text){
+        const a = allAnnouncements[currentCompId];
+        annEl.innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
+      } else {
+        annEl.innerHTML = '';
+      }
+    }
+  }
 
   function applyCompetitionsUpdate(competitions, announcements){
     if(competitions){
@@ -982,10 +1011,9 @@
       renderHome();
       if(currentCompId && allComps[currentCompId]) renderComp();
     }
-    if(announcements && currentCompId && announcements[currentCompId]){
-      const a = announcements[currentCompId];
-      const annEl = $('announcementsArea');
-      if(annEl) annEl.innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
+    if(announcements){
+      allAnnouncements = { ...allAnnouncements, ...announcements };
+      renderAnnouncements();
     }
   }
 
