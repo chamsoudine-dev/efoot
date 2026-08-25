@@ -944,33 +944,116 @@
     $('menuBtn').setAttribute('aria-expanded', open ? 'true' : 'false');
   });
 
+  // ══════════════════════════════════════════════
+  // SYNC TEMPS REEL — Triple strategie
+  // 1. SSE (Server-Sent Events) — push instantane
+  // 2. Firebase RTDB listener — push instantane
+  // 3. Polling 10s — filet de securite
+  // ══════════════════════════════════════════════
+
+  let sseLastTs = 0;
+
+  function applyCompetitionsUpdate(competitions, announcements){
+    if(competitions){
+      allComps = { ...allComps, ...competitions };
+      Object.values(allComps).forEach(comp => {
+        if(comp && comp.registrations && !Array.isArray(comp.registrations)){
+          comp.registrations = Object.values(comp.registrations);
+        }
+      });
+      try { localStorage.setItem('efoot_allComps', JSON.stringify(allComps)); } catch(e){}
+      renderHome();
+      if(currentCompId && allComps[currentCompId]) renderComp();
+    }
+    if(announcements && currentCompId && announcements[currentCompId]){
+      const a = announcements[currentCompId];
+      const annEl = $('announcementsArea');
+      if(annEl) annEl.innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
+    }
+  }
+
+  function startSSE(){
+    if(!window.EventSource) return; // Navigateur trop ancien → fallback polling
+    let sse = null;
+    let reconnectTimer = null;
+
+    function connect(){
+      if(sse){ try{ sse.close(); }catch(e){} }
+      sse = new EventSource('/api/sync/stream?since=' + sseLastTs);
+
+      sse.addEventListener('connected', () => {
+        console.log('[SSE] Connexion temps reel etablie');
+      });
+
+      sse.addEventListener('update', (e) => {
+        try {
+          const payload = JSON.parse(e.data);
+          if(payload.ts) sseLastTs = payload.ts;
+          applyCompetitionsUpdate(payload.competitions, payload.announcements);
+        } catch(err){ console.warn('[SSE] parse error:', err); }
+      });
+
+      sse.addEventListener('heartbeat', () => {
+        // Connexion vivante, rien a faire
+      });
+
+      sse.addEventListener('end', () => {
+        // Le serveur a ferme le stream (limite 25s Vercel) → reconnexion immediate
+        sse.close();
+        reconnectTimer = setTimeout(connect, 500);
+      });
+
+      sse.onerror = () => {
+        sse.close();
+        // Reconnexion avec backoff de 3s
+        reconnectTimer = setTimeout(connect, 3000);
+      };
+    }
+
+    connect();
+  }
+
   async function init(){
     try {
       const local = localStorage.getItem('efoot_allComps');
       if(local){ allComps = JSON.parse(local) || {}; renderHome(); }
     } catch(e){}
 
-    // Charger les compétitions depuis PostgreSQL
+    // Chargement initial depuis PostgreSQL
     await fetchAllFromDb();
+    sseLastTs = Date.now();
 
-    // Polling continu toutes les 3.5 secondes
-    setInterval(fetchAllFromDb, 3500);
+    // 1. SSE — push instantane depuis le serveur
+    startSSE();
 
+    // 2. Firebase RTDB — push instantane direct
     if(rtdb){
+      // Ecoute competitions
       rtdb.ref('competitions').on('value', snap => {
         if(snap.exists()){
-          allComps = { ...allComps, ...(snap.val() || {}) };
-          Object.values(allComps).forEach(comp => {
-            if(comp.registrations && !Array.isArray(comp.registrations)){
-              comp.registrations = Object.values(comp.registrations);
-            }
-          });
-          try { localStorage.setItem('efoot_allComps', JSON.stringify(allComps)); } catch(e){}
-          renderHome();
-          if(currentCompId && allComps[currentCompId]) renderComp();
+          applyCompetitionsUpdate(snap.val(), null);
+        }
+      });
+      // Ecoute annonces
+      rtdb.ref('announcements').on('value', snap => {
+        if(snap.exists()){
+          applyCompetitionsUpdate(null, snap.val());
+        }
+      });
+      // Ecoute signal de sync global -> force un refresh DB
+      rtdb.ref('syncSignal').on('value', snap => {
+        if(snap.exists()){
+          const sig = snap.val();
+          if(sig && sig.at && sig.at > sseLastTs){
+            sseLastTs = sig.at;
+            fetchAllFromDb();
+          }
         }
       });
     }
+
+    // 3. Polling 10s — filet de securite si SSE/Firebase coupent
+    setInterval(fetchAllFromDb, 10000);
 
     const hash = window.location.hash.replace('#','');
     if(hash && hash.startsWith('comp-')){
