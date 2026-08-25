@@ -798,12 +798,19 @@
   async function fetchAllFromDb(){
     try {
       const res = await fetch(API_SYNC_URL);
+      if(!res.ok){
+        console.warn('[API] /api/sync status:', res.status);
+        if(Object.keys(allComps).length === 0){
+          $('compList').innerHTML = '<div class="empty-state"><div class="icon">⚡</div><p>Synchronisation en cours via Firebase...<br><span style="font-size:12px;opacity:0.6">Si rien n\'apparaît dans quelques secondes, actualisez la page.</span></p></div>';
+        }
+        return;
+      }
       const json = await res.json();
       if(json && json.ok && json.competitions){
         const comps = json.competitions || {};
         allComps = { ...allComps, ...comps };
         Object.values(allComps).forEach(comp => {
-          if(comp.registrations && !Array.isArray(comp.registrations)){
+          if(comp && comp.registrations && !Array.isArray(comp.registrations)){
             comp.registrations = Object.values(comp.registrations);
           }
         });
@@ -814,8 +821,18 @@
           const a = json.announcements[currentCompId];
           $('announcementsArea').innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
         }
+      } else if(json && !json.ok){
+        console.warn('[API] sync error:', json.error);
+        if(Object.keys(allComps).length === 0){
+          $('compList').innerHTML = '<div class="empty-state"><div class="icon">⚠️</div><p>Connexion à la base de données en cours...<br><span style="font-size:12px;opacity:0.6">Rechargez la page dans quelques instants.</span></p></div>';
+        }
       }
-    } catch(e){ console.warn('fetchAllFromDb error:', e); }
+    } catch(e){
+      console.warn('fetchAllFromDb error:', e);
+      if(Object.keys(allComps).length === 0){
+        $('compList').innerHTML = '<div class="empty-state"><div class="icon">🔄</div><p>Chargement via Firebase en cours...<br><span style="font-size:12px;opacity:0.6">Les données arrivent en direct !</span></p></div>';
+      }
+    }
   }
 
   // ══════════════════════════════════════════════
