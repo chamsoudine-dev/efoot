@@ -915,6 +915,37 @@
   $('closeGamerModal').addEventListener('click', () => $('gamerModal').style.display = 'none');
   $('gamerModal').addEventListener('click', e => { if(e.target === $('gamerModal')) $('gamerModal').style.display = 'none'; });
 
+  function updateGamerUI(){
+    const stored = localStorage.getItem('efoot_gamer');
+    if(stored){
+      try {
+        currentGamer = JSON.parse(stored);
+        if(currentGamer && currentGamer.name){
+          $('navGamerRegister').style.display = 'none';
+          $('navGamerLogin').textContent = '🎮 ' + currentGamer.name;
+          $('navGamerLogin').onclick = function(){
+            if(confirm('Connecté en tant que ' + currentGamer.name + ' (' + currentGamer.phone + ').\n\nVoulez-vous vous déconnecter ?')){
+              localStorage.removeItem('efoot_gamer');
+              currentGamer = null;
+              updateGamerUI();
+              alert('Vous êtes déconnecté.');
+            }
+          };
+          // Préremplir automatiquement le formulaire d'inscription tournoi
+          if($('fName')) $('fName').value = currentGamer.name || '';
+          if($('fPhone')) $('fPhone').value = currentGamer.phone || '';
+          if($('fGameId')) $('fGameId').value = currentGamer.gameId || '';
+          if($('fPlatform') && currentGamer.platform) $('fPlatform').value = currentGamer.platform;
+          return;
+        }
+      } catch(e){}
+    }
+    currentGamer = null;
+    $('navGamerRegister').style.display = 'inline';
+    $('navGamerLogin').textContent = 'Connexion';
+    $('navGamerLogin').onclick = openGamerLogin;
+  }
+
   $('gamerRegisterForm').addEventListener('submit', async function(e){
     e.preventDefault();
     const name = $('gamerRegName').value.trim();
@@ -924,20 +955,35 @@
     const pwd = $('gamerRegPwd').value.trim();
     if(!name || !phone || !gameId || !pwd){ showMsg('gamerMsg','error','Remplissez tous les champs.'); return; }
 
-    const gamerId = 'gamer_' + Date.now().toString(36);
-    const gamerData = { id: gamerId, name, phone, gameId, platform, createdAt: Date.now() };
-    if(rtdb){
-      try { await rtdb.ref('gamers/' + gamerId).set(gamerData); } catch(e){}
-    }
-    currentGamer = gamerData;
-    sessionStorage.setItem('currentGamer', JSON.stringify(gamerData));
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    if(submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Création en cours...'; }
 
-    $('fName').value = name;
-    $('fPhone').value = phone;
-    $('fGameId').value = gameId;
-    $('fPlatform').value = platform;
-    $('gamerModal').style.display = 'none';
-    alert('Bienvenue ' + name + ' ! Votre compte joueur est prêt.');
+    try {
+      const res = await fetch('/api/gamer/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'register', name, phone, gameId, platform, password: pwd })
+      });
+      const data = await res.json();
+
+      if(!res.ok || !data.ok){
+        showMsg('gamerMsg', 'error', data.error || 'Erreur lors de la création du compte.');
+        if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '🎮 Créer mon compte'; }
+        return;
+      }
+
+      currentGamer = data.gamer;
+      localStorage.setItem('efoot_gamer', JSON.stringify(data.gamer));
+      updateGamerUI();
+      $('gamerModal').style.display = 'none';
+      $('gamerRegisterForm').reset();
+      showMsg('gamerMsg', 'ok', 'Bienvenue ' + currentGamer.name + ' ! Votre compte est enregistré.');
+      alert('Félicitations ' + currentGamer.name + ' ! Votre compte joueur est créé et sécurisé. Vous pouvez désormais vous connecter depuis n\'importe quel appareil avec votre numéro et mot de passe.');
+    } catch(err){
+      showMsg('gamerMsg', 'error', 'Erreur de connexion au serveur. Réessayez.');
+    } finally {
+      if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '🎮 Créer mon compte'; }
+    }
   });
 
   $('gamerLoginForm').addEventListener('submit', async function(e){
@@ -945,10 +991,35 @@
     const phone = $('gamerLoginPhone').value.trim();
     const pwd = $('gamerLoginPwd').value.trim();
     if(!phone || !pwd){ showMsg('gamerMsg','error','Entrez votre numéro et mot de passe.'); return; }
-    currentGamer = { phone, name: 'Joueur' };
-    sessionStorage.setItem('currentGamer', JSON.stringify(currentGamer));
-    $('gamerModal').style.display = 'none';
-    alert('Connexion réussie !');
+
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    if(submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Connexion en cours...'; }
+
+    try {
+      const res = await fetch('/api/gamer/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', phone, password: pwd })
+      });
+      const data = await res.json();
+
+      if(!res.ok || !data.ok){
+        showMsg('gamerMsg', 'error', data.error || 'Numéro ou mot de passe incorrect.');
+        if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Se connecter'; }
+        return;
+      }
+
+      currentGamer = data.gamer;
+      localStorage.setItem('efoot_gamer', JSON.stringify(data.gamer));
+      updateGamerUI();
+      $('gamerModal').style.display = 'none';
+      $('gamerLoginForm').reset();
+      alert('Ravi de vous revoir ' + currentGamer.name + ' ! Vos informations ont été chargées.');
+    } catch(err){
+      showMsg('gamerMsg', 'error', 'Erreur de communication avec le serveur.');
+    } finally {
+      if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Se connecter'; }
+    }
   });
 
   // ══════════════════════════════════════════════
@@ -1099,6 +1170,9 @@
 
     // 3. Polling 10s — filet de securite si SSE/Firebase coupent
     setInterval(fetchAllFromDb, 10000);
+
+    // Initialiser l'état du joueur connecté
+    updateGamerUI();
 
     const hash = window.location.hash.replace('#','');
     if(hash && hash.startsWith('comp-')){

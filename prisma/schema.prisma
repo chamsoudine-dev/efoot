@@ -144,21 +144,24 @@ model AnnouncementStore {
 }
 
 model GamerProfile {
-  id          String   @id
-  name        String
-  phone       String
-  gameId      String
-  platform    String   @default("Mobile")
-  deviceBrand String   @default("")
-  deviceModel String   @default("")
-  ipAddress   String   @default("")
-  city        String   @default("")
-  country     String   @default("")
-  countryCode String   @default("")
-  userAgent   String   @default("")
-  tournaments Json?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id
+  name         String
+  phone        String
+  passwordHash String   @default("")
+  gameId       String
+  platform     String   @default("Mobile")
+  deviceBrand  String   @default("")
+  deviceModel  String   @default("")
+  ipAddress    String   @default("")
+  city         String   @default("")
+  country      String   @default("")
+  countryCode  String   @default("")
+  userAgent    String   @default("")
+  tournaments  Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([phone])
 }
 
 
