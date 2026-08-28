@@ -212,34 +212,6 @@
   footer .wa{color:var(--lime);font-weight:700;text-decoration:none}
   .text-center{text-align:center}
 
-  /* CHAT / MESSAGERIE EN DIRECT */
-  .chat-box{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:16px}
-  .chat-header{background:var(--bg-card-alt);padding:12px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-  .chat-messages{height:300px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
-  .chat-msg{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 14px;max-width:85%;position:relative;animation:slideIn .15s ease}
-  .chat-msg.admin{border-color:var(--lime);background:rgba(182,255,60,0.06)}
-  .chat-msg.mine{align-self:flex-end;border-color:var(--gold);background:rgba(242,168,60,0.08)}
-  .chat-sender{font-size:12px;font-weight:700;color:var(--lime);margin-bottom:2px;display:flex;align-items:center;gap:6px}
-  .chat-sender.admin{color:var(--gold)}
-  .chat-sender-badge{font-family:var(--font-mono);font-size:10px;padding:1px 5px;border-radius:4px;background:var(--line);color:var(--text-muted)}
-  .chat-text{font-size:13.5px;line-height:1.4;word-break:break-word;white-space:pre-wrap}
-  .chat-time{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-top:4px;text-align:right}
-  .chat-footer{padding:12px 16px;background:var(--bg-card-alt);border-top:1px solid var(--line);display:flex;gap:10px}
-  .chat-footer input{flex:1;background:var(--bg);padding:10px 14px}
-  .chat-badge-count{background:var(--lime);color:#0E1712;padding:2px 6px;border-radius:10px;font-size:11px;font-weight:800;font-family:var(--font-mono)}
-
-  /* ORGANIZER / ADMIN CONTROLS */
-  .organizer-banner{background:linear-gradient(135deg,rgba(242,168,60,0.16),rgba(182,255,60,0.08));border:1px solid var(--gold);border-radius:14px;padding:16px 20px;margin-bottom:20px;animation:slideIn .2s ease}
-  .match-score-edit{display:inline-flex;align-items:center;gap:6px}
-  .match-score-edit input{width:46px;padding:6px;text-align:center;font-family:var(--font-mono);font-weight:700;border-radius:6px;background:var(--bg-card);border:1px solid var(--line);color:var(--text)}
-  .btn-danger{background:transparent;color:var(--red);border:1px solid rgba(255,91,77,0.4)}
-  .btn-danger:hover{background:rgba(255,91,77,0.1)}
-  .mini-btn{font-size:11.5px;padding:5px 9px;border-radius:6px;border:1px solid var(--line);background:var(--bg-card);color:var(--text);cursor:pointer;transition:all .15s;font-family:var(--font-mono);font-weight:700}
-  .mini-btn:hover{border-color:var(--lime);color:var(--lime)}
-  .mini-btn.on{background:var(--lime);color:#0E1712;border-color:var(--lime)}
-  .mini-btn.danger{color:var(--red);border-color:rgba(255,91,77,0.35)}
-  .mini-btn.danger:hover{background:rgba(255,91,77,0.15)}
-
   /* ── GALERIE DES VAINQUEURS ── */
   .period-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
   .period-tab{font-family:var(--font-mono);font-size:12px;padding:8px 16px;border-radius:20px;border:1px solid var(--line);background:var(--bg);color:var(--text-muted);cursor:pointer;letter-spacing:0.5px;transition:all .2s}
@@ -255,6 +227,58 @@
   .winner-card .wc-prize{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--gold)}
   .winner-card .wc-date{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-top:4px}
   .no-winners{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px}
+
+  /* ── CHAT COMMUNAUTAIRE STYLE WHATSAPP & PHOTOS ── */
+  .chat-box{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+  .chat-header{background:var(--bg-card-alt);padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .chat-header .ch-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--lime),var(--gold));color:#0E1712;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0}
+  .chat-header .ch-info{flex:1;min-width:0}
+  .chat-header .ch-title{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chat-header .ch-sub{font-size:11px;color:var(--lime);display:flex;align-items:center;gap:6px;font-family:var(--font-mono)}
+  .chat-messages{height:360px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;background:radial-gradient(circle at center, rgba(30,51,43,0.3) 0%, rgba(14,23,18,0.7) 100%)}
+  .chat-messages::-webkit-scrollbar{width:4px}
+  .chat-messages::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+  .chat-msg{display:flex;flex-direction:column;gap:3px;max-width:82%;animation:slideIn .15s ease}
+  .chat-msg.mine{align-self:flex-end;align-items:flex-end}
+  .chat-msg.other{align-self:flex-start}
+  .chat-msg .cm-meta{font-family:var(--font-mono);font-size:10.5px;color:var(--text-muted);display:flex;gap:6px;align-items:center;margin-bottom:1px}
+  .chat-msg .cm-sender{color:var(--lime);font-weight:700}
+  .chat-msg.admin-msg .cm-sender{color:var(--gold)}
+  .chat-msg .cm-bubble{padding:8px 12px;border-radius:14px;font-size:13.5px;line-height:1.4;word-break:break-word;position:relative}
+  .chat-msg.mine .cm-bubble{background:linear-gradient(135deg,rgba(182,255,60,0.18),rgba(182,255,60,0.08));border:1px solid rgba(182,255,60,0.35);border-bottom-right-radius:2px;color:var(--text)}
+  .chat-msg.other .cm-bubble{background:var(--bg-card-alt);border:1px solid var(--line);border-bottom-left-radius:2px;color:var(--text)}
+  .chat-msg.admin-msg .cm-bubble{background:rgba(242,168,60,0.12);border:1px solid rgba(242,168,60,0.4)}
+  .chat-msg .cm-img{max-width:100%;max-height:220px;border-radius:10px;margin-top:6px;cursor:pointer;border:1px solid var(--line);transition:transform .15s,filter .15s;display:block}
+  .chat-msg .cm-img:hover{transform:scale(1.02);filter:brightness(1.05)}
+  .chat-msg .cm-time{font-family:var(--font-mono);font-size:9.5px;color:var(--text-muted);margin-top:2px;display:flex;align-items:center;gap:3px}
+  .chat-msg .cm-check{color:var(--lime);font-size:11px}
+  
+  /* Prévisualisation photo avant envoi */
+  .chat-preview-wrap{display:none;padding:10px 14px;background:var(--bg-card-alt);border-top:1px solid var(--line);align-items:center;gap:12px}
+  .chat-preview-wrap.show{display:flex}
+  .chat-preview-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid var(--lime)}
+  .chat-preview-info{flex:1;font-size:12px;color:var(--text-muted)}
+  .chat-preview-remove{background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:4px 8px}
+
+  .chat-input-row{padding:10px 12px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;background:var(--bg-card)}
+  .chat-media-btn{background:var(--bg-card-alt);border:1px solid var(--line);color:var(--lime);border-radius:8px;padding:9px 12px;font-size:16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+  .chat-media-btn:hover{border-color:var(--lime);background:rgba(182,255,60,0.1)}
+  .chat-input-row input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13.5px;font-family:var(--font-body)}
+  .chat-input-row input:focus{outline:2px solid var(--lime);outline-offset:1px}
+  .chat-send-btn{background:var(--lime);color:#0E1712;border:none;border-radius:8px;padding:9px 16px;font-weight:800;font-size:13px;cursor:pointer;flex-shrink:0;transition:filter .15s;display:flex;align-items:center;gap:6px}
+  .chat-send-btn:hover{filter:brightness(1.08)}
+  .chat-send-btn:disabled{opacity:0.5;cursor:not-allowed}
+  
+  /* Encarts de restriction / information */
+  .chat-locked{padding:14px 16px;border-top:1px solid var(--line);font-size:13px;color:var(--text-muted);text-align:center;background:var(--bg-card-alt)}
+  .chat-locked a{color:var(--lime);cursor:pointer;font-weight:700;text-decoration:underline}
+  .chat-locked.tourney-only{border-left:3px solid var(--gold);color:var(--text)}
+
+  /* Lightbox pour agrandir les photos */
+  .lightbox-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+  .lightbox-overlay.show{display:flex}
+  .lightbox-img{max-width:92vw;max-height:88vh;border-radius:12px;border:2px solid var(--line);box-shadow:0 0 30px rgba(0,0,0,0.8)}
+  .lightbox-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:26px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
   /* ── PWA BANNER & INSTALL ── */
   .pwa-banner{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);z-index:999;width:calc(100% - 32px);max-width:520px;background:linear-gradient(135deg,rgba(30,51,43,0.98),rgba(23,38,33,0.98));border:1px solid var(--lime);border-radius:18px;padding:14px 18px;box-shadow:0 12px 36px rgba(0,0,0,0.6),0 0 16px rgba(182,255,60,0.2);display:flex;align-items:center;gap:14px;backdrop-filter:blur(12px);transition:transform .4s cubic-bezier(0.16,1,0.3,1);opacity:0;pointer-events:none}
@@ -286,8 +310,63 @@
     nav .links a{padding:12px 4px}
     .comp-grid{grid-template-columns:1fr}
     .winners-grid{grid-template-columns:1fr}
+    .chat-messages{height:260px}
     .pwa-banner{bottom:12px;padding:12px 14px}
+    .admin-grid{grid-template-columns:1fr}
   }
+
+  /* ══ ADMIN PANEL ══ */
+  #pageAdmin{display:none}
+  .admin-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  .admin-tab-btn{background:var(--bg-card);border:1px solid var(--line);color:var(--text-muted);border-radius:8px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .2s}
+  .admin-tab-btn.active{background:var(--lime);color:#0E1712;border-color:var(--lime)}
+  .admin-tab-btn:hover:not(.active){border-color:var(--lime);color:var(--lime)}
+  .admin-section{display:none}
+  .admin-section.active{display:block}
+  .admin-table{width:100%;border-collapse:separate;border-spacing:0 4px;font-size:13px}
+  .admin-table th{background:var(--bg-card-alt);padding:10px 10px;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);border:none;text-align:left}
+  .admin-table th:first-child{border-radius:8px 0 0 8px}
+  .admin-table th:last-child{border-radius:0 8px 8px 0}
+  .admin-table td{background:var(--bg-card);padding:10px 10px;vertical-align:middle;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .admin-table td:first-child{border-left:1px solid var(--line);border-radius:8px 0 0 8px}
+  .admin-table td:last-child{border-right:1px solid var(--line);border-radius:0 8px 8px 0}
+  .admin-table tr:hover td{border-color:rgba(182,255,60,0.2)}
+  .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10.5px;font-family:var(--font-mono);font-weight:700;letter-spacing:0.5px}
+  .badge-green{background:rgba(16,185,129,0.15);color:#10B981;border:1px solid rgba(16,185,129,0.3)}
+  .badge-yellow{background:rgba(245,158,11,0.15);color:#F59E0B;border:1px solid rgba(245,158,11,0.3)}
+  .badge-red{background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid rgba(239,68,68,0.3)}
+  .badge-blue{background:rgba(59,130,246,0.15);color:#3B82F6;border:1px solid rgba(59,130,246,0.3)}
+  .admin-actions{display:flex;gap:6px;flex-wrap:wrap}
+  .btn-admin{background:var(--bg-card-alt);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .15s}
+  .btn-admin:hover{border-color:var(--lime);color:var(--lime)}
+  .btn-admin.danger:hover{border-color:var(--red);color:var(--red)}
+  .btn-admin.success{background:rgba(182,255,60,0.1);border-color:rgba(182,255,60,0.4);color:var(--lime)}
+  .score-form{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
+  .score-input{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--text);font-family:var(--font-mono);font-size:14px;font-weight:700;width:50px;text-align:center}
+  .score-sep{font-family:var(--font-mono);font-weight:700;color:var(--text-muted)}
+  .admin-match-card{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+  .admin-match-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+  .admin-match-players{display:grid;grid-template-columns:1fr 80px 1fr;align-items:center;gap:8px;margin-bottom:10px}
+  .admin-match-player{font-weight:700;font-size:13px}
+  .admin-match-player.right{text-align:right}
+  .admin-match-vs{text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
+  .admin-match-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .schedule-inputs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .schedule-inputs input{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 10px;color:var(--text);font-family:var(--font-body);font-size:13px}
+  .admin-search{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 13px;color:var(--text);font-size:14px;width:100%;max-width:360px;margin-bottom:14px}
+  .admin-header-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+  .admin-stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+  .admin-stat{background:var(--bg-card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;text-align:center}
+  .admin-stat .big{font-size:28px;font-weight:800;font-family:var(--font-mono);color:var(--lime)}
+  .admin-stat .lbl{font-size:11px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  .admin-tourn-select{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 13px;color:var(--text);font-size:13px;margin-bottom:14px}
+  .winner-select{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;font-family:var(--font-body)}
+  /* Modale admin login */
+  .admin-login-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+  .admin-login-box{background:var(--bg-card);border:1px solid var(--gold);border-radius:16px;padding:28px;width:100%;max-width:380px;position:relative}
+  .admin-login-box h3{font-size:22px;margin-bottom:4px;color:var(--gold)}
+  .admin-login-box p{color:var(--text-muted);font-size:13px;margin-bottom:20px}
+
 </style>
 </head>
 <body>
@@ -303,14 +382,18 @@
       <a onclick="showHome()" id="navHome">Accueil</a>
       <a href="#sectionComps" id="navComps">Tournois</a>
       <a href="#sectionChampions" id="navChampions" style="color:var(--gold)">🏆 Champions</a>
+      <a href="#sectionChat" id="navChat" style="color:var(--lime)">💬 Communauté</a>
+      <a href="#sectionTourneyChat" id="navTourneyChat" style="display:none;color:var(--lime)">💬 Groupe Tournoi</a>
       <a href="#classement" id="navJoueurs" style="display:none">Classement</a>
-      <a href="#matchdays" id="navMatchdays" style="display:none">Matchs & Scores</a>
       <a href="#tableau" id="navTableau" style="display:none">Tableau</a>
-      <a href="#chatSection" id="navChat" style="display:none">💬 Chat</a>
       <a onclick="openGamerRegister()" id="navGamerRegister" style="color:var(--lime);cursor:pointer">🎮 Créer compte Joueur</a>
       <a onclick="openGamerLogin()" id="navGamerLogin" style="cursor:pointer">Connexion</a>
-      <a onclick="openOrganizerModal()" id="navOrganizer" style="color:var(--gold);cursor:pointer;font-weight:700">👑 Organisateur</a>
+      <a onclick="openAdminPanel()" id="navAdmin" style="color:var(--gold);cursor:pointer;font-weight:800">🔐 Admin</a>
+      <a href="https://chat.whatsapp.com/JIL3xCltjOh3HN0Qlp9lfs" target="_blank" rel="noopener" class="nav-wa-btn" style="background:#25D366;color:#0E1712;padding:6px 12px;border-radius:8px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;box-shadow:0 0 10px rgba(37,211,102,0.3)">
+        <span>💬 Rejoindre WhatsApp</span>
+      </a>
       <button class="nav-install-btn" id="navInstallBtn" type="button">📲 Installer l'App</button>
+
     </div>
   </div>
 </nav>
@@ -319,14 +402,20 @@
 <div id="pageHome">
   <div class="wrap">
     <section class="hero" style="border-top:none;padding-top:36px">
-      <!-- Zone d'annonces globales sur l'accueil -->
-      <div id="homeAnnouncementsArea" style="margin-bottom:18px"></div>
-      <div class="live-pill" style="margin-bottom:14px;background:rgba(182,255,60,0.12);color:var(--lime)">🌐 Accès 100% libre pour tous les joueurs</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+        <div class="live-pill" style="background:rgba(182,255,60,0.12);color:var(--lime)">🌐 Accès 100% libre pour tous les joueurs</div>
+        <a href="https://chat.whatsapp.com/JIL3xCltjOh3HN0Qlp9lfs" target="_blank" rel="noopener" class="live-pill" style="background:rgba(37,211,102,0.18);border-color:#25D366;color:#25D366;text-decoration:none">
+          💬 Groupe WhatsApp Officiel
+        </a>
+      </div>
       <h1 style="font-size:42px;margin:8px 0 12px">Championnats<br><span style="color:var(--lime)">eFootball</span></h1>
-      <p style="color:var(--text-muted);font-size:15.5px;max-width:48ch;margin-bottom:24px">Consultez les tournois, classements Phase de Ligue UEFA, cagnottes et arbres en direct. Inscrivez-vous pour jouer et remporter le cash !</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a href="#sectionComps" class="btn btn-ghost">🏆 Voir les compétitions actives</a>
-        <button class="btn btn-primary" onclick="openGamerRegister()">🎮 Créer mon compte joueur</button>
+      <p style="color:var(--text-muted);font-size:15.5px;max-width:48ch;margin-bottom:24px">Consultez les tournois, classements Phase de Ligue UEFA, cagnottes et arbres en direct. Rejoignez notre communauté pour participer et remporter le cash !</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <a href="https://chat.whatsapp.com/JIL3xCltjOh3HN0Qlp9lfs" target="_blank" rel="noopener" class="btn" style="background:#25D366;color:#0E1712;font-weight:800;box-shadow:0 4px 16px rgba(37,211,102,0.4)">
+          💬 Rejoindre la Communauté WhatsApp
+        </a>
+        <a href="#sectionComps" class="btn btn-ghost">🏆 Voir les tournois</a>
+        <button class="btn btn-primary" onclick="openGamerRegister()">🎮 Créer mon compte</button>
       </div>
     </section>
 
@@ -347,7 +436,7 @@
     </section>
 
     <!-- ══ GALERIE DES CHAMPIONS ══ -->
-    <section id="sectionChampions" style="border-top:1px solid var(--line);padding:36px 0 50px">
+    <section id="sectionChampions" style="border-top:1px solid var(--line);padding:36px 0">
       <div class="section-head">
         <div class="eyebrow">Hall of Fame</div>
         <h2>🏆 Galerie des Champions</h2>
@@ -359,6 +448,40 @@
       </div>
       <div id="winnersGrid"><p class="no-winners">Chargement des champions...</p></div>
     </section>
+
+    <!-- ══ CHAT COMMUNAUTAIRE ══ -->
+    <section id="sectionChat" style="border-top:1px solid var(--line);padding:36px 0 50px">
+      <div class="section-head">
+        <div class="eyebrow">Communauté</div>
+        <h2>💬 Chat des Joueurs & Communauté</h2>
+        <p style="color:var(--text-muted);font-size:13.5px;margin-top:4px">Échangez avec tous les joueurs de la plateforme en temps réel ou rejoignez notre groupe WhatsApp.</p>
+        <div style="margin-top:10px">
+          <a href="https://chat.whatsapp.com/JIL3xCltjOh3HN0Qlp9lfs" target="_blank" rel="noopener" class="btn btn-sm" style="background:#25D366;color:#0E1712;font-weight:800;display:inline-flex;gap:6px">
+            <span>💬 Rejoindre le Groupe WhatsApp Officiel</span>
+          </a>
+        </div>
+      </div>
+      <div class="chat-box">
+        <div class="chat-header">
+          <span class="live-dot"></span>
+          <span class="ch-title">Salon Général — EFootLigue</span>
+          <span class="ch-online" id="chatOnlineCount">En ligne</span>
+        </div>
+        <div class="chat-messages" id="globalChatMessages">
+          <p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Chargement des messages...</p>
+        </div>
+        <!-- Prévisualisation photo avant envoi -->
+        <div class="chat-preview-wrap" id="globalChatPreviewWrap">
+          <img src="" id="globalChatPreviewImg" class="chat-preview-thumb" alt="Aperçu">
+          <div class="chat-preview-info">Photo prête à être envoyée</div>
+          <button class="chat-preview-remove" id="globalChatPreviewRemove" type="button" title="Supprimer la photo">✕</button>
+        </div>
+        <div id="chatInputArea">
+          <!-- Injecté dynamiquement : soit input+bouton, soit message "se connecter" -->
+        </div>
+      </div>
+    </section>
+
   </div>
 </div>
 
@@ -366,9 +489,8 @@
 <div id="pageComp" style="display:none">
   <div class="wrap">
 
-    <!-- Annonces & Espace Organisateur -->
+    <!-- Annonces -->
     <div id="announcementsArea" style="padding:14px 0 0"></div>
-    <div id="organizerBannerArea"></div>
 
     <section class="hero">
       <div class="ticket">
@@ -384,9 +506,9 @@
           </div>
           <div class="cta-row">
             <a href="#inscription" class="btn btn-primary" id="ctaInscription">S'inscrire</a>
-            <a href="#classement" class="btn btn-ghost" id="ctaClassement">🏆 Voir le classement</a>
-            <a href="#matchdays" class="btn btn-ghost" id="ctaMatchdays">🗓️ Matchs & Scores</a>
-            <a href="#tableau" class="btn btn-ghost" id="ctaTableau">⚔️ Voir le tableau</a>
+            <a href="#sectionTourneyChat" class="btn btn-ghost" style="border-color:var(--lime);color:var(--lime)">💬 Groupe & Photos</a>
+            <a href="#classement" class="btn btn-ghost" id="ctaClassement">🏆 Classement</a>
+            <a href="#tableau" class="btn btn-ghost" id="ctaTableau">⚔️ Tableau</a>
             <button class="btn btn-sm btn-ghost" id="shareWaBtn" type="button">📱 Partager</button>
           </div>
         </div>
@@ -437,32 +559,20 @@
       </div>
     </section>
 
-    <!-- CALENDRIER DES MATCHS / JOURNÉES & SAISIE DES SCORES -->
+    <!-- CALENDRIER DES MATCHS / JOURNÉES -->
     <section id="matchdays">
-      <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px">
-        <div>
-          <div class="eyebrow">En direct</div>
-          <h2>🗓️ Calendrier des Rencontres & Résultats</h2>
-        </div>
-        <div id="matchdaysAdminControls" style="display:none;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-primary btn-sm" onclick="openManualMatchModal()" type="button">➕ Ajouter un match manuel</button>
-          <button class="btn btn-ghost btn-sm" onclick="openCreateMatchdayModal()" type="button">📅 Nouvelle journée</button>
-        </div>
+      <div class="section-head">
+        <div class="eyebrow">En direct</div>
+        <h2>🗓️ Calendrier des Rencontres & Résultats</h2>
       </div>
       <div id="publicMatchdaysArea"><p class="empty-note">Les rencontres apparaîtront dès le début du tournoi.</p></div>
     </section>
 
     <!-- TABLEAU ÉLIMINATOIRE (BRACKET) -->
     <section id="tableau">
-      <div class="section-head" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px">
-        <div>
-          <div class="eyebrow">Phase Finale</div>
-          <h2>⚔️ Tableau Éliminatoire</h2>
-        </div>
-        <div id="bracketAdminControls" style="display:none;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-primary btn-sm" id="drawBtn" type="button">🎲 Tirage au sort</button>
-          <button class="btn btn-danger btn-sm" id="resetBracketBtn" type="button">🔄 Réinitialiser</button>
-        </div>
+      <div class="section-head">
+        <div class="eyebrow">Phase Finale</div>
+        <h2>⚔️ Tableau Éliminatoire</h2>
       </div>
       <div id="bracketArea"><p class="empty-note">Le tirage de la phase finale n'a pas encore eu lieu.</p></div>
     </section>
@@ -508,31 +618,48 @@
       <div class="roster" id="rosterList"></div>
     </section>
 
-    <!-- MESSAGERIE & DISCUSSION EN DIRECT (CHAT DES JOUEURS & ORGANISATEUR) -->
-    <section id="chatSection">
+    <!-- ══ CHAT COMMUNAUTAIRE DU TOURNOI (GROUPE DES PARTICIPANTS) ══ -->
+    <section id="sectionTourneyChat" style="border-top:1px solid var(--line);padding:36px 0 50px">
       <div class="section-head">
-        <div class="eyebrow">Direct</div>
-        <h2>💬 Discussion & Infos du Tournoi</h2>
+        <div class="eyebrow">Live Communauté</div>
+        <h2>💬 Groupe des Participants & Preuves</h2>
+        <p style="color:var(--text-muted);font-size:13.5px;margin-top:4px">Partagez vos scores, captures d'écran et échangez avec vos adversaires.</p>
       </div>
+
       <div class="chat-box">
         <div class="chat-header">
-          <div style="font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px">
-            <span>Salon des participants</span>
-            <span class="chat-badge-count" id="chatMsgCount">0</span>
+          <div class="ch-avatar">⚽</div>
+          <div class="ch-info">
+            <div class="ch-title" id="tourneyChatTitle">Groupe du Tournoi</div>
+            <div class="ch-sub"><span class="live-dot"></span> <span id="tourneyChatSubtitle">Visible par toute la communauté</span></div>
           </div>
-          <span style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono)">🟢 En ligne</span>
+          <span class="live-pill" style="font-size:10px">💬 DIRECT</span>
         </div>
-        <div class="chat-messages" id="chatMessagesArea">
-          <p class="empty-note text-center" style="margin:auto">Aucun message pour le moment. Discutez avec les participants ou posez vos questions !</p>
+
+        <div class="chat-messages" id="tourneyChatMessages">
+          <p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Chargement des messages du tournoi...</p>
         </div>
-        <form id="chatForm" class="chat-footer">
-          <input id="chatInput" type="text" placeholder="Écrire un message ou annoncer un score..." maxlength="300" required>
-          <button type="submit" class="btn btn-primary btn-sm">Envoyer</button>
-        </form>
+
+        <!-- Prévisualisation photo avant envoi -->
+        <div class="chat-preview-wrap" id="tourneyChatPreviewWrap">
+          <img src="" id="tourneyChatPreviewImg" class="chat-preview-thumb" alt="Aperçu">
+          <div class="chat-preview-info">Photo prête à être envoyée (capture de score...)</div>
+          <button class="chat-preview-remove" id="tourneyChatPreviewRemove" type="button" title="Supprimer la photo">✕</button>
+        </div>
+
+        <div id="tourneyChatInputArea">
+          <!-- Injecté dynamiquement selon si le joueur est inscrit au tournoi -->
+        </div>
       </div>
     </section>
 
   </div>
+</div>
+
+<!-- MODALE LIGHTBOX POUR PHOTOS -->
+<div class="lightbox-overlay" id="chatLightbox" role="dialog" aria-label="Agrandissement photo">
+  <button class="lightbox-close" id="closeLightboxBtn" type="button">✕</button>
+  <img src="" id="lightboxImg" class="lightbox-img" alt="Capture agrandie">
 </div>
 
 <footer>
@@ -541,6 +668,129 @@
     <p style="margin-top:6px;opacity:0.6">Plateforme EFootLigue — Données des championnats et classements synchronisées en direct.</p>
   </div>
 </footer>
+
+<!-- ======================== PAGE ADMIN ======================== -->
+<div id="pageAdmin">
+  <div class="wrap" style="padding-top:32px;padding-bottom:60px">
+    <div class="section-head" style="margin-bottom:20px">
+      <div class="eyebrow">Administration</div>
+      <h2>🔐 Panel Admin — EFootLigue</h2>
+      <p style="color:var(--text-muted);font-size:13.5px;margin-top:4px">Gérez les inscriptions, saisissez les scores et planifiez les matchs.</p>
+    </div>
+
+    <!-- Statistiques rapides -->
+    <div class="admin-stat-row" id="adminStats">
+      <div class="admin-stat"><div class="big" id="statTotalGamers">—</div><div class="lbl">Joueurs inscrits</div></div>
+      <div class="admin-stat"><div class="big" id="statTotalTournaments">—</div><div class="lbl">Tournois actifs</div></div>
+      <div class="admin-stat"><div class="big" id="statTotalMatches">—</div><div class="lbl">Matchs à jouer</div></div>
+      <div class="admin-stat"><div class="big" id="statPlayedMatches">—</div><div class="lbl">Matchs joués</div></div>
+    </div>
+
+    <!-- Onglets admin -->
+    <div class="admin-nav">
+      <button class="admin-tab-btn active" onclick="switchAdminTab('registrations')" type="button">👥 Inscriptions</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('matches')" type="button">⚽ Matchs & Scores</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('schedule')" type="button">📅 Planifier Matchs</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('addplayer')" type="button">➕ Ajouter Joueur</button>
+    </div>
+
+    <!-- ── TAB : Inscriptions ── -->
+    <div class="admin-section active" id="adminTabRegistrations">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">👥 Joueurs inscrits (tous tournois)</h3>
+        <button class="btn btn-sm btn-ghost" onclick="adminLoadRegistrations()" type="button">🔄 Actualiser</button>
+      </div>
+      <input class="admin-search" id="adminSearchGamers" type="search" placeholder="🔍 Rechercher par nom, téléphone, ID eFootball...">
+      <div id="adminRegistrationsTable">
+        <p style="color:var(--text-muted);text-align:center;padding:30px 0">Chargement...</p>
+      </div>
+    </div>
+
+    <!-- ── TAB : Scores ── -->
+    <div class="admin-section" id="adminTabMatches">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">⚽ Saisie des scores</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select class="admin-tourn-select" id="adminMatchTournSelect" onchange="adminLoadMatches()">
+            <option value="">-- Sélectionner un tournoi --</option>
+          </select>
+          <button class="btn btn-sm btn-ghost" onclick="adminLoadMatches()" type="button">🔄</button>
+        </div>
+      </div>
+      <div id="adminMatchMsg" style="margin-bottom:10px"></div>
+      <div id="adminMatchesArea">
+        <p style="color:var(--text-muted);text-align:center;padding:30px 0">Sélectionnez un tournoi pour voir les matchs.</p>
+      </div>
+    </div>
+
+    <!-- ── TAB : Planification ── -->
+    <div class="admin-section" id="adminTabSchedule">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">📅 Planifier les matchs</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select class="admin-tourn-select" id="adminSchedTournSelect" onchange="adminLoadScheduleMatches()">
+            <option value="">-- Sélectionner un tournoi --</option>
+          </select>
+          <button class="btn btn-sm btn-ghost" onclick="adminLoadScheduleMatches()" type="button">🔄</button>
+        </div>
+      </div>
+      <div id="adminSchedMsg" style="margin-bottom:10px"></div>
+      <div id="adminScheduleArea">
+        <p style="color:var(--text-muted);text-align:center;padding:30px 0">Sélectionnez un tournoi pour planifier les matchs.</p>
+      </div>
+    </div>
+
+    <!-- ── TAB : Ajouter joueur ── -->
+    <div class="admin-section" id="adminTabAddplayer">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">➕ Ajouter un joueur à un tournoi</h3>
+        <button class="btn btn-sm btn-ghost" onclick="adminLoadRegistrations()" type="button">🔄 Actualiser liste</button>
+      </div>
+      <div id="adminAddMsg" style="margin-bottom:10px"></div>
+      <div class="form-card" style="margin-bottom:20px">
+        <h4 style="margin-bottom:14px;font-size:15px">Sélectionner un joueur inscrit sur la plateforme</h4>
+        <div class="field">
+          <label for="adminAddTournSelect">Tournoi cible</label>
+          <select id="adminAddTournSelect" class="admin-tourn-select" style="width:100%;margin:0">
+            <option value="">-- Choisir un tournoi --</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="adminAddGamerSelect">Joueur (GamerProfile)</label>
+          <select id="adminAddGamerSelect" style="width:100%">
+            <option value="">-- Choisir un joueur --</option>
+          </select>
+        </div>
+        <div class="field" style="flex-direction:row;align-items:center;gap:10px">
+          <input type="checkbox" id="adminAddPaid" style="width:auto">
+          <label for="adminAddPaid" style="margin:0;font-size:13px;text-transform:none;letter-spacing:0">Marquer comme payé</label>
+        </div>
+        <button class="btn btn-primary" onclick="adminAddPlayerToTournament()" type="button" style="width:100%">➕ Ajouter au tournoi</button>
+      </div>
+      <div id="adminTournamentPlayersList">
+        <!-- Liste des joueurs déjà inscrits dans le tournoi sélectionné -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODALE CONNEXION ADMIN -->
+<div class="admin-login-overlay" id="adminLoginModal" style="display:none">
+  <div class="admin-login-box">
+    <button class="close-x" onclick="document.getElementById('adminLoginModal').style.display='none'" type="button" style="position:absolute;top:14px;right:14px">×</button>
+    <h3>🔐 Accès Admin</h3>
+    <p>Entrez le mot de passe organisateur pour accéder au panel d'administration.</p>
+    <div id="adminLoginMsg" style="margin-bottom:10px"></div>
+    <form id="adminLoginForm">
+      <div class="field">
+        <label for="adminLoginPassword">Mot de passe organisateur</label>
+        <input id="adminLoginPassword" type="password" required placeholder="Mot de passe...">
+      </div>
+      <button class="btn btn-primary" type="submit" style="width:100%">🔓 Accéder au panel Admin</button>
+    </form>
+  </div>
+</div>
 
 <!-- MODAL COMPTE JOUEUR -->
 <div class="modal-overlay" id="gamerModal" style="display:none" role="dialog" aria-modal="true">
@@ -574,103 +824,6 @@
         <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">🎮 Créer mon compte</button>
       </form>
     </div>
-  </div>
-</div>
-
-<!-- MODAL ORGANISATEUR / MODE ADMIN -->
-<div class="modal-overlay" id="organizerModal" style="display:none" role="dialog" aria-modal="true">
-  <div class="modal">
-    <button class="close-x" id="closeOrganizerModal" type="button">×</button>
-    <h3 style="margin-bottom:8px;font-size:22px">👑 Espace Organisateur</h3>
-    <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px">Entrez votre mot de passe administrateur pour déverrouiller la gestion manuelle des matchs et la saisie directe des scores.</p>
-    <div id="organizerMsg"></div>
-    <form id="organizerLoginForm">
-      <div class="field">
-        <label for="organizerPwd">Mot de passe Organisateur</label>
-        <input id="organizerPwd" type="password" required placeholder="Mot de passe admin">
-      </div>
-      <button class="btn btn-primary" type="submit" style="width:100%">🔓 Déverrouiller le Mode Organisateur</button>
-    </form>
-  </div>
-</div>
-
-<!-- MODAL GESTION MANUELLE : AJOUTER UN MATCH -->
-<div class="modal-overlay" id="manualMatchModal" style="display:none" role="dialog" aria-modal="true">
-  <div class="modal" style="max-width:540px">
-    <button class="close-x" id="closeManualMatchModal" type="button">×</button>
-    <h3 style="margin-bottom:6px;font-size:22px">⚔️ Ajouter un match manuellement</h3>
-    <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px">Associez deux participants et définissez la journée de compétition.</p>
-    <div id="manualMatchMsg"></div>
-    <form id="manualMatchForm">
-      <div class="field">
-        <label for="mmMatchdaySelect">Journée / Phase</label>
-        <select id="mmMatchdaySelect">
-          <option value="__new__">➕ Créer une nouvelle journée...</option>
-        </select>
-      </div>
-      <div class="field" id="mmNewMatchdayField" style="display:none">
-        <label for="mmNewMatchdayName">Nom de la nouvelle journée</label>
-        <input id="mmNewMatchdayName" placeholder="Ex: Journée 1, Barrages...">
-      </div>
-
-      <div class="form-grid">
-        <div class="field">
-          <label for="mmPlayer1Select">Joueur 1 (Domicile)</label>
-          <select id="mmPlayer1Select"><option value="">Sélectionner un joueur</option></select>
-          <input id="mmPlayer1Custom" placeholder="Ou saisir un pseudo" style="margin-top:6px;display:none">
-        </div>
-        <div class="field">
-          <label for="mmPlayer2Select">Joueur 2 (Extérieur)</label>
-          <select id="mmPlayer2Select"><option value="">Sélectionner un joueur</option></select>
-          <input id="mmPlayer2Custom" placeholder="Ou saisir un pseudo" style="margin-top:6px;display:none">
-        </div>
-      </div>
-
-      <div class="form-grid" style="margin-top:4px">
-        <div class="field">
-          <label for="mmScore1">Score Joueur 1 (Optionnel)</label>
-          <input id="mmScore1" type="number" min="0" placeholder="Non joué">
-        </div>
-        <div class="field">
-          <label for="mmScore2">Score Joueur 2 (Optionnel)</label>
-          <input id="mmScore2" type="number" min="0" placeholder="Non joué">
-        </div>
-      </div>
-
-      <button class="btn btn-primary" type="submit" style="width:100%;margin-top:10px">💾 Enregistrer la rencontre</button>
-    </form>
-  </div>
-</div>
-
-<!-- MODAL CRÉER UNE JOURNÉE -->
-<div class="modal-overlay" id="createMatchdayModal" style="display:none" role="dialog" aria-modal="true">
-  <div class="modal">
-    <button class="close-x" id="closeCreateMatchdayModal" type="button">×</button>
-    <h3 style="margin-bottom:8px;font-size:22px">📅 Créer une nouvelle journée</h3>
-    <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px">Ajoutez une étape de rencontres dans le calendrier de la compétition.</p>
-    <form id="createMatchdayForm">
-      <div class="field">
-        <label for="newDayNameInput">Nom de la journée</label>
-        <input id="newDayNameInput" required placeholder="Ex: Journée 1, Journée 2, Matchs retours...">
-      </div>
-      <button class="btn btn-primary" type="submit" style="width:100%">Créer la journée</button>
-    </form>
-  </div>
-</div>
-
-<!-- MODAL PUBLIER UNE ANNONCE -->
-<div class="modal-overlay" id="announceModal" style="display:none" role="dialog" aria-modal="true">
-  <div class="modal">
-    <button class="close-x" id="closeAnnounceModal" type="button">×</button>
-    <h3 style="margin-bottom:8px;font-size:22px">📢 Publier une annonce officielle</h3>
-    <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px">Ce message s'affichera en haut de la compétition et dans le fil de discussion pour tous les joueurs.</p>
-    <form id="announceForm">
-      <div class="field">
-        <label for="announceInputText">Texte de l'annonce</label>
-        <textarea id="announceInputText" required placeholder="Ex: Début de la Journée 2 ce soir à 20h00 ! Envoyez vos scores dans le chat." maxlength="400"></textarea>
-      </div>
-      <button class="btn btn-primary" type="submit" style="width:100%">📤 Diffuser l'annonce</button>
-    </form>
 <!-- BANNIÈRE INSTALLATION PWA -->
 <div class="pwa-banner" id="pwaBanner" role="dialog" aria-label="Installer l'application">
   <div class="pwa-icon">
@@ -678,7 +831,7 @@
   </div>
   <div class="pwa-info">
     <div class="pwa-title">Installer EFootLigue</div>
-    <div class="pwa-desc">Accédez aux tournois, matchs et dashboard instantanément depuis votre écran d'accueil.</div>
+    <div class="pwa-desc">Accédez aux tournois, matchs et chats instantanément depuis votre écran d'accueil.</div>
   </div>
   <div class="pwa-actions">
     <button class="pwa-btn-install" id="pwaInstallBtn" type="button">Installer</button>
@@ -734,10 +887,9 @@
   function calculateLeagueStandings(players, leagueMatches){
     const map = {};
     players.forEach(p => {
-      const pKey = p.id || (p.name || p.gameId || 'Joueur').trim();
       const pName = (p.name || p.gameId || 'Joueur').trim();
-      map[pKey] = {
-        id: p.id || pKey,
+      map[pName] = {
+        id: p.id || pName,
         name: pName,
         gameId: p.gameId || pName,
         platform: p.platform || 'Mobile',
@@ -753,14 +905,6 @@
       };
     });
 
-    function findEntry(playerRef){
-      if(!playerRef) return null;
-      if(playerRef.id && map[playerRef.id]) return map[playerRef.id];
-      const nameKey = (playerRef.name || playerRef.gameId || '').trim();
-      if(map[nameKey]) return map[nameKey];
-      return Object.values(map).find(entry => entry.name === nameKey || entry.gameId === nameKey) || null;
-    }
-
     if(Array.isArray(leagueMatches)){
       leagueMatches.forEach(md => {
         const matches = Array.isArray(md.matches) ? md.matches : [];
@@ -768,10 +912,11 @@
           if(m.score1 !== null && m.score2 !== null && m.score1 !== '' && m.score2 !== '' && !isNaN(m.score1) && !isNaN(m.score2)){
             const s1 = parseInt(m.score1, 10);
             const s2 = parseInt(m.score2, 10);
-            const st1 = findEntry(m.p1);
-            const st2 = findEntry(m.p2);
+            const p1Key = (m.p1?.name || m.p1?.gameId || '').trim();
+            const p2Key = (m.p2?.name || m.p2?.gameId || '').trim();
 
-            if(st1){
+            if(p1Key && map[p1Key]){
+              const st1 = map[p1Key];
               st1.played += 1;
               st1.goalsFor += s1;
               st1.goalsAgainst += s2;
@@ -781,7 +926,8 @@
               else { st1.lost += 1; st1.form.push('L'); }
             }
 
-            if(st2){
+            if(p2Key && map[p2Key]){
+              const st2 = map[p2Key];
               st2.played += 1;
               st2.goalsFor += s2;
               st2.goalsAgainst += s1;
@@ -827,15 +973,17 @@
   // ══════════════════════════════════════════════
   function showHome(){
     currentCompId = null;
-    if(chatListenerRef) { try{ chatListenerRef.off(); }catch(e){} chatListenerRef = null; }
     $('pageHome').style.display = 'block';
     $('pageComp').style.display = 'none';
+    const pAdmin = $('pageAdmin');
+    if(pAdmin) pAdmin.style.display = 'none';
     $('navJoueurs').style.display = 'none';
-    $('navMatchdays').style.display = 'none';
     $('navTableau').style.display = 'none';
-    $('navChat').style.display = 'none';
+    const navTChat = $('navTourneyChat');
+    if(navTChat) navTChat.style.display = 'none';
+    const navGChat = $('navChat');
+    if(navGChat) navGChat.style.display = 'inline';
     renderHome();
-    renderAnnouncements();
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
@@ -844,13 +992,15 @@
     currentCompId = compId;
     $('pageHome').style.display = 'none';
     $('pageComp').style.display = 'block';
+    const pAdmin = $('pageAdmin');
+    if(pAdmin) pAdmin.style.display = 'none';
     $('navJoueurs').style.display = 'inline';
-    $('navMatchdays').style.display = 'inline';
     $('navTableau').style.display = 'inline';
-    $('navChat').style.display = 'inline';
+    const navTChat = $('navTourneyChat');
+    if(navTChat) navTChat.style.display = 'inline';
+    const navGChat = $('navChat');
+    if(navGChat) navGChat.style.display = 'none';
     renderComp();
-    renderAnnouncements();
-    loadChatMessages(compId);
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
@@ -972,82 +1122,24 @@
       }).join('');
     }
 
-    // 2. CALENDRIER DES RENCONTRES & SAISIE DES SCORES
+    // 2. CALENDRIER DES RENCONTRES
     const mArea = $('publicMatchdaysArea');
-    const mdAdminCtrl = $('matchdaysAdminControls');
-    const brAdminCtrl = $('bracketAdminControls');
-    const orgBanner = $('organizerBannerArea');
-
-    if(isOrganizer){
-      if(mdAdminCtrl) mdAdminCtrl.style.display = 'flex';
-      if(brAdminCtrl) brAdminCtrl.style.display = 'flex';
-      if(orgBanner){
-        orgBanner.innerHTML = '<div class="organizer-banner">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">' +
-            '<div>' +
-              '<span class="live-pill" style="background:rgba(242,168,60,0.2);color:var(--gold);border-color:var(--gold)">👑 Mode Organisateur Actif</span>' +
-              '<div style="font-size:13px;color:var(--text-muted);margin-top:4px">Gérez manuellement les rencontres, saisissez et modifiez les scores en direct.</div>' +
-            '</div>' +
-            '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
-              '<button class="btn btn-primary btn-sm" onclick="openManualMatchModal()" type="button">➕ Ajouter un match</button>' +
-              '<button class="btn btn-ghost btn-sm" onclick="openCreateMatchdayModal()" type="button">📅 Nouvelle journée</button>' +
-              '<button class="btn btn-ghost btn-sm" onclick="openAnnounceModal()" type="button">📢 Diffuser annonce</button>' +
-              '<button class="btn btn-danger btn-sm" onclick="logoutOrganizer()" type="button">🔒 Quitter</button>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-      }
-    } else {
-      if(mdAdminCtrl) mdAdminCtrl.style.display = 'none';
-      if(brAdminCtrl) brAdminCtrl.style.display = 'none';
-      if(orgBanner) orgBanner.innerHTML = '';
-    }
-
     if(leagueMatches.length === 0){
-      mArea.innerHTML = '<div class="empty-state"><div class="icon">🗓️</div><p>Les rencontres apparaîtront ici dès le lancement de la compétition.' +
-        (isOrganizer ? '<br><button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="openManualMatchModal()" type="button">➕ Créer le premier match</button>' : '') +
-        '</p></div>';
+      mArea.innerHTML = '<p class="empty-note">Les rencontres apparaîtront ici dès le lancement de la compétition.</p>';
     } else {
       mArea.innerHTML = leagueMatches.map((md, mdIdx) => {
         const matches = Array.isArray(md.matches) ? md.matches : [];
         return '<div class="matchday-card">' +
-          '<div class="matchday-title">' +
-            '<span>📅 ' + esc(md.name || 'Journée '+(mdIdx+1)) + ' (' + matches.length + ' Matchs)</span>' +
-            (isOrganizer ? '<div style="display:flex;gap:6px">' +
-              '<button class="mini-btn" onclick="openManualMatchModal('+mdIdx+')" type="button" title="Ajouter un match à cette journée">➕ Match</button>' +
-              '<button class="mini-btn danger" onclick="deleteMatchday('+mdIdx+')" type="button" title="Supprimer toute la journée">🗑️</button>' +
-            '</div>' : '') +
-          '</div>' +
-          (matches.length === 0 ? '<p class="empty-note text-center" style="padding:10px 0">Aucun match dans cette journée.'+(isOrganizer?' <a onclick="openManualMatchModal('+mdIdx+')" style="color:var(--lime);cursor:pointer;font-weight:700">Ajouter un match</a>':'')+'</p>' : '') +
-          matches.map((m, mIdx) => {
-            const p1 = m.p1?.name || m.p1?.gameId || 'Joueur 1';
-            const p2 = m.p2?.name || m.p2?.gameId || 'Joueur 2';
-            const hasScore = m.score1 !== null && m.score1 !== undefined && m.score1 !== '' && m.score2 !== null && m.score2 !== undefined && m.score2 !== '' && !isNaN(m.score1) && !isNaN(m.score2);
-            const isEditing = editingMatchKey === (mdIdx + '_' + mIdx);
-
-            let scoreBlock = '';
-            if(isOrganizer && (!hasScore || isEditing)){
-              scoreBlock = '<div class="match-score-edit">' +
-                '<input type="number" min="0" max="99" id="s1_'+mdIdx+'_'+mIdx+'" value="'+(m.score1 !== null && m.score1 !== undefined ? m.score1 : '')+'" placeholder="0">' +
-                '<span style="font-weight:700">:</span>' +
-                '<input type="number" min="0" max="99" id="s2_'+mdIdx+'_'+mIdx+'" value="'+(m.score2 !== null && m.score2 !== undefined ? m.score2 : '')+'" placeholder="0">' +
-                '<button class="mini-btn on" onclick="saveMatchScore('+mdIdx+','+mIdx+')" type="button" title="Enregistrer">💾 Valider</button>' +
-                (isEditing ? '<button class="mini-btn" onclick="cancelEditMatch()" type="button" title="Annuler">✕</button>' : '') +
-              '</div>';
-            } else {
-              const s1 = hasScore ? m.score1 : '-';
-              const s2 = hasScore ? m.score2 : '-';
-              scoreBlock = '<div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap">' +
-                '<span class="match-score-badge">' + s1 + ' : ' + s2 + '</span>' +
-                (isOrganizer ? '<button class="mini-btn" onclick="editMatchScore('+mdIdx+','+mIdx+')" type="button" title="Modifier le score">✏️</button>' +
-                  '<button class="mini-btn danger" onclick="deleteMatch('+mdIdx+','+mIdx+')" type="button" title="Supprimer ce match">🗑️</button>' : '') +
-              '</div>';
-            }
-
+          '<div class="matchday-title"><span>📅 '+esc(md.name || 'Journée '+(mdIdx+1))+'</span><span>'+matches.length+' Matchs</span></div>' +
+          matches.map(m => {
+            const p1 = m.p1?.name || 'Joueur 1';
+            const p2 = m.p2?.name || 'Joueur 2';
+            const s1 = m.score1 !== null && m.score1 !== undefined ? m.score1 : '-';
+            const s2 = m.score2 !== null && m.score2 !== undefined ? m.score2 : '-';
             return '<div class="match-row">' +
-              '<div class="match-player right" title="'+esc(p1)+'">' + esc(p1) + '</div>' +
-              '<div class="text-center">' + scoreBlock + '</div>' +
-              '<div class="match-player" title="'+esc(p2)+'">' + esc(p2) + '</div>' +
+              '<div class="match-player right">'+esc(p1)+'</div>' +
+              '<div class="text-center"><span class="match-score-badge">'+s1+' : '+s2+'</span></div>' +
+              '<div class="match-player">'+esc(p2)+'</div>' +
             '</div>';
           }).join('') +
         '</div>';
@@ -1068,6 +1160,13 @@
         '<div class="chip '+(r.paid?'paid':'')+'"><span class="dotstate"></span>'+esc(r.name)+' — '+esc(r.gameId)+'</div>'
       ).join('');
     }
+
+    // 5. CHAT / GROUPE WHATSAPP DU TOURNOI
+    const chatTitleEl = $('tourneyChatTitle');
+    if(chatTitleEl) chatTitleEl.textContent = 'Groupe — ' + (c.name || 'Tournoi');
+    renderTourneyChatInput();
+    loadTourneyChatHistory(currentCompId);
+    switchTourneyChatFirebase(currentCompId);
   }
 
   function roundLabel(total, idx){
@@ -1081,41 +1180,21 @@
   function renderBracket(targetId, bracket){
     const el = $(targetId);
     if(!bracket || !bracket.rounds || !bracket.rounds.length){
-      el.innerHTML = '<div class="empty-state"><div class="icon">⚔️</div><p>Le tirage de la phase éliminatoire n\'a pas encore eu lieu.' +
-        (isOrganizer ? '<br><button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="drawBracketAuto()" type="button">🎲 Lancer le tirage au sort</button>' : '') +
-        '</p></div>';
+      el.innerHTML = '<p class="empty-note">Le tirage éliminatoire n\'a pas encore eu lieu.</p>';
       return;
     }
     const total = bracket.rounds.length;
     let html = '<div class="bracket-wrap"><div class="bracket">';
     bracket.rounds.forEach((round, ridx) => {
       html += '<div class="round-col"><div class="round-title">'+esc(roundLabel(total,ridx))+'</div>';
-      round.forEach((m, midx) => {
+      round.forEach(m => {
         const p1l = playerLabel(m.p1); const p2l = playerLabel(m.p2);
-        const hasScore = m.score1 !== null && m.score1 !== undefined && m.score2 !== null && m.score2 !== undefined;
-        const s1 = hasScore ? m.score1 : '-';
-        const s2 = hasScore ? m.score2 : '-';
-        const isEditing = editingBracketKey === (ridx + '_' + midx);
-
+        const s1 = m.score1 !== null && m.score1 !== undefined ? m.score1 : '-';
+        const s2 = m.score2 !== null && m.score2 !== undefined ? m.score2 : '-';
         html += '<div class="match">' +
           '<div class="side '+(m.winner && m.p1 && m.winner.id===m.p1.id?'winner':'')+(p1l==='BYE'?' bye':'')+'"><span class="player-main">'+esc(p1l)+'</span><span>'+esc(String(s1))+'</span></div>' +
-          '<div class="side '+(m.winner && m.p2 && m.winner.id===m.p2.id?'winner':'')+(p2l==='BYE'?' bye':'')+'"><span class="player-main">'+esc(p2l)+'</span><span>'+esc(String(s2))+'</span></div>';
-
-        if(isOrganizer && m.p1 && m.p2 && (!m.winner || isEditing)){
-          html += '<div class="match-score-edit" style="margin-top:8px;justify-content:center">' +
-            '<input type="number" min="0" max="99" id="bs1_'+ridx+'_'+midx+'" value="'+(m.score1 ?? '')+'" placeholder="0">' +
-            '<span>:</span>' +
-            '<input type="number" min="0" max="99" id="bs2_'+ridx+'_'+midx+'" value="'+(m.score2 ?? '')+'" placeholder="0">' +
-            '<button class="mini-btn on" onclick="saveBracketScore('+ridx+','+midx+')" type="button" title="Valider le score">💾</button>' +
-            (isEditing ? '<button class="mini-btn" onclick="cancelEditBracket()" type="button" title="Annuler">✕</button>' : '') +
-          '</div>';
-        } else if(isOrganizer && m.p1 && m.p2 && m.winner){
-          html += '<div style="display:flex;justify-content:flex-end;margin-top:6px">' +
-            '<button class="mini-btn" onclick="editBracketScore('+ridx+','+midx+')" type="button" title="Modifier le score">✏️ Corriger</button>' +
-          '</div>';
-        }
-
-        html += '</div>';
+          '<div class="side '+(m.winner && m.p2 && m.winner.id===m.p2.id?'winner':'')+(p2l==='BYE'?' bye':'')+'"><span class="player-main">'+esc(p2l)+'</span><span>'+esc(String(s2))+'</span></div>' +
+        '</div>';
       });
       html += '</div>';
     });
@@ -1127,97 +1206,17 @@
     el.innerHTML = html;
   }
 
-  // ══════════════════════════════════════════════
-  // BRACKET HELPERS
-  // ══════════════════════════════════════════════
-  function nextPow2(n){ let p=1; while(p<n) p*=2; return p; }
-  function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
-
-  function firstRoundWithByes(players){
-    const shuffled = shuffle(players);
-    const n = shuffled.length;
-    const size = nextPow2(n);
-    const byeCount = size - n;
-    const round0 = [];
-    let i = 0;
-    for(let b=0;b<byeCount;b++){ const p1=shuffled[i++]; round0.push({p1,p2:null,score1:null,score2:null,winner:p1}); }
-    while(i<n){ const p1=shuffled[i++]; const p2=shuffled[i++]; round0.push({p1,p2,score1:null,score2:null,winner:null}); }
-    return {round0, size};
-  }
-
-  function maybeAdvance(bracket){
-    const total = bracket.rounds.length;
-    const cur = bracket.rounds[total-1];
-    if(cur.length===1) return;
-    if(!cur.every(m=>m.winner)) return;
-    const winners = cur.map(m=>m.winner);
-    const next = [];
-    for(let i=0;i<winners.length;i+=2){
-      const p1=winners[i]||null, p2=winners[i+1]!==undefined?winners[i+1]:null;
-      const m={p1,p2,score1:null,score2:null,winner:null};
-      if(p1&&!p2) m.winner=p1;
-      if(!p1&&p2) m.winner=p2;
-      next.push(m);
-    }
-    bracket.rounds.push(next);
-    maybeAdvance(bracket);
-  }
-
   const API_SYNC_URL = '/api/sync';
-
-  function getOrganizerToken(){
-    try { return sessionStorage.getItem('efoot_organizer_token') || ''; } catch(e){ return ''; }
-  }
-
-  async function syncCompetitionUpdate(compId, compData){
-    if(!compId || !compData) return;
-    // Mise à jour locale immédiate
-    allComps[compId] = compData;
-    try { localStorage.setItem('efoot_allComps', JSON.stringify(allComps)); } catch(e){}
-    renderComp();
-    renderHome();
-
-    // 1. Sauvegarde PostgreSQL Render
-    try {
-      await fetch(API_SYNC_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-organizer-token': getOrganizerToken()
-        },
-        body: JSON.stringify({ id: compId, data: compData })
-      });
-    } catch(err){
-      console.warn('PostgreSQL sync error:', err);
-    }
-
-    // 2. Push direct Firebase Realtime Database
-    if(rtdb){
-      try {
-        await rtdb.ref('competitions/' + compId).set(compData);
-        await rtdb.ref('syncSignal').set({ at: Date.now(), compId });
-      } catch(err){
-        console.warn('Firebase sync error:', err);
-      }
-    }
-  }
 
   async function fetchAllFromDb(){
     try {
       const res = await fetch(API_SYNC_URL);
-      if(!res.ok){
-        console.warn('[API] /api/sync status:', res.status);
-        if(Object.keys(allComps).length === 0){
-          $('compList').innerHTML = '<div class="empty-state"><div class="icon">⚡</div><p>Synchronisation en cours via Firebase...<br><span style="font-size:12px;opacity:0.6">Si rien n\'apparaît dans quelques secondes, actualisez la page.</span></p></div>';
-        }
-        return;
-      }
       const json = await res.json();
       if(json && json.ok && json.competitions){
         const comps = json.competitions || {};
         allComps = { ...allComps, ...comps };
         Object.values(allComps).forEach(comp => {
-          if(comp && comp.registrations && !Array.isArray(comp.registrations)){
+          if(comp.registrations && !Array.isArray(comp.registrations)){
             comp.registrations = Object.values(comp.registrations);
           }
         });
@@ -1229,492 +1228,7 @@
           $('announcementsArea').innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
         }
       }
-    } catch(e){
-      console.warn('fetchAllFromDb error:', e);
-    }
-  }
-
-  // ══════════════════════════════════════════════
-  // GESTION MANUELLE DES MATCHS & SCORES
-  // ══════════════════════════════════════════════
-  let isOrganizer = false;
-  let editingMatchKey = null;
-  let editingBracketKey = null;
-
-  try {
-    isOrganizer = Boolean(sessionStorage.getItem('efoot_organizer_token'));
-  } catch(e){}
-
-  window.openOrganizerModal = function(){
-    if(isOrganizer){
-      if(confirm('Vous êtes déjà connecté en Mode Organisateur.\n\nVoulez-vous vous déconnecter ?')){
-        logoutOrganizer();
-      }
-      return;
-    }
-    $('organizerMsg').innerHTML = '';
-    $('organizerPwd').value = '';
-    $('organizerModal').style.display = 'flex';
-  };
-
-  $('closeOrganizerModal').addEventListener('click', () => $('organizerModal').style.display = 'none');
-  $('organizerModal').addEventListener('click', e => { if(e.target === $('organizerModal')) $('organizerModal').style.display = 'none'; });
-
-  $('organizerLoginForm').addEventListener('submit', async function(e){
-    e.preventDefault();
-    const pwd = $('organizerPwd').value.trim();
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    if(submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Vérification...'; }
-
-    try {
-      const res = await fetch('/api/organizer/unlock', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: pwd })
-      });
-      const data = await res.json();
-
-      if(res.ok && data.ok && data.token){
-        isOrganizer = true;
-        try {
-          sessionStorage.setItem('efoot_organizer_token', data.token);
-          localStorage.setItem('efoot_isOrganizer', 'true');
-        } catch(e){}
-        $('organizerModal').style.display = 'none';
-        updateNavOrganizerUI();
-        if(currentCompId) renderComp();
-        alert('Mode Organisateur déverrouillé avec succès ! Vous pouvez maintenant gérer les matchs et saisir les scores.');
-      } else {
-        showMsg('organizerMsg', 'error', data.error || 'Mot de passe administrateur incorrect.');
-      }
-    } catch(err){
-      showMsg('organizerMsg', 'error', 'Erreur de communication avec le serveur.');
-    } finally {
-      if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '🔓 Déverrouiller le Mode Organisateur'; }
-    }
-  });
-
-  window.logoutOrganizer = function(){
-    isOrganizer = false;
-    try {
-      sessionStorage.removeItem('efoot_organizer_token');
-      localStorage.removeItem('efoot_isOrganizer');
-    } catch(e){}
-    updateNavOrganizerUI();
-    if(currentCompId) renderComp();
-    alert('Mode Organisateur désactivé.');
-  };
-
-  function updateNavOrganizerUI(){
-    const btn = $('navOrganizer');
-    if(!btn) return;
-    if(isOrganizer){
-      btn.textContent = '👑 Admin Connecté';
-      btn.style.color = 'var(--lime)';
-    } else {
-      btn.textContent = '👑 Organisateur';
-      btn.style.color = 'var(--gold)';
-    }
-  }
-
-  // 1. Saisie et validation des scores de journées
-  window.saveMatchScore = async function(mdIdx, mIdx){
-    if(!currentCompId || !allComps[currentCompId]) return;
-    const comp = allComps[currentCompId];
-    if(!comp.leagueMatches || !comp.leagueMatches[mdIdx] || !comp.leagueMatches[mdIdx].matches[mIdx]) return;
-
-    const s1Val = $('s1_' + mdIdx + '_' + mIdx)?.value;
-    const s2Val = $('s2_' + mdIdx + '_' + mIdx)?.value;
-
-    if(s1Val === '' || s2Val === '' || s1Val === undefined || s2Val === undefined){
-      alert('Veuillez entrer les deux scores (chiffres positifs ou nuls).');
-      return;
-    }
-    const s1 = parseInt(s1Val, 10);
-    const s2 = parseInt(s2Val, 10);
-    if(isNaN(s1) || isNaN(s2) || s1 < 0 || s2 < 0){
-      alert('Score invalide. Entrez des entiers >= 0.');
-      return;
-    }
-
-    const match = comp.leagueMatches[mdIdx].matches[mIdx];
-    match.score1 = s1;
-    match.score2 = s2;
-    match.played = true;
-
-    // Recalcul automatique et immédiat du classement UEFA
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
-    comp.standings = calculateLeagueStandings(registrations, comp.leagueMatches);
-
-    editingMatchKey = null;
-    await syncCompetitionUpdate(currentCompId, comp);
-
-    // Annonce automatique dans le chat
-    const p1Name = match.p1?.name || match.p1?.gameId || 'Joueur 1';
-    const p2Name = match.p2?.name || match.p2?.gameId || 'Joueur 2';
-    postSystemChatMessage(currentCompId, '⚽ Score enregistré : ' + p1Name + ' ' + s1 + ' - ' + s2 + ' ' + p2Name);
-  };
-
-  window.editMatchScore = function(mdIdx, mIdx){
-    editingMatchKey = mdIdx + '_' + mIdx;
-    renderComp();
-  };
-
-  window.cancelEditMatch = function(){
-    editingMatchKey = null;
-    renderComp();
-  };
-
-  window.deleteMatch = async function(mdIdx, mIdx){
-    if(!currentCompId || !allComps[currentCompId]) return;
-    const comp = allComps[currentCompId];
-    if(!confirm('Voulez-vous supprimer cette rencontre ?')){ return; }
-
-    comp.leagueMatches[mdIdx].matches.splice(mIdx, 1);
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
-    comp.standings = calculateLeagueStandings(registrations, comp.leagueMatches);
-
-    await syncCompetitionUpdate(currentCompId, comp);
-  };
-
-  window.deleteMatchday = async function(mdIdx){
-    if(!currentCompId || !allComps[currentCompId]) return;
-    const comp = allComps[currentCompId];
-    const mdName = comp.leagueMatches[mdIdx]?.name || 'cette journée';
-    if(!confirm('Êtes-vous sûr de vouloir supprimer ' + mdName + ' et tous ses matchs ?')){ return; }
-
-    comp.leagueMatches.splice(mdIdx, 1);
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
-    comp.standings = calculateLeagueStandings(registrations, comp.leagueMatches);
-
-    await syncCompetitionUpdate(currentCompId, comp);
-  };
-
-  // 2. Modal Match Manuel
-  window.openManualMatchModal = function(preselectedMdIdx){
-    if(!currentCompId || !allComps[currentCompId]){
-      alert('Veuillez ouvrir une compétition d\'abord.');
-      return;
-    }
-    const comp = allComps[currentCompId];
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
-    const leagueMatches = Array.isArray(comp.leagueMatches) ? comp.leagueMatches : [];
-
-    // Remplir sélecteur de journées
-    const mdSelect = $('mmMatchdaySelect');
-    mdSelect.innerHTML = '';
-    leagueMatches.forEach((md, idx) => {
-      const opt = document.createElement('option');
-      opt.value = String(idx);
-      opt.textContent = md.name || ('Journée ' + (idx+1));
-      mdSelect.appendChild(opt);
-    });
-    const newOpt = document.createElement('option');
-    newOpt.value = '__new__';
-    newOpt.textContent = '➕ Créer une nouvelle journée...';
-    mdSelect.appendChild(newOpt);
-
-    if(preselectedMdIdx !== undefined && preselectedMdIdx !== null && preselectedMdIdx < leagueMatches.length){
-      mdSelect.value = String(preselectedMdIdx);
-    } else if(leagueMatches.length > 0){
-      mdSelect.value = String(leagueMatches.length - 1);
-    } else {
-      mdSelect.value = '__new__';
-    }
-    checkMmMatchdayField();
-
-    // Remplir sélecteur des joueurs
-    function fillPlayerSelect(selectId, customInputId){
-      const sel = $(selectId);
-      sel.innerHTML = '<option value="">-- Choisir parmi les inscrits --</option>';
-      registrations.forEach(r => {
-        const opt = document.createElement('option');
-        opt.value = r.id || r.name;
-        opt.textContent = r.name + (r.gameId ? ' (' + r.gameId + ')' : '');
-        sel.appendChild(opt);
-      });
-      const manualOpt = document.createElement('option');
-      manualOpt.value = '__custom__';
-      manualOpt.textContent = '✏️ Saisir un autre nom manuellement...';
-      sel.appendChild(manualOpt);
-
-      sel.onchange = function(){
-        if(sel.value === '__custom__'){
-          $(customInputId).style.display = 'block';
-          $(customInputId).required = true;
-        } else {
-          $(customInputId).style.display = 'none';
-          $(customInputId).required = false;
-        }
-      };
-    }
-
-    fillPlayerSelect('mmPlayer1Select', 'mmPlayer1Custom');
-    fillPlayerSelect('mmPlayer2Select', 'mmPlayer2Custom');
-
-    $('mmScore1').value = '';
-    $('mmScore2').value = '';
-    $('manualMatchMsg').innerHTML = '';
-    $('manualMatchModal').style.display = 'flex';
-  };
-
-  function checkMmMatchdayField(){
-    if($('mmMatchdaySelect').value === '__new__'){
-      $('mmNewMatchdayField').style.display = 'block';
-      $('mmNewMatchdayName').required = true;
-      if(!$('mmNewMatchdayName').value) {
-        const comp = allComps[currentCompId];
-        const nextNum = (comp?.leagueMatches?.length || 0) + 1;
-        $('mmNewMatchdayName').value = 'Journée ' + nextNum;
-      }
-    } else {
-      $('mmNewMatchdayField').style.display = 'none';
-      $('mmNewMatchdayName').required = false;
-    }
-  }
-
-  $('mmMatchdaySelect').addEventListener('change', checkMmMatchdayField);
-  $('closeManualMatchModal').addEventListener('click', () => $('manualMatchModal').style.display = 'none');
-  $('manualMatchModal').addEventListener('click', e => { if(e.target === $('manualMatchModal')) $('manualMatchModal').style.display = 'none'; });
-
-  $('manualMatchForm').addEventListener('submit', async function(e){
-    e.preventDefault();
-    if(!currentCompId || !allComps[currentCompId]) return;
-    const comp = allComps[currentCompId];
-    if(!Array.isArray(comp.leagueMatches)) comp.leagueMatches = [];
-    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
-
-    // 1. Déterminer la journée
-    const mdChoice = $('mmMatchdaySelect').value;
-    let targetMdIdx = -1;
-    if(mdChoice === '__new__'){
-      const newName = $('mmNewMatchdayName').value.trim() || ('Journée ' + (comp.leagueMatches.length + 1));
-      comp.leagueMatches.push({ name: newName, matches: [] });
-      targetMdIdx = comp.leagueMatches.length - 1;
-    } else {
-      targetMdIdx = parseInt(mdChoice, 10);
-    }
-    if(targetMdIdx < 0 || !comp.leagueMatches[targetMdIdx]) return;
-
-    // 2. Récupérer les 2 joueurs
-    function getSelectedPlayer(selectId, customInputId){
-      const val = $(selectId).value;
-      if(!val) return null;
-      if(val === '__custom__'){
-        const cName = $(customInputId).value.trim();
-        return cName ? { id: 'p_' + Date.now().toString(36), name: cName, gameId: cName, platform: 'Mobile' } : null;
-      }
-      const reg = registrations.find(r => r.id === val || r.name === val);
-      return reg ? { id: reg.id, name: reg.name, gameId: reg.gameId || reg.name, platform: reg.platform || 'Mobile' } : { id: val, name: val, gameId: val, platform: 'Mobile' };
-    }
-
-    const p1 = getSelectedPlayer('mmPlayer1Select', 'mmPlayer1Custom');
-    const p2 = getSelectedPlayer('mmPlayer2Select', 'mmPlayer2Custom');
-
-    if(!p1 || !p2){
-      showMsg('manualMatchMsg', 'error', 'Veuillez sélectionner ou renseigner les 2 adversaires.');
-      return;
-    }
-    if(p1.name === p2.name){
-      showMsg('manualMatchMsg', 'error', 'Les 2 joueurs doivent être différents.');
-      return;
-    }
-
-    // 3. Scores optionnels
-    const s1Raw = $('mmScore1').value.trim();
-    const s2Raw = $('mmScore2').value.trim();
-    let score1 = null, score2 = null;
-    if(s1Raw !== '' && s2Raw !== '' && !isNaN(parseInt(s1Raw, 10)) && !isNaN(parseInt(s2Raw, 10))){
-      score1 = parseInt(s1Raw, 10);
-      score2 = parseInt(s2Raw, 10);
-    }
-
-    const newMatch = {
-      id: 'm_' + Date.now().toString(36),
-      p1,
-      p2,
-      score1,
-      score2,
-      played: score1 !== null && score2 !== null
-    };
-
-    comp.leagueMatches[targetMdIdx].matches.push(newMatch);
-
-    // Recalcul automatique du classement
-    comp.standings = calculateLeagueStandings(registrations, comp.leagueMatches);
-
-    await syncCompetitionUpdate(currentCompId, comp);
-    $('manualMatchModal').style.display = 'none';
-    $('manualMatchForm').reset();
-    alert('Match ajouté avec succès dans ' + comp.leagueMatches[targetMdIdx].name + ' !');
-  });
-
-  // 3. Modal Créer Journée
-  window.openCreateMatchdayModal = function(){
-    if(!currentCompId || !allComps[currentCompId]){
-      alert('Veuillez ouvrir une compétition d\'abord.');
-      return;
-    }
-    const comp = allComps[currentCompId];
-    const nextNum = (comp?.leagueMatches?.length || 0) + 1;
-    $('newDayNameInput').value = 'Journée ' + nextNum;
-    $('createMatchdayModal').style.display = 'flex';
-  };
-
-  $('closeCreateMatchdayModal').addEventListener('click', () => $('createMatchdayModal').style.display = 'none');
-  $('createMatchdayModal').addEventListener('click', e => { if(e.target === $('createMatchdayModal')) $('createMatchdayModal').style.display = 'none'; });
-
-  $('createMatchdayForm').addEventListener('submit', async function(e){
-    e.preventDefault();
-    if(!currentCompId || !allComps[currentCompId]) return;
-    const comp = allComps[currentCompId];
-    if(!Array.isArray(comp.leagueMatches)) comp.leagueMatches = [];
-
-    const name = $('newDayNameInput').value.trim();
-    if(!name) return;
-
-    comp.leagueMatches.push({ name, matches: [] });
-    await syncCompetitionUpdate(currentCompId, comp);
-    $('createMatchdayModal').style.display = 'none';
-    $('createMatchdayForm').reset();
-    alert('La ' + name + ' a été créée. Vous pouvez maintenant y ajouter des matchs.');
-  });
-
-  // 4. Bracket management & score
-  window.saveBracketScore = async function(ridx, midx){
-    if(!currentCompId || !allComps[currentCompId]) return;
-    const comp = allComps[currentCompId];
-    const bracket = comp.bracket;
-    if(!bracket || !bracket.rounds || !bracket.rounds[ridx] || !bracket.rounds[ridx][midx]) return;
-
-    const s1Val = $('bs1_' + ridx + '_' + midx)?.value;
-    const s2Val = $('bs2_' + ridx + '_' + midx)?.value;
-
-    if(s1Val === '' || s2Val === '' || s1Val === undefined || s2Val === undefined){
-      alert('Veuillez entrer les deux scores.');
-      return;
-    }
-    const s1 = parseInt(s1Val, 10);
-    const s2 = parseInt(s2Val, 10);
-    if(isNaN(s1) || isNaN(s2) || s1 < 0 || s2 < 0){
-      alert('Score invalide.');
-      return;
-    }
-    if(s1 === s2){
-      alert('Pas d\'égalité possible en tableau éliminatoire : saisissez le score final avec prolongation ou tirs au but.');
-      return;
-    }
-
-    const match = bracket.rounds[ridx][midx];
-    match.score1 = s1;
-    match.score2 = s2;
-    match.winner = s1 > s2 ? match.p1 : match.p2;
-
-    maybeAdvance(bracket);
-    editingBracketKey = null;
-
-    await syncCompetitionUpdate(currentCompId, comp);
-    postSystemChatMessage(currentCompId, '🏆 Tableau Éliminatoire : ' + playerLabel(match.p1) + ' ' + s1 + ' - ' + s2 + ' ' + playerLabel(match.p2) + ' (Vainqueur : ' + playerLabel(match.winner) + ')');
-  };
-
-  window.editBracketScore = function(ridx, midx){
-    editingBracketKey = ridx + '_' + midx;
-    renderComp();
-  };
-
-  window.cancelEditBracket = function(){
-    editingBracketKey = null;
-    renderComp();
-  };
-
-  window.drawBracketAuto = async function(){
-    if(!currentCompId || !allComps[currentCompId]) return;
-    const comp = allComps[currentCompId];
-    const regs = Array.isArray(comp.registrations) ? comp.registrations : [];
-    const eligible = regs.filter(r => r.paid || regs.length <= 16);
-    if(eligible.length < 2){
-      alert('Il faut au moins 2 participants enregistrés pour faire le tirage.');
-      return;
-    }
-    if(comp.bracket && comp.bracket.rounds && comp.bracket.rounds.length > 0){
-      if(!confirm('Un tableau éliminatoire existe déjà. Voulez-vous relancer le tirage ?')){ return; }
-    } else {
-      if(!confirm('Lancer le tirage de la phase finale avec ' + eligible.length + ' joueur(s) ?')){ return; }
-    }
-
-    const { round0, size } = firstRoundWithByes(eligible);
-    const newBracket = { rounds: [round0] };
-    maybeAdvance(newBracket);
-    comp.bracket = newBracket;
-
-    await syncCompetitionUpdate(currentCompId, comp);
-    alert('Tirage au sort effectué avec succès (' + eligible.length + ' joueurs, format ' + size + ' places) !');
-  };
-
-  $('drawBtn')?.addEventListener('click', drawBracketAuto);
-
-  $('resetBracketBtn')?.addEventListener('click', async function(){
-    if(!currentCompId || !allComps[currentCompId]) return;
-    if(!confirm('Voulez-vous réinitialiser le tableau éliminatoire ?')){ return; }
-    const comp = allComps[currentCompId];
-    comp.bracket = null;
-    await syncCompetitionUpdate(currentCompId, comp);
-    alert('Tableau éliminatoire réinitialisé.');
-  });
-
-  // 5. Modal Annonces
-  window.openAnnounceModal = function(){
-    if(!currentCompId){ alert('Ouvrez un tournoi d\'abord.'); return; }
-    $('announceInputText').value = '';
-    $('announceModal').style.display = 'flex';
-  };
-  $('closeAnnounceModal')?.addEventListener('click', () => $('announceModal').style.display = 'none');
-  $('announceModal')?.addEventListener('click', e => { if(e.target === $('announceModal')) $('announceModal').style.display = 'none'; });
-
-  $('announceForm')?.addEventListener('submit', async function(e){
-    e.preventDefault();
-    if(!currentCompId) return;
-    const text = $('announceInputText').value.trim();
-    if(!text) return;
-
-    try {
-      await fetch(API_SYNC_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-organizer-token': getOrganizerToken()
-        },
-        body: JSON.stringify({ id: currentCompId, announcement: { text } })
-      });
-      if(rtdb){
-        await rtdb.ref('announcements/' + currentCompId).set({ text, at: Date.now() });
-      }
-    } catch(err){}
-
-    $('announceModal').style.display = 'none';
-    $('announceForm').reset();
-    postSystemChatMessage(currentCompId, '📢 ' + text);
-    alert('Annonce officielle diffusée avec succès !');
-  });
-
-  async function postSystemChatMessage(compId, text){
-    if(!compId || !text) return;
-    try {
-      await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-organizer-token': getOrganizerToken()
-        },
-        body: JSON.stringify({
-          tournamentId: compId,
-          senderName: 'Organisateur',
-          senderGameId: 'EFootLigue',
-          text,
-          isAdmin: true
-        })
-      });
-    } catch(e){}
+    } catch(e){ console.warn('fetchAllFromDb error:', e); }
   }
 
   // ══════════════════════════════════════════════
@@ -1736,26 +1250,22 @@
     const platform = $('fPlatform').value;
     if(!name || !phone || !gameId){ showMsg('formMsg','error','Veuillez remplir tous les champs.'); return; }
 
-    const cleanPhone = phone.replace(/\D/g, '');
-    const cleanGameId = gameId.toLowerCase();
-
-    // Vérification de doublon
-    const isDuplicate = registrations.some(r => {
-      const rPhone = (r.phone || '').replace(/\D/g, '');
-      const rGameId = (r.gameId || '').toLowerCase();
-      return (cleanPhone && rPhone === cleanPhone) || (cleanGameId && rGameId === cleanGameId);
-    });
-
-    if(isDuplicate){
-      showMsg('formMsg', 'error', 'Ce numéro ou ID de jeu est déjà inscrit à cette compétition.');
-      return;
-    }
-
     const entry = { id: 'p_' + Date.now().toString(36), name, phone, gameId, platform, paid: false, createdAt: Date.now() };
     const newRegs = [...registrations, entry];
     comp.registrations = newRegs;
 
-    await syncCompetitionUpdate(currentCompId, comp);
+    // Sauvegarde DB PostgreSQL Render
+    try {
+      await fetch(API_SYNC_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: currentCompId, data: comp })
+      });
+    } catch(e){}
+
+    if(rtdb){
+      try { await rtdb.ref('competitions/' + currentCompId + '/registrations').set(newRegs); } catch(e){}
+    }
 
     $('regForm').reset();
     showMsg('formMsg','ok','Inscription confirmée ! Effectuez le paiement pour valider votre place.');
@@ -1765,6 +1275,7 @@
       $('waAfter').style.display = 'block';
       $('waAfter').innerHTML = '<a class="btn btn-ghost btn-sm" href="'+esc(waLink(c.wa,msg))+'" target="_blank" rel="noopener">📱 Envoyer la preuve sur WhatsApp</a>';
     }
+    renderComp();
   });
 
   // ══════════════════════════════════════════════
@@ -1796,36 +1307,6 @@
   $('closeGamerModal').addEventListener('click', () => $('gamerModal').style.display = 'none');
   $('gamerModal').addEventListener('click', e => { if(e.target === $('gamerModal')) $('gamerModal').style.display = 'none'; });
 
-  function updateGamerUI(){
-    const stored = localStorage.getItem('efoot_gamer');
-    if(stored){
-      try {
-        currentGamer = JSON.parse(stored);
-        if(currentGamer && currentGamer.name){
-          $('navGamerRegister').style.display = 'none';
-          $('navGamerLogin').textContent = '🎮 ' + currentGamer.name;
-          $('navGamerLogin').onclick = function(){
-            if(confirm('Connecté en tant que ' + currentGamer.name + ' (' + currentGamer.phone + ').\n\nVoulez-vous vous déconnecter ?')){
-              localStorage.removeItem('efoot_gamer');
-              currentGamer = null;
-              updateGamerUI();
-              alert('Vous êtes déconnecté.');
-            }
-          };
-          if($('fName')) $('fName').value = currentGamer.name || '';
-          if($('fPhone')) $('fPhone').value = currentGamer.phone || '';
-          if($('fGameId')) $('fGameId').value = currentGamer.gameId || '';
-          if($('fPlatform') && currentGamer.platform) $('fPlatform').value = currentGamer.platform;
-          return;
-        }
-      } catch(e){}
-    }
-    currentGamer = null;
-    $('navGamerRegister').style.display = 'inline';
-    $('navGamerLogin').textContent = 'Connexion';
-    $('navGamerLogin').onclick = openGamerLogin;
-  }
-
   $('gamerRegisterForm').addEventListener('submit', async function(e){
     e.preventDefault();
     const name = $('gamerRegName').value.trim();
@@ -1835,35 +1316,20 @@
     const pwd = $('gamerRegPwd').value.trim();
     if(!name || !phone || !gameId || !pwd){ showMsg('gamerMsg','error','Remplissez tous les champs.'); return; }
 
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    if(submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Création en cours...'; }
-
-    try {
-      const res = await fetch('/api/gamer/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'register', name, phone, gameId, platform, password: pwd })
-      });
-      const data = await res.json();
-
-      if(!res.ok || !data.ok){
-        showMsg('gamerMsg', 'error', data.error || 'Erreur lors de la création du compte.');
-        if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '🎮 Créer mon compte'; }
-        return;
-      }
-
-      currentGamer = data.gamer;
-      localStorage.setItem('efoot_gamer', JSON.stringify(data.gamer));
-      updateGamerUI();
-      $('gamerModal').style.display = 'none';
-      $('gamerRegisterForm').reset();
-      showMsg('gamerMsg', 'ok', 'Bienvenue ' + currentGamer.name + ' ! Votre compte est enregistré.');
-      alert('Félicitations ' + currentGamer.name + ' ! Votre compte joueur est créé et sécurisé. Vous pouvez désormais vous connecter depuis n\'importe quel appareil avec votre numéro et mot de passe.');
-    } catch(err){
-      showMsg('gamerMsg', 'error', 'Erreur de connexion au serveur. Réessayez.');
-    } finally {
-      if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '🎮 Créer mon compte'; }
+    const gamerId = 'gamer_' + Date.now().toString(36);
+    const gamerData = { id: gamerId, name, phone, gameId, platform, createdAt: Date.now() };
+    if(rtdb){
+      try { await rtdb.ref('gamers/' + gamerId).set(gamerData); } catch(e){}
     }
+    currentGamer = gamerData;
+    sessionStorage.setItem('currentGamer', JSON.stringify(gamerData));
+
+    $('fName').value = name;
+    $('fPhone').value = phone;
+    $('fGameId').value = gameId;
+    $('fPlatform').value = platform;
+    $('gamerModal').style.display = 'none';
+    alert('Bienvenue ' + name + ' ! Votre compte joueur est prêt.');
   });
 
   $('gamerLoginForm').addEventListener('submit', async function(e){
@@ -1871,155 +1337,10 @@
     const phone = $('gamerLoginPhone').value.trim();
     const pwd = $('gamerLoginPwd').value.trim();
     if(!phone || !pwd){ showMsg('gamerMsg','error','Entrez votre numéro et mot de passe.'); return; }
-
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    if(submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Connexion en cours...'; }
-
-    try {
-      const res = await fetch('/api/gamer/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'login', phone, password: pwd })
-      });
-      const data = await res.json();
-
-      if(!res.ok || !data.ok){
-        showMsg('gamerMsg', 'error', data.error || 'Numéro ou mot de passe incorrect.');
-        if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Se connecter'; }
-        return;
-      }
-
-      currentGamer = data.gamer;
-      localStorage.setItem('efoot_gamer', JSON.stringify(data.gamer));
-      updateGamerUI();
-      $('gamerModal').style.display = 'none';
-      $('gamerLoginForm').reset();
-      alert('Ravi de vous revoir ' + currentGamer.name + ' ! Vos informations ont été chargées.');
-    } catch(err){
-      showMsg('gamerMsg', 'error', 'Erreur de communication avec le serveur.');
-    } finally {
-      if(submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Se connecter'; }
-    }
-  });
-
-  // ══════════════════════════════════════════════
-  // MESSAGERIE / CHAT EN DIRECT DES PARTICIPANTS
-  // ══════════════════════════════════════════════
-  let currentChatMessages = [];
-  let chatListenerRef = null;
-
-  async function loadChatMessages(compId){
-    if(!compId) return;
-    const area = $('chatMessagesArea');
-    if(!area) return;
-
-    // 1. Charger historique depuis l'API PostgreSQL
-    try {
-      const res = await fetch('/api/chat?tournamentId=' + encodeURIComponent(compId));
-      if(res.ok){
-        const data = await res.json();
-        if(data.ok && Array.isArray(data.messages)){
-          currentChatMessages = data.messages;
-          renderChat();
-        }
-      }
-    } catch(e){}
-
-    // 2. Écoute temps réel Firebase RTDB pour chaque nouveau message
-    if(rtdb){
-      if(chatListenerRef) { try{ chatListenerRef.off(); }catch(e){} }
-      chatListenerRef = rtdb.ref('chat/' + compId);
-      chatListenerRef.limitToLast(60).on('value', snap => {
-        if(snap.exists()){
-          const vals = Object.values(snap.val());
-          const map = {};
-          currentChatMessages.forEach(m => { map[m.id || (m.createdAt+'_'+m.text)] = m; });
-          vals.forEach(m => { map[m.id || (m.createdAt+'_'+m.text)] = m; });
-          currentChatMessages = Object.values(map).sort((a,b) => (new Date(a.createdAt).getTime() || a.createdAt || 0) - (new Date(b.createdAt).getTime() || b.createdAt || 0));
-          renderChat();
-        }
-      });
-    }
-  }
-
-  function renderChat(){
-    const area = $('chatMessagesArea');
-    if(!area) return;
-    const countEl = $('chatMsgCount');
-    if(countEl) countEl.textContent = currentChatMessages.length;
-
-    if(currentChatMessages.length === 0){
-      area.innerHTML = '<p class="empty-note text-center" style="margin:auto">Aucun message pour le moment. Discutez avec les participants ou posez vos questions !</p>';
-      return;
-    }
-
-    const myName = (currentGamer?.name || (isOrganizer ? 'organisateur' : '')).toLowerCase();
-    const myPhone = (currentGamer?.phone || '').replace(/\D/g,'');
-
-    area.innerHTML = currentChatMessages.map(m => {
-      const isMine = (myName && (m.senderName || '').toLowerCase().includes(myName)) || (myPhone && (m.senderPhone || '').replace(/\D/g,'') === myPhone);
-      const isAdmin = Boolean(m.isAdmin);
-      const timeStr = m.createdAt ? new Date(m.createdAt).toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'}) : '';
-      return '<div class="chat-msg ' + (isAdmin ? 'admin ' : '') + (isMine ? 'mine' : '') + '">' +
-        '<div class="chat-sender ' + (isAdmin ? 'admin' : '') + '">' +
-          '<span>' + (isAdmin ? '👑 ' : '👤 ') + esc(m.senderName || 'Joueur') + '</span>' +
-          (m.senderGameId ? '<span class="chat-sender-badge">' + esc(m.senderGameId) + '</span>' : '') +
-          (isAdmin ? '<span class="chat-sender-badge" style="background:var(--lime);color:#0E1712">Organisateur</span>' : '') +
-        '</div>' +
-        '<div class="chat-text">' + esc(m.text) + '</div>' +
-        (timeStr ? '<div class="chat-time">' + esc(timeStr) + '</div>' : '') +
-      '</div>';
-    }).join('');
-
-    area.scrollTop = area.scrollHeight;
-  }
-
-  $('chatForm').addEventListener('submit', async function(e){
-    e.preventDefault();
-    if(!currentCompId){
-      alert('Veuillez d\'abord ouvrir un tournoi pour envoyer un message.');
-      return;
-    }
-    const input = $('chatInput');
-    const text = (input.value || '').trim();
-    if(!text) return;
-
-    let senderName = currentGamer?.name || $('fName')?.value.trim() || 'Joueur';
-    let senderPhone = currentGamer?.phone || $('fPhone')?.value.trim() || '';
-    let senderGameId = currentGamer?.gameId || $('fGameId')?.value.trim() || '';
-    const isAdmin = isOrganizer;
-
-    if(isAdmin){
-      senderName = currentGamer?.name ? (currentGamer.name + ' (Organisateur)') : 'Organisateur';
-      if(!senderGameId) senderGameId = 'Admin';
-    }
-
-    input.value = '';
-
-    try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-organizer-token': getOrganizerToken()
-        },
-        body: JSON.stringify({
-          tournamentId: currentCompId,
-          senderName,
-          senderPhone,
-          senderGameId,
-          text,
-          isAdmin
-        })
-      });
-      const data = await res.json();
-      if(data.ok && data.message){
-        currentChatMessages.push(data.message);
-        renderChat();
-      }
-    } catch(err){
-      console.warn('Chat send error:', err);
-    }
+    currentGamer = { phone, name: 'Joueur' };
+    sessionStorage.setItem('currentGamer', JSON.stringify(currentGamer));
+    $('gamerModal').style.display = 'none';
+    alert('Connexion réussie !');
   });
 
   // ══════════════════════════════════════════════
@@ -2044,29 +1365,6 @@
   // ══════════════════════════════════════════════
 
   let sseLastTs = 0;
-  let allAnnouncements = {};
-
-  function renderAnnouncements(){
-    const homeAnnEl = $('homeAnnouncementsArea');
-    if(homeAnnEl){
-      const annList = Object.values(allAnnouncements).filter(a => a && a.text);
-      if(annList.length > 0){
-        const latest = annList[annList.length - 1];
-        homeAnnEl.innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(latest.text)+'</div></div></div>';
-      } else {
-        homeAnnEl.innerHTML = '';
-      }
-    }
-    const annEl = $('announcementsArea');
-    if(annEl){
-      if(currentCompId && allAnnouncements[currentCompId] && allAnnouncements[currentCompId].text){
-        const a = allAnnouncements[currentCompId];
-        annEl.innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
-      } else {
-        annEl.innerHTML = '';
-      }
-    }
-  }
 
   function applyCompetitionsUpdate(competitions, announcements){
     if(competitions){
@@ -2080,14 +1378,15 @@
       renderHome();
       if(currentCompId && allComps[currentCompId]) renderComp();
     }
-    if(announcements){
-      allAnnouncements = { ...allAnnouncements, ...announcements };
-      renderAnnouncements();
+    if(announcements && currentCompId && announcements[currentCompId]){
+      const a = announcements[currentCompId];
+      const annEl = $('announcementsArea');
+      if(annEl) annEl.innerHTML = '<div class="announce-banner"><div class="ann-icon">📢</div><div><div class="ann-text">'+esc(a.text)+'</div></div></div>';
     }
   }
 
   function startSSE(){
-    if(!window.EventSource) return;
+    if(!window.EventSource) return; // Navigateur trop ancien → fallback polling
     let sse = null;
     let reconnectTimer = null;
 
@@ -2107,13 +1406,19 @@
         } catch(err){ console.warn('[SSE] parse error:', err); }
       });
 
+      sse.addEventListener('heartbeat', () => {
+        // Connexion vivante, rien a faire
+      });
+
       sse.addEventListener('end', () => {
+        // Le serveur a ferme le stream (limite 25s Vercel) → reconnexion immediate
         sse.close();
         reconnectTimer = setTimeout(connect, 500);
       });
 
       sse.onerror = () => {
         sse.close();
+        // Reconnexion avec backoff de 3s
         reconnectTimer = setTimeout(connect, 3000);
       };
     }
@@ -2127,28 +1432,28 @@
       if(local){ allComps = JSON.parse(local) || {}; renderHome(); }
     } catch(e){}
 
-    // Mise à jour de l'UI organisateur
-    updateNavOrganizerUI();
-
     // Chargement initial depuis PostgreSQL
     await fetchAllFromDb();
     sseLastTs = Date.now();
 
-    // 1. SSE
+    // 1. SSE — push instantane depuis le serveur
     startSSE();
 
-    // 2. Firebase RTDB
+    // 2. Firebase RTDB — push instantane direct
     if(rtdb){
+      // Ecoute competitions
       rtdb.ref('competitions').on('value', snap => {
         if(snap.exists()){
           applyCompetitionsUpdate(snap.val(), null);
         }
       });
+      // Ecoute annonces
       rtdb.ref('announcements').on('value', snap => {
         if(snap.exists()){
           applyCompetitionsUpdate(null, snap.val());
         }
       });
+      // Ecoute signal de sync global -> force un refresh DB
       rtdb.ref('syncSignal').on('value', snap => {
         if(snap.exists()){
           const sig = snap.val();
@@ -2160,17 +1465,14 @@
       });
     }
 
-    // 3. Polling de secours 10s
+    // 3. Polling 10s — filet de securite si SSE/Firebase coupent
     setInterval(fetchAllFromDb, 10000);
 
-    // 4. Galerie des vainqueurs
+    // 4. Galerie des vainqueurs — chargement initial (semaine par défaut)
     fetchWinners('week');
 
-    // 5. Initialisation PWA
-    initPWA();
-
-    // Initialiser l'état du joueur connecté
-    updateGamerUI();
+    // 5. Chat communautaire global
+    initChat();
 
     const hash = window.location.hash.replace('#','');
     if(hash && hash.startsWith('comp-')){
@@ -2178,6 +1480,7 @@
       setTimeout(() => openComp(cid), 400);
     }
   }
+
 
   // ══════════════════════════════════════════════
   // GALERIE DES VAINQUEURS
@@ -2226,6 +1529,487 @@
   }
 
   // ══════════════════════════════════════════════
+  // CHAT COMMUNAUTAIRE GLOBAL
+  // ══════════════════════════════════════════════
+  const CHAT_TOURNAMENT_ID = 'global';
+  let chatRenderedIds = new Set();
+  let chatMsgCount = 0;
+
+  function renderChatInputArea(){
+    const area = $('chatInputArea');
+    if(!area) return;
+    if(currentGamer && currentGamer.name){
+      area.innerHTML =
+        '<form class="chat-input-row" id="globalChatForm">' +
+          '<input id="globalChatInput" type="text" maxlength="500" placeholder="Écrire un message... (max 500 car.)" autocomplete="off">' +
+          '<button class="chat-send-btn" type="submit" id="chatSendBtn">Envoyer</button>' +
+        '</form>';
+      const form = $('globalChatForm');
+      if(form) form.addEventListener('submit', sendGlobalChatMessage);
+    } else {
+      area.innerHTML =
+        '<div class="chat-locked">🔒 <a onclick="openGamerLogin()">Connectez-vous</a> ou <a onclick="openGamerRegister()">créez un compte joueur</a> pour participer au chat.</div>';
+    }
+  }
+
+  // ══════════════════════════════════════════════
+  // UTILITAIRE COMPRESSION IMAGE CLIENT (POUR PHOTOS/SCORES)
+  // ══════════════════════════════════════════════
+  function compressImageFile(file, maxWidth = 1000, quality = 0.75) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ══════════════════════════════════════════════
+  // LIGHTBOX PHOTO PLEIN ÉCRAN
+  // ══════════════════════════════════════════════
+  window.openChatLightbox = function(url) {
+    const box = $('chatLightbox');
+    const img = $('lightboxImg');
+    if (box && img) {
+      img.src = url;
+      box.classList.add('show');
+    }
+  };
+
+  const _closeLightboxBtn = $('closeLightboxBtn');
+  if (_closeLightboxBtn) {
+    _closeLightboxBtn.addEventListener('click', () => {
+      const box = $('chatLightbox');
+      if (box) box.classList.remove('show');
+    });
+  }
+  const _chatLightbox = $('chatLightbox');
+  if (_chatLightbox) {
+    _chatLightbox.addEventListener('click', (e) => {
+      if (e.target === _chatLightbox) _chatLightbox.classList.remove('show');
+    });
+  }
+
+  // ══════════════════════════════════════════════
+  // GESTION DU CHAT COMMUNAUTAIRE & TOURNOI (STYLE WHATSAPP)
+  // ══════════════════════════════════════════════
+  const CHAT_GLOBAL_ID = 'global';
+  let chatRenderedGlobalIds = new Set();
+  let chatRenderedTourneyIds = new Set();
+  let selectedGlobalImageBase64 = '';
+  let selectedTourneyImageBase64 = '';
+
+  // Vérifier si l'utilisateur actuel est inscrit dans un tournoi spécifique
+  function isGamerInTournament(compId) {
+    if (!currentGamer || !compId || !allComps[compId]) return false;
+    const comp = allComps[compId];
+    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
+    const myPhone = String(currentGamer.phone || '').trim();
+    const myName = String(currentGamer.name || '').trim().toLowerCase();
+    const myGameId = String(currentGamer.gameId || '').trim().toLowerCase();
+
+    return registrations.some(r => {
+      const rPhone = String(r.phone || '').trim();
+      const rName = String(r.name || '').trim().toLowerCase();
+      const rGameId = String(r.gameId || '').trim().toLowerCase();
+      return (myPhone && rPhone === myPhone) || (myName && rName === myName) || (myGameId && rGameId === myGameId);
+    });
+  }
+
+  // 1. Rendu zone de saisie du Chat Général (Page Accueil)
+  function renderGlobalChatInput() {
+    const area = $('chatInputArea');
+    if (!area) return;
+    if (currentGamer && currentGamer.name) {
+      area.innerHTML =
+        '<form class="chat-input-row" id="globalChatForm">' +
+          '<input type="file" id="globalChatFileInput" accept="image/*" style="display:none">' +
+          '<button class="chat-media-btn" id="globalChatMediaBtn" type="button" title="Envoyer une photo">📷</button>' +
+          '<input id="globalChatInput" type="text" maxlength="500" placeholder="Écrire un message à la communauté..." autocomplete="off">' +
+          '<button class="chat-send-btn" type="submit" id="globalChatSendBtn">Envoyer 📤</button>' +
+        '</form>';
+
+      const form = $('globalChatForm');
+      if (form) form.addEventListener('submit', sendGlobalChatMessage);
+
+      const mediaBtn = $('globalChatMediaBtn');
+      const fileInput = $('globalChatFileInput');
+      if (mediaBtn && fileInput) {
+        mediaBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', async (e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            try {
+              selectedGlobalImageBase64 = await compressImageFile(file);
+              $('globalChatPreviewImg').src = selectedGlobalImageBase64;
+              $('globalChatPreviewWrap').classList.add('show');
+            } catch (err) {
+              alert('Erreur lors du traitement de la photo.');
+            }
+          }
+        });
+      }
+    } else {
+      area.innerHTML =
+        '<div class="chat-locked">🔒 <a onclick="openGamerLogin()">Connectez-vous</a> ou <a onclick="openGamerRegister()">créez votre compte joueur</a> pour échanger avec la communauté.</div>';
+    }
+  }
+
+  const _globalRemoveBtn = $('globalChatPreviewRemove');
+  if (_globalRemoveBtn) {
+    _globalRemoveBtn.addEventListener('click', () => {
+      selectedGlobalImageBase64 = '';
+      $('globalChatPreviewWrap').classList.remove('show');
+      const fileInp = $('globalChatFileInput');
+      if (fileInp) fileInp.value = '';
+    });
+  }
+
+  // 2. Rendu zone de saisie du Chat de Tournoi (Page Compétition)
+  // RÈGLE : Seuls les inscrits à ce tournoi peuvent écrire !
+  function renderTourneyChatInput() {
+    const area = $('tourneyChatInputArea');
+    if (!area || !currentCompId) return;
+
+    const comp = allComps[currentCompId];
+    const cName = comp?.config?.name || 'ce tournoi';
+
+    if (!currentGamer || !currentGamer.name) {
+      area.innerHTML =
+        '<div class="chat-locked">🔒 <a onclick="openGamerLogin()">Connectez-vous</a> et <a href="#inscription">inscrivez-vous à ce tournoi</a> pour envoyer des messages et partager vos scores.</div>';
+      return;
+    }
+
+    const isRegistered = isGamerInTournament(currentCompId);
+
+    if (isRegistered) {
+      // Le joueur est bien inscrit dans le tournoi !
+      area.innerHTML =
+        '<form class="chat-input-row" id="tourneyChatForm">' +
+          '<input type="file" id="tourneyChatFileInput" accept="image/*" style="display:none">' +
+          '<button class="chat-media-btn" id="tourneyChatMediaBtn" type="button" title="Joindre capture de score / photo">📷</button>' +
+          '<input id="tourneyChatInput" type="text" maxlength="500" placeholder="Annoncer un score, salon, message..." autocomplete="off">' +
+          '<button class="chat-send-btn" type="submit" id="tourneyChatSendBtn">Envoyer 📤</button>' +
+        '</form>';
+
+      const form = $('tourneyChatForm');
+      if (form) form.addEventListener('submit', sendTourneyChatMessage);
+
+      const mediaBtn = $('tourneyChatMediaBtn');
+      const fileInput = $('tourneyChatFileInput');
+      if (mediaBtn && fileInput) {
+        mediaBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', async (e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            try {
+              selectedTourneyImageBase64 = await compressImageFile(file);
+              $('tourneyChatPreviewImg').src = selectedTourneyImageBase64;
+              $('tourneyChatPreviewWrap').classList.add('show');
+            } catch (err) {
+              alert('Erreur lors du traitement de la photo.');
+            }
+          }
+        });
+      }
+    } else {
+      // Le joueur est connecté mais PAS inscrit dans ce tournoi
+      area.innerHTML =
+        '<div class="chat-locked tourney-only">' +
+          '⚠️ <b>Mode lecture seule</b> : Vous devez être <a href="#inscription">inscrit à ' + esc(cName) + '</a> pour poster des messages et photos dans ce groupe.' +
+        '</div>';
+    }
+  }
+
+  const _tourneyRemoveBtn = $('tourneyChatPreviewRemove');
+  if (_tourneyRemoveBtn) {
+    _tourneyRemoveBtn.addEventListener('click', () => {
+      selectedTourneyImageBase64 = '';
+      $('tourneyChatPreviewWrap').classList.remove('show');
+      const fileInp = $('tourneyChatFileInput');
+      if (fileInp) fileInp.value = '';
+    });
+  }
+
+  // 3. Construction visuelle d'un message (WhatsApp style)
+  function createMessageElement(msg) {
+    const isMine = currentGamer && (msg.senderPhone === currentGamer.phone || msg.senderName === currentGamer.name);
+    const isAdmin = msg.isAdmin;
+    const ts = msg.createdAt ? new Date(typeof msg.createdAt === 'number' ? msg.createdAt : msg.createdAt).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' }) : '';
+
+    const div = document.createElement('div');
+    div.className = 'chat-msg' + (isMine ? ' mine' : ' other') + (isAdmin ? ' admin-msg' : '');
+
+    let imageHtml = '';
+    if (msg.imageUrl) {
+      imageHtml = '<img src="' + esc(msg.imageUrl) + '" class="cm-img" alt="Capture d\'écran / Photo" onclick="openChatLightbox(\'' + esc(msg.imageUrl) + '\')" title="Cliquer pour agrandir">';
+    }
+
+    div.innerHTML =
+      '<div class="cm-meta">' +
+        '<span class="cm-sender">' + esc(msg.senderName || 'Joueur') + '</span>' +
+        (msg.senderGameId ? '<span style="color:var(--text-muted)">· ' + esc(msg.senderGameId) + '</span>' : '') +
+        (isAdmin ? '<span style="background:var(--gold);color:#0E1712;font-size:9px;padding:1px 5px;border-radius:4px;font-weight:800">ADMIN</span>' : '') +
+      '</div>' +
+      '<div class="cm-bubble">' +
+        (msg.text ? '<div>' + esc(msg.text) + '</div>' : '') +
+        imageHtml +
+        '<div class="cm-time">' + esc(ts) + (isMine ? ' <span class="cm-check">✓✓</span>' : '') + '</div>' +
+      '</div>';
+
+    return div;
+  }
+
+  // 4. Ajouter message dans le chat général
+  function appendGlobalChatMessage(msg) {
+    const box = $('globalChatMessages');
+    if (!box || chatRenderedGlobalIds.has(msg.id)) return;
+    chatRenderedGlobalIds.add(msg.id);
+
+    const placeholder = box.querySelector('p');
+    if (placeholder) placeholder.remove();
+
+    box.appendChild(createMessageElement(msg));
+
+    const distFromBottom = box.scrollHeight - box.scrollTop - box.clientHeight;
+    if (distFromBottom < 100) box.scrollTop = box.scrollHeight;
+  }
+
+  // 5. Ajouter message dans le chat du tournoi
+  function appendTourneyChatMessage(msg) {
+    const box = $('tourneyChatMessages');
+    if (!box || chatRenderedTourneyIds.has(msg.id)) return;
+    chatRenderedTourneyIds.add(msg.id);
+
+    const placeholder = box.querySelector('p');
+    if (placeholder) placeholder.remove();
+
+    box.appendChild(createMessageElement(msg));
+
+    const distFromBottom = box.scrollHeight - box.scrollTop - box.clientHeight;
+    if (distFromBottom < 100) box.scrollTop = box.scrollHeight;
+  }
+
+  // 6. Charger l'historique du chat général
+  async function loadGlobalChatHistory() {
+    try {
+      const res = await fetch('/api/chat?tournamentId=' + CHAT_GLOBAL_ID);
+      const data = await res.json();
+      if (data.ok && Array.isArray(data.messages)) {
+        const box = $('globalChatMessages');
+        if (box) box.innerHTML = '';
+        chatRenderedGlobalIds.clear();
+        data.messages.forEach(m => appendGlobalChatMessage(m));
+        if (data.messages.length === 0 && box) {
+          box.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Bienvenue dans la communauté ! Soyez le premier à écrire un message. 👋</p>';
+        } else if (box) {
+          box.scrollTop = box.scrollHeight;
+        }
+      }
+    } catch(e) { console.warn('loadGlobalChatHistory error:', e); }
+  }
+
+  // 7. Charger l'historique du chat du tournoi sélectionné
+  async function loadTourneyChatHistory(compId) {
+    if (!compId) return;
+    try {
+      const box = $('tourneyChatMessages');
+      if (box) box.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Chargement des messages du groupe...</p>';
+      chatRenderedTourneyIds.clear();
+
+      const res = await fetch('/api/chat?tournamentId=' + compId);
+      const data = await res.json();
+      if (data.ok && Array.isArray(data.messages)) {
+        if (box) box.innerHTML = '';
+        data.messages.forEach(m => appendTourneyChatMessage(m));
+        if (data.messages.length === 0 && box) {
+          box.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Groupe ouvert ! Partagez vos codes de match et captures d\'écran de scores ici. 📸</p>';
+        } else if (box) {
+          box.scrollTop = box.scrollHeight;
+        }
+      }
+    } catch(e) { console.warn('loadTourneyChatHistory error:', e); }
+  }
+
+  // 8. Écoute temps réel Firebase
+  function startFirebaseChatListeners() {
+    if (!rtdb) return;
+    const since = Date.now() - 120000;
+
+    // Écoute Chat Général
+    rtdb.ref('chat/' + CHAT_GLOBAL_ID).orderByChild('createdAt').startAt(since).on('child_added', snap => {
+      const msg = snap.val();
+      if (msg && msg.id) appendGlobalChatMessage(msg);
+    });
+
+    // Compteur en ligne
+    rtdb.ref('presence/chat_' + CHAT_GLOBAL_ID).on('value', snap => {
+      const count = snap.numChildren ? snap.numChildren() : (snap.val() ? Object.keys(snap.val()).length : 1);
+      const el = $('chatOnlineCount');
+      if (el) el.textContent = count > 1 ? count + ' membres en ligne' : '1 membre en ligne';
+    });
+  }
+
+  // Écoute temps réel pour le tournoi actif
+  let activeTourneyListenerRef = null;
+  function switchTourneyChatFirebase(compId) {
+    if (!rtdb || !compId) return;
+    if (activeTourneyListenerRef) {
+      activeTourneyListenerRef.off();
+    }
+    const since = Date.now() - 120000;
+    activeTourneyListenerRef = rtdb.ref('chat/' + compId).orderByChild('createdAt').startAt(since);
+    activeTourneyListenerRef.on('child_added', snap => {
+      const msg = snap.val();
+      if (msg && msg.id) appendTourneyChatMessage(msg);
+    });
+  }
+
+  // 9. Envoi message Chat Général
+  async function sendGlobalChatMessage(e) {
+    e.preventDefault();
+    if (!currentGamer) return;
+    const input = $('globalChatInput');
+    const btn = $('globalChatSendBtn');
+    const text = (input ? input.value : '').trim();
+    const image = selectedGlobalImageBase64;
+
+    if (!text && !image) return;
+    if (btn) btn.disabled = true;
+    if (input) input.value = '';
+
+    // Réinitialiser aperçu
+    selectedGlobalImageBase64 = '';
+    $('globalChatPreviewWrap').classList.remove('show');
+    const fileInp = $('globalChatFileInput');
+    if (fileInp) fileInp.value = '';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tournamentId: CHAT_GLOBAL_ID,
+          senderName: currentGamer.name || 'Joueur',
+          senderPhone: currentGamer.phone || '',
+          senderGameId: currentGamer.gameId || '',
+          text,
+          imageUrl: image,
+          isAdmin: false
+        })
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        if (input) input.value = text;
+        alert(data.error || 'Erreur lors de l\'envoi du message.');
+      }
+    } catch(err) {
+      if (input) input.value = text;
+      console.error('sendGlobalChatMessage error:', err);
+    } finally {
+      if (btn) btn.disabled = false;
+      if (input) input.focus();
+    }
+  }
+
+  // 10. Envoi message Chat Tournoi
+  async function sendTourneyChatMessage(e) {
+    e.preventDefault();
+    if (!currentGamer || !currentCompId) return;
+
+    if (!isGamerInTournament(currentCompId)) {
+      alert('Vous devez être inscrit à ce tournoi pour envoyer des messages.');
+      return;
+    }
+
+    const input = $('tourneyChatInput');
+    const btn = $('tourneyChatSendBtn');
+    const text = (input ? input.value : '').trim();
+    const image = selectedTourneyImageBase64;
+
+    if (!text && !image) return;
+    if (btn) btn.disabled = true;
+    if (input) input.value = '';
+
+    // Réinitialiser aperçu
+    selectedTourneyImageBase64 = '';
+    $('tourneyChatPreviewWrap').classList.remove('show');
+    const fileInp = $('tourneyChatFileInput');
+    if (fileInp) fileInp.value = '';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tournamentId: currentCompId,
+          senderName: currentGamer.name || 'Joueur',
+          senderPhone: currentGamer.phone || '',
+          senderGameId: currentGamer.gameId || '',
+          text,
+          imageUrl: image,
+          isAdmin: false
+        })
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        if (input) input.value = text;
+        alert(data.error || 'Erreur lors de l\'envoi du message.');
+      }
+    } catch(err) {
+      if (input) input.value = text;
+      console.error('sendTourneyChatMessage error:', err);
+    } finally {
+      if (btn) btn.disabled = false;
+      if (input) input.focus();
+    }
+  }
+
+  function initChat() {
+    renderGlobalChatInput();
+    loadGlobalChatHistory();
+    startFirebaseChatListeners();
+  }
+
+  // Mettre à jour l'UI des chats quand l'utilisateur se connecte
+  const _origGamerLogin = $('gamerLoginForm');
+  const _origGamerRegister = $('gamerRegisterForm');
+  if (_origGamerLogin) {
+    _origGamerLogin.addEventListener('submit', () => {
+      setTimeout(() => {
+        renderGlobalChatInput();
+        if (currentCompId) renderTourneyChatInput();
+      }, 300);
+    });
+  }
+  if (_origGamerRegister) {
+    _origGamerRegister.addEventListener('submit', () => {
+      setTimeout(() => {
+        renderGlobalChatInput();
+        if (currentCompId) renderTourneyChatInput();
+      }, 300);
+    });
+  }
+
+  // ══════════════════════════════════════════════
   // PWA (PROGRESSIVE WEB APP)
   // ══════════════════════════════════════════════
   let deferredPrompt = null;
@@ -2252,9 +2036,11 @@
       e.preventDefault();
       deferredPrompt = e;
 
+      // Afficher le bouton dans la nav
       const navBtn = $('navInstallBtn');
       if(navBtn) navBtn.style.display = 'inline-flex';
 
+      // Afficher la bannière flottante si pas encore installée et pas fermée cette session
       if(!isStandalone && !bannerDismissed){
         setTimeout(() => {
           const banner = $('pwaBanner');
@@ -2300,8 +2086,746 @@
     });
   }
 
+  // ══════════════════════════════════════════════
+  // PANEL D'ADMINISTRATION
+  // ══════════════════════════════════════════════
+  let adminGamersList = [];
+  let adminPrismaTournaments = [];
+
+  function getAdminToken(){
+    return sessionStorage.getItem('efoot_admin_token') || localStorage.getItem('efoot_admin_token') || '';
+  }
+
+  function setAdminToken(t){
+    sessionStorage.setItem('efoot_admin_token', t);
+    localStorage.setItem('efoot_admin_token', t);
+  }
+
+  window.openAdminPanel = function(){
+    const token = getAdminToken();
+    if(token){
+      showAdmin();
+    } else {
+      $('adminLoginModal').style.display = 'flex';
+    }
+  };
+
+  function showAdmin(){
+    $('pageHome').style.display = 'none';
+    $('pageComp').style.display = 'none';
+    $('pageAdmin').style.display = 'block';
+    $('navJoueurs').style.display = 'none';
+    $('navTableau').style.display = 'none';
+    const navTChat = $('navTourneyChat');
+    if(navTChat) navTChat.style.display = 'none';
+    const navGChat = $('navChat');
+    if(navGChat) navGChat.style.display = 'none';
+    $('adminLoginModal').style.display = 'none';
+    
+    adminPopulateTournamentSelects();
+    adminLoadRegistrations();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  window.showAdmin = showAdmin;
+
+  $('adminLoginForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const pwd = $('adminLoginPassword').value.trim();
+    if(!pwd) return;
+    const msgEl = $('adminLoginMsg');
+    msgEl.innerHTML = '<div class="msg">Connexion en cours...</div>';
+    try {
+      const res = await fetch('/api/organizer/unlock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pwd })
+      });
+      const data = await res.json();
+      if(data.ok && data.token){
+        setAdminToken(data.token);
+        msgEl.innerHTML = '<div class="msg ok">Accès autorisé !</div>';
+        setTimeout(showAdmin, 400);
+      } else {
+        msgEl.innerHTML = '<div class="msg error">' + esc(data.error || 'Mot de passe incorrect.') + '</div>';
+      }
+    } catch(err){
+      msgEl.innerHTML = '<div class="msg error">Erreur de communication avec le serveur.</div>';
+    }
+  });
+
+  window.switchAdminTab = function(tabName){
+    const tabs = ['registrations', 'matches', 'schedule', 'addplayer'];
+    tabs.forEach(t => {
+      const sec = $('adminTab' + t.charAt(0).toUpperCase() + t.slice(1));
+      if(sec) sec.style.display = (t === tabName) ? 'block' : 'none';
+    });
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      const isMatch = btn.getAttribute('onclick')?.includes(tabName);
+      if(isMatch) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+
+    if(tabName === 'matches') adminLoadMatches();
+    if(tabName === 'schedule') adminLoadScheduleMatches();
+    if(tabName === 'registrations') adminLoadRegistrations();
+  };
+
+  function adminPopulateTournamentSelects(){
+    const selects = ['adminMatchTournSelect', 'adminSchedTournSelect', 'adminAddTournSelect'];
+    selects.forEach(sId => {
+      const el = $(sId);
+      if(!el) return;
+      const currentVal = el.value;
+      let opts = '<option value="">-- Choisir un tournoi --</option>';
+      
+      // Tournois JSON (allComps)
+      Object.entries(allComps).forEach(([id, comp]) => {
+        if(!comp || !comp.config) return;
+        opts += '<option value="json:' + esc(id) + '">[JSON] ' + esc(comp.config.name || id) + '</option>';
+      });
+
+      // Tournois Prisma
+      adminPrismaTournaments.forEach(t => {
+        opts += '<option value="prisma:' + esc(t.id) + '">[DB] ' + esc(t.name) + ' (' + t.slug + ')</option>';
+      });
+
+      el.innerHTML = opts;
+      if(currentVal) el.value = currentVal;
+    });
+  }
+
+  // ── Onglet Inscriptions ──
+  window.adminLoadRegistrations = async function(){
+    const tableEl = $('adminRegistrationsTable');
+    if(!tableEl) return;
+    tableEl.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Chargement des inscriptions...</p>';
+
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/admin/registrations', {
+        headers: { 'x-organizer-token': token }
+      });
+      const data = await res.json();
+      if(data.ok){
+        adminGamersList = data.gamerProfiles || [];
+        adminPrismaTournaments = data.tournaments || [];
+        adminPopulateTournamentSelects();
+        renderAdminRegistrations(adminGamersList);
+        
+        // Remplir aussi le select des joueurs dans l'onglet "Ajouter Joueur"
+        const gSelect = $('adminAddGamerSelect');
+        if(gSelect){
+          let gOpts = '<option value="">-- Choisir un joueur --</option>';
+          adminGamersList.forEach(g => {
+            gOpts += '<option value="' + esc(g.id) + '">' + esc(g.name) + ' (' + esc(g.gameId) + ' - ' + esc(g.phone) + ')</option>';
+          });
+          gSelect.innerHTML = gOpts;
+        }
+
+        // Stats
+        $('statTotalGamers').textContent = adminGamersList.length;
+        let totalTourn = Object.keys(allComps).length + adminPrismaTournaments.length;
+        $('statTotalTournaments').textContent = totalTourn;
+      } else {
+        tableEl.innerHTML = '<p class="msg error">' + esc(data.error || 'Erreur chargement') + '</p>';
+      }
+    } catch(err){
+      tableEl.innerHTML = '<p class="msg error">Erreur réseau lors du chargement des inscriptions.</p>';
+    }
+  };
+
+  function renderAdminRegistrations(gamers){
+    const tableEl = $('adminRegistrationsTable');
+    if(!tableEl) return;
+    if(!gamers || gamers.length === 0){
+      tableEl.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Aucun joueur inscrit pour le moment.</p>';
+      return;
+    }
+
+    let html = '<div style="overflow-x:auto"><table class="admin-table">' +
+      '<thead><tr>' +
+      '<th>Nom / Pseudo</th>' +
+      '<th>ID eFootball</th>' +
+      '<th>Téléphone</th>' +
+      '<th>Plateforme</th>' +
+      '<th>Tournois</th>' +
+      '<th>Date</th>' +
+      '<th>Actions</th>' +
+      '</tr></thead><tbody>';
+
+    gamers.forEach(g => {
+      const tourns = Array.isArray(g.tournaments) ? g.tournaments.join(', ') : (g.tournaments || 'Aucun');
+      const d = g.createdAt ? new Date(g.createdAt).toLocaleDateString('fr-FR') : '-';
+      html += '<tr>' +
+        '<td><strong>' + esc(g.name) + '</strong></td>' +
+        '<td><span class="badge badge-green">' + esc(g.gameId || '-') + '</span></td>' +
+        '<td>' + esc(g.phone || '-') + '</td>' +
+        '<td><span class="badge badge-blue">' + esc(g.platform || 'Mobile') + '</span></td>' +
+        '<td style="font-size:11.5px;color:var(--text-muted)">' + esc(tourns) + '</td>' +
+        '<td style="font-size:11.5px;color:var(--text-muted)">' + esc(d) + '</td>' +
+        '<td>' +
+        '<button class="btn-admin" onclick="adminQuickAddPlayer(\'' + esc(g.id) + '\')" title="Inscrire à un tournoi">➕ Inscrire</button>' +
+        '</td>' +
+        '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    tableEl.innerHTML = html;
+  }
+
+  // Filtrage recherche en direct
+  const searchInput = $('adminSearchGamers');
+  if(searchInput){
+    searchInput.addEventListener('input', function(){
+      const q = this.value.toLowerCase().trim();
+      if(!q){
+        renderAdminRegistrations(adminGamersList);
+        return;
+      }
+      const filtered = adminGamersList.filter(g => {
+        return (g.name || '').toLowerCase().includes(q) ||
+               (g.gameId || '').toLowerCase().includes(q) ||
+               (g.phone || '').includes(q) ||
+               (g.platform || '').toLowerCase().includes(q);
+      });
+      renderAdminRegistrations(filtered);
+    });
+  }
+
+  window.adminQuickAddPlayer = function(gamerId){
+    switchAdminTab('addplayer');
+    const sel = $('adminAddGamerSelect');
+    if(sel) sel.value = gamerId;
+  };
+
+  // ── Onglet Matchs & Scores ──
+  window.adminLoadMatches = async function(){
+    const selVal = $('adminMatchTournSelect').value;
+    const area = $('adminMatchesArea');
+    if(!area) return;
+    if(!selVal){
+      area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Sélectionnez un tournoi ci-dessus.</p>';
+      return;
+    }
+
+    area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Chargement des matchs...</p>';
+
+    if(selVal.startsWith('json:')){
+      const compId = selVal.replace('json:', '');
+      const comp = allComps[compId];
+      if(!comp){
+        area.innerHTML = '<p class="msg error">Compétition introuvable.</p>';
+        return;
+      }
+      renderAdminJsonMatches(compId, comp);
+    } else if(selVal.startsWith('prisma:')){
+      const tId = selVal.replace('prisma:', '');
+      const tourn = adminPrismaTournaments.find(t => t.id === tId);
+      if(!tourn){
+        area.innerHTML = '<p class="msg error">Tournoi introuvable.</p>';
+        return;
+      }
+      try {
+        const res = await fetch('/api/tournaments/' + tourn.slug);
+        const data = await res.json();
+        if(data.ok && data.tournament){
+          renderAdminPrismaMatches(data.tournament);
+        } else {
+          area.innerHTML = '<p class="msg error">' + esc(data.error || 'Erreur chargement') + '</p>';
+        }
+      } catch(err){
+        area.innerHTML = '<p class="msg error">Erreur réseau.</p>';
+      }
+    }
+  };
+
+  function renderAdminJsonMatches(compId, comp){
+    const area = $('adminMatchesArea');
+    const leagueMatches = Array.isArray(comp.leagueMatches) ? comp.leagueMatches : [];
+    const bracket = comp.bracket || null;
+
+    if(leagueMatches.length === 0 && (!bracket || !bracket.rounds || bracket.rounds.length === 0)){
+      area.innerHTML = '<div class="empty-state"><div class="icon">⚽</div><p>Aucun match généré pour ce tournoi.<br>Lancez le tirage au sort ou créez des rencontres.</p></div>';
+      return;
+    }
+
+    let html = '';
+    let totalM = 0;
+    let playedM = 0;
+
+    // 1. Matchs de poules / ligue
+    if(leagueMatches.length > 0){
+      html += '<h4 style="color:var(--lime);margin:16px 0 10px;font-size:15px">🏆 Phase de Ligue / Journées</h4>';
+      leagueMatches.forEach((md, mdIdx) => {
+        html += '<div class="matchday-card">' +
+          '<div class="matchday-title"><span>📅 ' + esc(md.name || 'Journée ' + (mdIdx + 1)) + '</span></div>';
+        const matches = Array.isArray(md.matches) ? md.matches : [];
+        matches.forEach((m, mIdx) => {
+          totalM++;
+          const hasScore = m.score1 !== null && m.score1 !== undefined && m.score1 !== '';
+          if(hasScore) playedM++;
+          const s1 = hasScore ? m.score1 : '';
+          const s2 = (m.score2 !== null && m.score2 !== undefined && m.score2 !== '') ? m.score2 : '';
+          const p1Name = typeof m.p1 === 'object' ? (m.p1.name || m.p1.gameId) : m.p1;
+          const p2Name = typeof m.p2 === 'object' ? (m.p2.name || m.p2.gameId) : m.p2;
+
+          html += '<div class="admin-match-card">' +
+            '<div class="admin-match-header">' +
+              '<span class="badge ' + (hasScore ? 'badge-green' : 'badge-yellow') + '">' + (hasScore ? 'Terminé' : 'À jouer') + '</span>' +
+              (m.scheduledAt ? '<span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono)">⏰ ' + esc(new Date(m.scheduledAt).toLocaleString('fr-FR')) + '</span>' : '') +
+            '</div>' +
+            '<div class="admin-match-players">' +
+              '<div class="admin-match-player right">' + esc(p1Name || 'Joueur 1') + '</div>' +
+              '<div class="admin-match-vs">VS</div>' +
+              '<div class="admin-match-player">' + esc(p2Name || 'Joueur 2') + '</div>' +
+            '</div>' +
+            '<div class="admin-match-actions">' +
+              '<div class="score-form">' +
+                '<input class="score-input" type="number" min="0" max="99" id="s1_' + compId + '_' + mdIdx + '_' + mIdx + '" value="' + esc(s1) + '" placeholder="0">' +
+                '<span class="score-sep">-</span>' +
+                '<input class="score-input" type="number" min="0" max="99" id="s2_' + compId + '_' + mdIdx + '_' + mIdx + '" value="' + esc(s2) + '" placeholder="0">' +
+                '<button class="btn-admin success" onclick="adminSaveJsonMatchScore(\'' + compId + '\',' + mdIdx + ',' + mIdx + ')" type="button">💾 Valider score</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        });
+        html += '</div>';
+      });
+    }
+
+    // 2. Matchs éliminatoires (Bracket)
+    if(bracket && Array.isArray(bracket.rounds)){
+      html += '<h4 style="color:var(--gold);margin:20px 0 10px;font-size:15px">⚔️ Phase Finale (Arbre Éliminatoire)</h4>';
+      bracket.rounds.forEach((round, rIdx) => {
+        html += '<div class="matchday-card">' +
+          '<div class="matchday-title" style="color:var(--gold)"><span>Tour ' + (rIdx + 1) + '</span></div>';
+        round.forEach((m, mIdx) => {
+          totalM++;
+          const p1 = m.p1 ? (m.p1.gameId || m.p1.name || 'P1') : 'BYE';
+          const p2 = m.p2 ? (m.p2.gameId || m.p2.name || 'P2') : 'BYE';
+          const hasScore = m.score1 !== null && m.score1 !== undefined && m.score1 !== '';
+          if(hasScore) playedM++;
+          const s1 = hasScore ? m.score1 : '';
+          const s2 = hasScore ? m.score2 : '';
+
+          html += '<div class="admin-match-card">' +
+            '<div class="admin-match-header">' +
+              '<span class="badge ' + (m.winner ? 'badge-green' : 'badge-yellow') + '">' + (m.winner ? 'Vainqueur: ' + esc(m.winner.name || m.winner.gameId || 'Gagnant') : 'En attente') + '</span>' +
+            '</div>' +
+            '<div class="admin-match-players">' +
+              '<div class="admin-match-player right">' + esc(p1) + '</div>' +
+              '<div class="admin-match-vs">VS</div>' +
+              '<div class="admin-match-player">' + esc(p2) + '</div>' +
+            '</div>' +
+            '<div class="admin-match-actions">' +
+              '<div class="score-form">' +
+                '<input class="score-input" type="number" min="0" id="bs1_' + compId + '_' + rIdx + '_' + mIdx + '" value="' + esc(s1) + '" placeholder="0">' +
+                '<span class="score-sep">-</span>' +
+                '<input class="score-input" type="number" min="0" id="bs2_' + compId + '_' + rIdx + '_' + mIdx + '" value="' + esc(s2) + '" placeholder="0">' +
+                '<button class="btn-admin success" onclick="adminSaveJsonBracketScore(\'' + compId + '\',' + rIdx + ',' + mIdx + ')" type="button">💾 Valider score</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        });
+        html += '</div>';
+      });
+    }
+
+    $('statTotalMatches').textContent = totalM;
+    $('statPlayedMatches').textContent = playedM;
+    area.innerHTML = html;
+  }
+
+  function renderAdminPrismaMatches(tournament){
+    const area = $('adminMatchesArea');
+    const matches = tournament.matches || [];
+    if(matches.length === 0){
+      area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Aucun match dans ce tournoi (tirage non lancé).</p>';
+      return;
+    }
+
+    let totalM = matches.length;
+    let playedM = matches.filter(m => m.status === 'PLAYED').length;
+    $('statTotalMatches').textContent = totalM;
+    $('statPlayedMatches').textContent = playedM;
+
+    let html = '<div class="matchday-card">';
+    matches.forEach(m => {
+      const p1 = m.p1?.name || m.p1Name || 'Joueur 1';
+      const p2 = m.p2?.name || m.p2Name || 'Joueur 2';
+      const isPlayed = m.status === 'PLAYED';
+      const s1 = m.score1 !== null ? m.score1 : '';
+      const s2 = m.score2 !== null ? m.score2 : '';
+
+      html += '<div class="admin-match-card">' +
+        '<div class="admin-match-header">' +
+          '<span class="badge ' + (isPlayed ? 'badge-green' : 'badge-yellow') + '">' + (isPlayed ? 'Terminé (Vainqueur: ' + esc(m.winner?.name || 'Gagnant') + ')' : 'À jouer') + '</span>' +
+          (m.scheduledAt ? '<span style="font-size:11px;color:var(--text-muted)">⏰ ' + esc(new Date(m.scheduledAt).toLocaleString('fr-FR')) + '</span>' : '') +
+        '</div>' +
+        '<div class="admin-match-players">' +
+          '<div class="admin-match-player right">' + esc(p1) + '</div>' +
+          '<div class="admin-match-vs">VS</div>' +
+          '<div class="admin-match-player">' + esc(p2) + '</div>' +
+        '</div>' +
+        '<div class="admin-match-actions">' +
+          '<div class="score-form">' +
+            '<input class="score-input" type="number" min="0" id="ps1_' + m.id + '" value="' + esc(s1) + '" placeholder="0">' +
+            '<span class="score-sep">-</span>' +
+            '<input class="score-input" type="number" min="0" id="ps2_' + m.id + '" value="' + esc(s2) + '" placeholder="0">' +
+            '<button class="btn-admin success" onclick="adminSavePrismaScore(\'' + m.id + '\')" type="button">💾 Enregistrer</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '</div>';
+    area.innerHTML = html;
+  }
+
+  // Sauvegarde des scores JSON
+  window.adminSaveJsonMatchScore = async function(compId, mdIdx, mIdx){
+    const s1Val = $('s1_' + compId + '_' + mdIdx + '_' + mIdx).value;
+    const s2Val = $('s2_' + compId + '_' + mdIdx + '_' + mIdx).value;
+    if(s1Val === '' || s2Val === ''){
+      showMsg('adminMatchMsg', 'error', 'Entrez les deux scores.');
+      return;
+    }
+    const comp = allComps[compId];
+    if(!comp) return;
+
+    comp.leagueMatches[mdIdx].matches[mIdx].score1 = parseInt(s1Val, 10);
+    comp.leagueMatches[mdIdx].matches[mIdx].score2 = parseInt(s2Val, 10);
+
+    // Recalculer le classement
+    const players = Array.isArray(comp.registrations) ? comp.registrations : [];
+    comp.standings = calculateLeagueStandings(players, comp.leagueMatches);
+
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ id: compId, data: comp })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminMatchMsg', 'ok', 'Score enregistré et classement mis à jour !');
+        adminLoadMatches();
+      } else {
+        showMsg('adminMatchMsg', 'error', data.error || 'Erreur enregistrement');
+      }
+    } catch(err){
+      showMsg('adminMatchMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  window.adminSaveJsonBracketScore = async function(compId, rIdx, mIdx){
+    const s1Val = $('bs1_' + compId + '_' + rIdx + '_' + mIdx).value;
+    const s2Val = $('bs2_' + compId + '_' + rIdx + '_' + mIdx).value;
+    if(s1Val === '' || s2Val === ''){
+      showMsg('adminMatchMsg', 'error', 'Entrez les deux scores.');
+      return;
+    }
+    const comp = allComps[compId];
+    if(!comp) return;
+
+    const s1 = parseInt(s1Val, 10);
+    const s2 = parseInt(s2Val, 10);
+    const m = comp.bracket.rounds[rIdx][mIdx];
+    m.score1 = s1;
+    m.score2 = s2;
+    m.winner = s1 > s2 ? m.p1 : m.p2;
+
+    // Avancer dans le tour suivant si présent
+    if(comp.bracket.rounds[rIdx + 1]){
+      const nextMIdx = Math.floor(mIdx / 2);
+      const nextMatch = comp.bracket.rounds[rIdx + 1][nextMIdx];
+      if(nextMatch){
+        if(mIdx % 2 === 0) nextMatch.p1 = m.winner;
+        else nextMatch.p2 = m.winner;
+      }
+    }
+
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ id: compId, data: comp })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminMatchMsg', 'ok', 'Score validé et vainqueur avancé !');
+        adminLoadMatches();
+      } else {
+        showMsg('adminMatchMsg', 'error', data.error || 'Erreur enregistrement');
+      }
+    } catch(err){
+      showMsg('adminMatchMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  // Sauvegarde des scores Prisma
+  window.adminSavePrismaScore = async function(matchId){
+    const s1Val = $('ps1_' + matchId).value;
+    const s2Val = $('ps2_' + matchId).value;
+    if(s1Val === '' || s2Val === ''){
+      showMsg('adminMatchMsg', 'error', 'Entrez les deux scores.');
+      return;
+    }
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/matches/' + matchId + '/score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ score1: parseInt(s1Val, 10), score2: parseInt(s2Val, 10) })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminMatchMsg', 'ok', 'Score enregistré avec succès !');
+        adminLoadMatches();
+      } else {
+        showMsg('adminMatchMsg', 'error', data.error || 'Erreur enregistrement');
+      }
+    } catch(err){
+      showMsg('adminMatchMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  // ── Onglet Planification Matchs ──
+  window.adminLoadScheduleMatches = async function(){
+    const selVal = $('adminSchedTournSelect').value;
+    const area = $('adminScheduleArea');
+    if(!area) return;
+    if(!selVal){
+      area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Sélectionnez un tournoi ci-dessus.</p>';
+      return;
+    }
+
+    area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Chargement...</p>';
+
+    if(selVal.startsWith('json:')){
+      const compId = selVal.replace('json:', '');
+      const comp = allComps[compId];
+      if(!comp){ area.innerHTML = '<p class="msg error">Compétition introuvable.</p>'; return; }
+      
+      const leagueMatches = Array.isArray(comp.leagueMatches) ? comp.leagueMatches : [];
+      if(leagueMatches.length === 0){
+        area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Aucune rencontre de ligue trouvée.</p>';
+        return;
+      }
+
+      let html = '';
+      leagueMatches.forEach((md, mdIdx) => {
+        html += '<div class="matchday-card">' +
+          '<div class="matchday-title"><span>📅 ' + esc(md.name || 'Journée ' + (mdIdx + 1)) + '</span></div>';
+        const matches = Array.isArray(md.matches) ? md.matches : [];
+        matches.forEach((m, mIdx) => {
+          const p1Name = typeof m.p1 === 'object' ? (m.p1.name || m.p1.gameId) : m.p1;
+          const p2Name = typeof m.p2 === 'object' ? (m.p2.name || m.p2.gameId) : m.p2;
+          const dateVal = m.scheduledAt ? new Date(m.scheduledAt).toISOString().slice(0, 16) : '';
+
+          html += '<div class="admin-match-card">' +
+            '<div class="admin-match-players">' +
+              '<div class="admin-match-player right">' + esc(p1Name) + '</div>' +
+              '<div class="admin-match-vs">VS</div>' +
+              '<div class="admin-match-player">' + esc(p2Name) + '</div>' +
+            '</div>' +
+            '<div class="schedule-inputs">' +
+              '<div style="flex:1;min-width:200px">' +
+                '<label style="font-size:10px">Date & Heure</label>' +
+                '<input type="datetime-local" id="sch_date_' + compId + '_' + mdIdx + '_' + mIdx + '" value="' + esc(dateVal) + '">' +
+              '</div>' +
+              '<div style="flex:1;min-width:160px">' +
+                '<label style="font-size:10px">Code Lobby / Note</label>' +
+                '<input type="text" id="sch_note_' + compId + '_' + mdIdx + '_' + mIdx + '" value="' + esc(m.hostNote || '') + '" placeholder="Ex: Salon #4489">' +
+              '</div>' +
+              '<button class="btn-admin success" style="margin-top:16px" onclick="adminSaveJsonSchedule(\'' + compId + '\',' + mdIdx + ',' + mIdx + ')" type="button">💾 Planifier</button>' +
+            '</div>' +
+          '</div>';
+        });
+        html += '</div>';
+      });
+      area.innerHTML = html;
+    } else if(selVal.startsWith('prisma:')){
+      const tId = selVal.replace('prisma:', '');
+      const tourn = adminPrismaTournaments.find(t => t.id === tId);
+      if(!tourn) return;
+      try {
+        const res = await fetch('/api/tournaments/' + tourn.slug);
+        const data = await res.json();
+        if(data.ok && data.tournament){
+          const matches = data.tournament.matches || [];
+          let html = '<div class="matchday-card">';
+          matches.forEach(m => {
+            const p1 = m.p1?.name || m.p1Name || 'Joueur 1';
+            const p2 = m.p2?.name || m.p2Name || 'Joueur 2';
+            const dateVal = m.scheduledAt ? new Date(m.scheduledAt).toISOString().slice(0, 16) : '';
+
+            html += '<div class="admin-match-card">' +
+              '<div class="admin-match-players">' +
+                '<div class="admin-match-player right">' + esc(p1) + '</div>' +
+                '<div class="admin-match-vs">VS</div>' +
+                '<div class="admin-match-player">' + esc(p2) + '</div>' +
+              '</div>' +
+              '<div class="schedule-inputs">' +
+                '<div style="flex:1;min-width:200px">' +
+                  '<label style="font-size:10px">Date & Heure</label>' +
+                  '<input type="datetime-local" id="psch_date_' + m.id + '" value="' + esc(dateVal) + '">' +
+                '</div>' +
+                '<div style="flex:1;min-width:160px">' +
+                  '<label style="font-size:10px">Code Lobby / Note</label>' +
+                  '<input type="text" id="psch_note_' + m.id + '" value="' + esc(m.hostNote || '') + '" placeholder="Note...">' +
+                '</div>' +
+                '<button class="btn-admin success" style="margin-top:16px" onclick="adminSavePrismaSchedule(\'' + m.id + '\')" type="button">💾 Planifier</button>' +
+              '</div>' +
+            '</div>';
+          });
+          html += '</div>';
+          area.innerHTML = html;
+        }
+      } catch(err){
+        area.innerHTML = '<p class="msg error">Erreur réseau.</p>';
+      }
+    }
+  };
+
+  window.adminSaveJsonSchedule = async function(compId, mdIdx, mIdx){
+    const dateVal = $('sch_date_' + compId + '_' + mdIdx + '_' + mIdx).value;
+    const noteVal = $('sch_note_' + compId + '_' + mdIdx + '_' + mIdx).value.trim();
+    const comp = allComps[compId];
+    if(!comp) return;
+
+    comp.leagueMatches[mdIdx].matches[mIdx].scheduledAt = dateVal ? new Date(dateVal).getTime() : null;
+    comp.leagueMatches[mdIdx].matches[mIdx].hostNote = noteVal;
+
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ id: compId, data: comp })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminSchedMsg', 'ok', 'Match planifié avec succès !');
+      } else {
+        showMsg('adminSchedMsg', 'error', data.error || 'Erreur');
+      }
+    } catch(err){
+      showMsg('adminSchedMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  window.adminSavePrismaSchedule = async function(matchId){
+    const dateVal = $('psch_date_' + matchId).value;
+    const noteVal = $('psch_note_' + matchId).value.trim();
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/matches/' + matchId + '/schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ scheduledAt: dateVal || undefined, hostNote: noteVal })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminSchedMsg', 'ok', 'Match planifié avec succès !');
+      } else {
+        showMsg('adminSchedMsg', 'error', data.error || 'Erreur');
+      }
+    } catch(err){
+      showMsg('adminSchedMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  // ── Onglet Ajouter Joueur à un Tournoi ──
+  window.adminAddPlayerToTournament = async function(){
+    const tSel = $('adminAddTournSelect').value;
+    const gId = $('adminAddGamerSelect').value;
+    const paid = $('adminAddPaid').checked;
+
+    if(!tSel || !gId){
+      showMsg('adminAddMsg', 'error', 'Veuillez sélectionner un tournoi et un joueur.');
+      return;
+    }
+
+    const gamer = adminGamersList.find(g => g.id === gId);
+    if(!gamer){
+      showMsg('adminAddMsg', 'error', 'Joueur introuvable.');
+      return;
+    }
+
+    const token = getAdminToken();
+
+    // 1. Tournoi JSON
+    if(tSel.startsWith('json:')){
+      const compId = tSel.replace('json:', '');
+      const comp = allComps[compId];
+      if(!comp){ showMsg('adminAddMsg', 'error', 'Tournoi introuvable.'); return; }
+      
+      const regs = Array.isArray(comp.registrations) ? comp.registrations : [];
+      const already = regs.some(r => r.phone === gamer.phone || r.gameId === gamer.gameId);
+      if(already){
+        showMsg('adminAddMsg', 'error', 'Ce joueur est déjà inscrit à ce tournoi.');
+        return;
+      }
+
+      const newEntry = {
+        id: 'p_' + Date.now().toString(36),
+        name: gamer.name,
+        phone: gamer.phone,
+        gameId: gamer.gameId,
+        platform: gamer.platform || 'Mobile',
+        paid: paid,
+        createdAt: Date.now()
+      };
+
+      comp.registrations = [...regs, newEntry];
+
+      try {
+        const res = await fetch('/api/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+          body: JSON.stringify({ id: compId, data: comp })
+        });
+        const data = await res.json();
+        if(data.ok){
+          showMsg('adminAddMsg', 'ok', 'Joueur ' + gamer.name + ' ajouté au tournoi avec succès !');
+          renderHome();
+        } else {
+          showMsg('adminAddMsg', 'error', data.error || 'Erreur');
+        }
+      } catch(err){
+        showMsg('adminAddMsg', 'error', 'Erreur réseau');
+      }
+    } 
+    // 2. Tournoi Prisma
+    else if(tSel.startsWith('prisma:')){
+      const tId = tSel.replace('prisma:', '');
+      try {
+        const res = await fetch('/api/admin/registrations/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+          body: JSON.stringify({ tournamentId: tId, gamerId: gId, paid: paid })
+        });
+        const data = await res.json();
+        if(data.ok){
+          showMsg('adminAddMsg', 'ok', 'Joueur ' + gamer.name + ' inscrit au tournoi DB avec succès !');
+        } else {
+          showMsg('adminAddMsg', 'error', data.error || 'Erreur');
+        }
+      } catch(err){
+        showMsg('adminAddMsg', 'error', 'Erreur réseau');
+      }
+    }
+  };
+
+  // Initialisation PWA
+  initPWA();
+
   init();
 })();
+
 </script>
 </body>
 </html>
