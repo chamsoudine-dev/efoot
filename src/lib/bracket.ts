@@ -70,6 +70,7 @@ export async function launchDraw(tournamentId: string) {
 }
 
 export async function maybeAdvance(tournamentId: string, round: number) {
+  if (round > 10) return;
   const matches = await prisma.match.findMany({
     where: { tournamentId, round },
     orderBy: { index: "asc" }

@@ -1,5 +1,6 @@
-﻿import { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
+import { verifyOrganizerToken } from "@/lib/organizer";
 
 export const dynamic = "force-dynamic";
 
@@ -137,9 +138,34 @@ export async function POST(req: NextRequest) {
     const ipAddress = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || req.headers.get("x-real-ip") || (player?.ipAddress ?? "");
     const city = req.headers.get("x-vercel-ip-city") || (player?.city ?? "");
     const country = req.headers.get("x-vercel-ip-country") || (player?.country ?? "");
-    const countryCode = req.headers.get("x-vercel-ip-country") || (player?.countryCode ?? "");
+    const countryCode = req.headers.get("x-vercel-ip-country-region") || req.headers.get("x-vercel-ip-country") || (player?.countryCode ?? "");
     const userAgent = req.headers.get("user-agent") || (player?.userAgent ?? "");
     const detected = parseDeviceFromUa(userAgent);
+
+    const token = req.headers.get("x-organizer-token") || req.headers.get("authorization")?.replace("Bearer ", "") || null;
+    const isOrg = await verifyOrganizerToken(token);
+
+    if (removePlayerId) {
+      if (!isOrg) {
+        return Response.json({ ok: false, error: "Action réservée à l'administrateur." }, { status: 403, headers: corsHeaders });
+      }
+      await prisma.gamerProfile.deleteMany({ where: { id: removePlayerId } });
+      await deleteFromFirebase(`gamers/${removePlayerId}`);
+      await notifyUpdate();
+      return Response.json({ ok: true, message: "Joueur supprime" }, { headers: corsHeaders });
+    }
+
+    if (removeId) {
+      if (!isOrg) {
+        return Response.json({ ok: false, error: "Action réservée à l'administrateur." }, { status: 403, headers: corsHeaders });
+      }
+      await prisma.competitionStore.deleteMany({ where: { id: removeId } });
+      await prisma.announcementStore.deleteMany({ where: { id: removeId } });
+      await deleteFromFirebase(`competitions/${removeId}`);
+      await deleteFromFirebase(`announcements/${removeId}`);
+      await notifyUpdate(removeId);
+      return Response.json({ ok: true, message: "Supprime" }, { headers: corsHeaders });
+    }
 
     if (player && (player.id || player.name)) {
       const pId = player.id || `p_${Date.now().toString(36)}`;
@@ -171,6 +197,9 @@ export async function POST(req: NextRequest) {
     }
 
     if (announcement && id) {
+      if (!isOrg) {
+        return Response.json({ ok: false, error: "Seul l'organisateur peut publier des annonces officielles." }, { status: 403, headers: corsHeaders });
+      }
       if (announcement.text) {
         await prisma.announcementStore.upsert({
           where: { id },
@@ -187,6 +216,21 @@ export async function POST(req: NextRequest) {
     }
 
     if (id && data) {
+      // Pour les modifications de matchs, scores, standings ou bracket : vérification requise
+      // Si ce n'est pas l'organisateur, on vérifie que l'opération est une inscription de joueur
+      const existingComp = await prisma.competitionStore.findUnique({ where: { id } });
+      if (!isOrg && existingComp) {
+        const oldData = existingComp.data as Record<string, unknown> | null;
+        // Si tentative de modifier la config ou les matchs sans être organisateur
+        const oldMatches = JSON.stringify(oldData?.leagueMatches || []);
+        const newMatches = JSON.stringify(data.leagueMatches || []);
+        const oldBracket = JSON.stringify(oldData?.bracket || null);
+        const newBracket = JSON.stringify(data.bracket || null);
+        if (oldMatches !== newMatches || oldBracket !== newBracket) {
+          return Response.json({ ok: false, error: "Seul l'organisateur peut modifier les matchs et scores." }, { status: 403, headers: corsHeaders });
+        }
+      }
+
       await prisma.competitionStore.upsert({
         where: { id },
         create: { id, data },
@@ -235,6 +279,12 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    const token = req.headers.get("x-organizer-token") || req.headers.get("authorization")?.replace("Bearer ", "") || null;
+    const isOrg = await verifyOrganizerToken(token);
+    if (!isOrg) {
+      return Response.json({ ok: false, error: "Action réservée à l'administrateur." }, { status: 403, headers: corsHeaders });
+    }
+
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     const playerId = searchParams.get("playerId");

@@ -3,8 +3,11 @@ import { cookies } from "next/headers";
 import { prisma } from "./db";
 
 const secret = () => {
-  const s = process.env.AUTH_SECRET || "jvZ6m8gFiVO!5K>\\(:Aop4@-v9T9+!N(7!QR$>7brTIe(G,%o(nG<>#4Oge}|n@X";
-  return new TextEncoder().encode(s);
+  const s = process.env.AUTH_SECRET;
+  if (!s && process.env.NODE_ENV === "production") {
+    console.warn("[Security] AUTH_SECRET manquant en production. Veuillez le définir dans vos variables d'environnement.");
+  }
+  return new TextEncoder().encode(s || "jvZ6m8gFiVO!5K>\\(:Aop4@-v9T9+!N(7!QR$>7brTIe(G,%o(nG<>#4Oge}|n@X");
 };
 
 export type SessionUser = {

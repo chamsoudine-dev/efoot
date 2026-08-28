@@ -45,7 +45,7 @@ async function main() {
   });
 
   // ─── Joueurs démo ──────────────────────────────────────────────────────────
-  const demoHash = await bcrypt.hash("joueur1234", 10);
+  const demoHash = await bcrypt.hash("1234", 10);
   const names = [
     ["Amina", "Amina_EF"],
     ["Issa", "IssaPS"],

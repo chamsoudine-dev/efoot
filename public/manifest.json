@@ -1,0 +1,65 @@
+{
+  "name": "EFootLigue — Championnats eFootball",
+  "short_name": "EFootLigue",
+  "description": "Plateforme officielle des championnats et tournois eFootball : inscriptions, cagnottes, classement UEFA, galerie des champions et matchs en direct.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0E1712",
+  "theme_color": "#0E1712",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["sports", "games", "entertainment"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tournois en cours",
+      "short_name": "Tournois",
+      "description": "Voir les compétitions actives",
+      "url": "/#sectionComps",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Galerie des Champions",
+      "short_name": "Champions",
+      "description": "Voir les vainqueurs de la semaine et du mois",
+      "url": "/#sectionChampions",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Chat des Joueurs",
+      "short_name": "Chat",
+      "description": "Échanger avec la communauté",
+      "url": "/#sectionChat",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}

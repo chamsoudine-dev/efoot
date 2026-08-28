@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E332B" />
+      <stop offset="50%" stop-color="#172621" />
+      <stop offset="100%" stop-color="#0E1712" />
+    </linearGradient>
+    <linearGradient id="limeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D4FF70" />
+      <stop offset="100%" stop-color="#B6FF3C" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD166" />
+      <stop offset="100%" stop-color="#F2A83C" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background with rounded corners for standalone icon / maskable safe zone -->
+  <rect width="512" height="512" rx="108" fill="url(#bgGrad)" />
+  <rect width="504" height="504" x="4" y="4" rx="104" fill="none" stroke="#2B3F35" stroke-width="4" opacity="0.8" />
+
+  <!-- Outer Energy Ring -->
+  <circle cx="256" cy="226" r="148" fill="none" stroke="#B6FF3C" stroke-width="4" stroke-dasharray="12 8" opacity="0.4" />
+  
+  <!-- Glowing Center Backdrop -->
+  <circle cx="256" cy="226" r="110" fill="#B6FF3C" opacity="0.08" filter="url(#glow)" />
+
+  <!-- Controller Shape Body -->
+  <path d="M160 160 C120 160 92 192 92 248 C92 290 120 326 156 326 C176 326 194 310 208 290 L228 262 C236 252 246 246 256 246 C266 246 276 252 284 262 L304 290 C318 310 336 326 356 326 C392 326 420 290 420 248 C420 192 392 160 352 160 Z" 
+        fill="#121D17" stroke="url(#limeGrad)" stroke-width="8" stroke-linejoin="round" />
+
+  <!-- D-PAD (Left) -->
+  <path d="M152 204 h16 v16 h16 v16 h-16 v16 h-16 v-16 h-16 v-16 h16 z" fill="#B6FF3C" />
+
+  <!-- Action Buttons (Right) -->
+  <circle cx="340" cy="210" r="7" fill="#F2A83C" />
+  <circle cx="366" cy="228" r="7" fill="#B6FF3C" />
+  <circle cx="340" cy="246" r="7" fill="#3B82F6" />
+  <circle cx="314" cy="228" r="7" fill="#FF5B4D" />
+
+  <!-- Soccer Ball Accent at Center / Trophy Star -->
+  <g transform="translate(256, 195) scale(0.9)">
+    <polygon points="0,-22 21,-7 13,18 -13,18 -21,-7" fill="url(#goldGrad)" filter="url(#glow)" />
+    <circle cx="0" cy="0" r="3" fill="#0E1712" />
+  </g>
+
+  <!-- Brand Typography -->
+  <text x="256" y="394" text-anchor="middle" font-family="'Impact', 'Anton', sans-serif" font-size="44" font-weight="900" letter-spacing="3" fill="#F3F1E7">
+    EFOOT<tspan fill="#B6FF3C">LIGUE</tspan>
+  </text>
+
+  <!-- Subtitle Tag -->
+  <rect x="180" y="416" width="152" height="24" rx="12" fill="rgba(182, 255, 60, 0.15)" stroke="rgba(182, 255, 60, 0.4)" stroke-width="1.5" />
+  <text x="256" y="432" text-anchor="middle" font-family="'Courier New', monospace" font-size="11" font-weight="bold" letter-spacing="2" fill="#B6FF3C">
+    PRO TOURNAMENTS
+  </text>
+</svg>

@@ -55,10 +55,13 @@ model Tournament {
   drawDate    String   @default("")
   payNum      String   @default("")
   wa          String   @default("")
-  status      String   @default("OPEN")
-  rules       String   @default("Match eFootball, 2x6 min, extra time + TAB si égalité.")
-  createdAt   DateTime @default(now())
-  organizerId String
+  status       String   @default("OPEN")
+  rules        String   @default("Match eFootball, 2x6 min, extra time + TAB si égalité.")
+  createdAt    DateTime @default(now())
+  finishedAt   DateTime?
+  winnerName   String   @default("")
+  winnerGameId String   @default("")
+  organizerId  String
   organizer   User     @relation("Organizer", fields: [organizerId], references: [id])
   registrations Registration[]
   matches     Match[]
@@ -110,12 +113,15 @@ model Match {
   p2Id         String?
   p1           User?      @relation("P1", fields: [p1Id], references: [id])
   p2           User?      @relation("P2", fields: [p2Id], references: [id])
+  p1Name       String     @default("")
+  p2Name       String     @default("")
   score1       Int?
   score2       Int?
   winnerId     String?
   winner       User?      @relation("Winner", fields: [winnerId], references: [id])
   lobbyCode    String     @default("")
   hostNote     String     @default("")
+  scheduledAt  DateTime?
   status       String     @default("PENDING")
   proofUrl     String     @default("")
   p1Claim1     Int?
@@ -162,6 +168,21 @@ model GamerProfile {
   updatedAt    DateTime @updatedAt
 
   @@index([phone])
+}
+
+model ChatMessage {
+  id           String   @id @default(cuid())
+  tournamentId String
+  senderName   String
+  senderPhone  String   @default("")
+  senderGameId String   @default("")
+  text         String   @default("")
+  imageUrl     String   @default("")
+  isAdmin      Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  @@index([tournamentId])
+  @@index([createdAt])
 }
 
 

@@ -2,9 +2,21 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="description" content="EFootLigue — Plateforme de championnats eFootball : inscriptions, cagnottes, classement Phase de Ligue UEFA et arbres en direct.">
 <title>EFootLigue — Championnats & Tournois eFootball</title>
+
+<!-- PWA Settings -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0E1712">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EFootLigue">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -200,6 +212,89 @@
   footer .wa{color:var(--lime);font-weight:700;text-decoration:none}
   .text-center{text-align:center}
 
+  /* ── GALERIE DES VAINQUEURS ── */
+  .period-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .period-tab{font-family:var(--font-mono);font-size:12px;padding:8px 16px;border-radius:20px;border:1px solid var(--line);background:var(--bg);color:var(--text-muted);cursor:pointer;letter-spacing:0.5px;transition:all .2s}
+  .period-tab.active{background:var(--gold);color:#0E1712;border-color:var(--gold);font-weight:700}
+  .winners-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-top:4px}
+  .winner-card{background:linear-gradient(135deg,var(--bg-card-alt),var(--bg-card));border:1px solid rgba(242,168,60,0.35);border-radius:16px;padding:18px;position:relative;overflow:hidden;transition:transform .15s,border-color .2s}
+  .winner-card:hover{transform:translateY(-2px);border-color:var(--gold)}
+  .winner-card::before{content:"🏆";position:absolute;right:14px;top:10px;font-size:32px;opacity:0.18}
+  .winner-card .wc-rank{font-family:var(--font-mono);font-size:10px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+  .winner-card .wc-name{font-family:var(--font-display);font-size:20px;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .winner-card .wc-gameid{font-family:var(--font-mono);font-size:12px;color:var(--lime);margin-bottom:10px}
+  .winner-card .wc-tourney{font-size:12.5px;color:var(--text-muted);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .winner-card .wc-prize{font-family:var(--font-mono);font-size:14px;font-weight:700;color:var(--gold)}
+  .winner-card .wc-date{font-family:var(--font-mono);font-size:10px;color:var(--text-muted);margin-top:4px}
+  .no-winners{text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px}
+
+  /* ── CHAT COMMUNAUTAIRE STYLE WHATSAPP & PHOTOS ── */
+  .chat-box{background:var(--bg-card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+  .chat-header{background:var(--bg-card-alt);padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .chat-header .ch-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--lime),var(--gold));color:#0E1712;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0}
+  .chat-header .ch-info{flex:1;min-width:0}
+  .chat-header .ch-title{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chat-header .ch-sub{font-size:11px;color:var(--lime);display:flex;align-items:center;gap:6px;font-family:var(--font-mono)}
+  .chat-messages{height:360px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;background:radial-gradient(circle at center, rgba(30,51,43,0.3) 0%, rgba(14,23,18,0.7) 100%)}
+  .chat-messages::-webkit-scrollbar{width:4px}
+  .chat-messages::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
+  .chat-msg{display:flex;flex-direction:column;gap:3px;max-width:82%;animation:slideIn .15s ease}
+  .chat-msg.mine{align-self:flex-end;align-items:flex-end}
+  .chat-msg.other{align-self:flex-start}
+  .chat-msg .cm-meta{font-family:var(--font-mono);font-size:10.5px;color:var(--text-muted);display:flex;gap:6px;align-items:center;margin-bottom:1px}
+  .chat-msg .cm-sender{color:var(--lime);font-weight:700}
+  .chat-msg.admin-msg .cm-sender{color:var(--gold)}
+  .chat-msg .cm-bubble{padding:8px 12px;border-radius:14px;font-size:13.5px;line-height:1.4;word-break:break-word;position:relative}
+  .chat-msg.mine .cm-bubble{background:linear-gradient(135deg,rgba(182,255,60,0.18),rgba(182,255,60,0.08));border:1px solid rgba(182,255,60,0.35);border-bottom-right-radius:2px;color:var(--text)}
+  .chat-msg.other .cm-bubble{background:var(--bg-card-alt);border:1px solid var(--line);border-bottom-left-radius:2px;color:var(--text)}
+  .chat-msg.admin-msg .cm-bubble{background:rgba(242,168,60,0.12);border:1px solid rgba(242,168,60,0.4)}
+  .chat-msg .cm-img{max-width:100%;max-height:220px;border-radius:10px;margin-top:6px;cursor:pointer;border:1px solid var(--line);transition:transform .15s,filter .15s;display:block}
+  .chat-msg .cm-img:hover{transform:scale(1.02);filter:brightness(1.05)}
+  .chat-msg .cm-time{font-family:var(--font-mono);font-size:9.5px;color:var(--text-muted);margin-top:2px;display:flex;align-items:center;gap:3px}
+  .chat-msg .cm-check{color:var(--lime);font-size:11px}
+  
+  /* Prévisualisation photo avant envoi */
+  .chat-preview-wrap{display:none;padding:10px 14px;background:var(--bg-card-alt);border-top:1px solid var(--line);align-items:center;gap:12px}
+  .chat-preview-wrap.show{display:flex}
+  .chat-preview-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;border:1px solid var(--lime)}
+  .chat-preview-info{flex:1;font-size:12px;color:var(--text-muted)}
+  .chat-preview-remove{background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:4px 8px}
+
+  .chat-input-row{padding:10px 12px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;background:var(--bg-card)}
+  .chat-media-btn{background:var(--bg-card-alt);border:1px solid var(--line);color:var(--lime);border-radius:8px;padding:9px 12px;font-size:16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+  .chat-media-btn:hover{border-color:var(--lime);background:rgba(182,255,60,0.1)}
+  .chat-input-row input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13.5px;font-family:var(--font-body)}
+  .chat-input-row input:focus{outline:2px solid var(--lime);outline-offset:1px}
+  .chat-send-btn{background:var(--lime);color:#0E1712;border:none;border-radius:8px;padding:9px 16px;font-weight:800;font-size:13px;cursor:pointer;flex-shrink:0;transition:filter .15s;display:flex;align-items:center;gap:6px}
+  .chat-send-btn:hover{filter:brightness(1.08)}
+  .chat-send-btn:disabled{opacity:0.5;cursor:not-allowed}
+  
+  /* Encarts de restriction / information */
+  .chat-locked{padding:14px 16px;border-top:1px solid var(--line);font-size:13px;color:var(--text-muted);text-align:center;background:var(--bg-card-alt)}
+  .chat-locked a{color:var(--lime);cursor:pointer;font-weight:700;text-decoration:underline}
+  .chat-locked.tourney-only{border-left:3px solid var(--gold);color:var(--text)}
+
+  /* Lightbox pour agrandir les photos */
+  .lightbox-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+  .lightbox-overlay.show{display:flex}
+  .lightbox-img{max-width:92vw;max-height:88vh;border-radius:12px;border:2px solid var(--line);box-shadow:0 0 30px rgba(0,0,0,0.8)}
+  .lightbox-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:26px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+  /* ── PWA BANNER & INSTALL ── */
+  .pwa-banner{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120px);z-index:999;width:calc(100% - 32px);max-width:520px;background:linear-gradient(135deg,rgba(30,51,43,0.98),rgba(23,38,33,0.98));border:1px solid var(--lime);border-radius:18px;padding:14px 18px;box-shadow:0 12px 36px rgba(0,0,0,0.6),0 0 16px rgba(182,255,60,0.2);display:flex;align-items:center;gap:14px;backdrop-filter:blur(12px);transition:transform .4s cubic-bezier(0.16,1,0.3,1);opacity:0;pointer-events:none}
+  .pwa-banner.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
+  .pwa-icon{width:46px;height:46px;border-radius:12px;background:var(--bg);border:1px solid var(--lime);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 10px rgba(182,255,60,0.3)}
+  .pwa-icon img{width:34px;height:34px;border-radius:8px}
+  .pwa-info{flex:1;min-width:0}
+  .pwa-title{font-family:var(--font-display);font-size:16px;color:var(--text);margin-bottom:2px}
+  .pwa-desc{font-size:12px;color:var(--text-muted);line-height:1.3}
+  .pwa-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+  .pwa-btn-install{background:var(--lime);color:#0E1712;border:none;border-radius:10px;padding:8px 14px;font-weight:800;font-size:12.5px;cursor:pointer;transition:filter .15s}
+  .pwa-btn-install:hover{filter:brightness(1.1)}
+  .pwa-btn-close{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;padding:4px 8px;line-height:1}
+  .nav-install-btn{display:none;background:rgba(182,255,60,0.15);border:1px solid rgba(182,255,60,0.4);color:var(--lime);border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:800;cursor:pointer;align-items:center;gap:6px;transition:all .2s}
+  .nav-install-btn:hover{background:var(--lime);color:#0E1712}
+
   @media(max-width:720px){
     .ticket{grid-template-columns:1fr}
     .ticket-stub{border-left:none;border-top:2px dashed #3A5246;flex-direction:row;justify-content:space-between}
@@ -214,7 +309,64 @@
     nav.menu-open .links{display:flex}
     nav .links a{padding:12px 4px}
     .comp-grid{grid-template-columns:1fr}
+    .winners-grid{grid-template-columns:1fr}
+    .chat-messages{height:260px}
+    .pwa-banner{bottom:12px;padding:12px 14px}
+    .admin-grid{grid-template-columns:1fr}
   }
+
+  /* ══ ADMIN PANEL ══ */
+  #pageAdmin{display:none}
+  .admin-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  .admin-tab-btn{background:var(--bg-card);border:1px solid var(--line);color:var(--text-muted);border-radius:8px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .2s}
+  .admin-tab-btn.active{background:var(--lime);color:#0E1712;border-color:var(--lime)}
+  .admin-tab-btn:hover:not(.active){border-color:var(--lime);color:var(--lime)}
+  .admin-section{display:none}
+  .admin-section.active{display:block}
+  .admin-table{width:100%;border-collapse:separate;border-spacing:0 4px;font-size:13px}
+  .admin-table th{background:var(--bg-card-alt);padding:10px 10px;font-family:var(--font-mono);font-size:11px;color:var(--text-muted);border:none;text-align:left}
+  .admin-table th:first-child{border-radius:8px 0 0 8px}
+  .admin-table th:last-child{border-radius:0 8px 8px 0}
+  .admin-table td{background:var(--bg-card);padding:10px 10px;vertical-align:middle;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .admin-table td:first-child{border-left:1px solid var(--line);border-radius:8px 0 0 8px}
+  .admin-table td:last-child{border-right:1px solid var(--line);border-radius:0 8px 8px 0}
+  .admin-table tr:hover td{border-color:rgba(182,255,60,0.2)}
+  .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10.5px;font-family:var(--font-mono);font-weight:700;letter-spacing:0.5px}
+  .badge-green{background:rgba(16,185,129,0.15);color:#10B981;border:1px solid rgba(16,185,129,0.3)}
+  .badge-yellow{background:rgba(245,158,11,0.15);color:#F59E0B;border:1px solid rgba(245,158,11,0.3)}
+  .badge-red{background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid rgba(239,68,68,0.3)}
+  .badge-blue{background:rgba(59,130,246,0.15);color:#3B82F6;border:1px solid rgba(59,130,246,0.3)}
+  .admin-actions{display:flex;gap:6px;flex-wrap:wrap}
+  .btn-admin{background:var(--bg-card-alt);border:1px solid var(--line);color:var(--text);border-radius:6px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .15s}
+  .btn-admin:hover{border-color:var(--lime);color:var(--lime)}
+  .btn-admin.danger:hover{border-color:var(--red);color:var(--red)}
+  .btn-admin.success{background:rgba(182,255,60,0.1);border-color:rgba(182,255,60,0.4);color:var(--lime)}
+  .score-form{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
+  .score-input{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--text);font-family:var(--font-mono);font-size:14px;font-weight:700;width:50px;text-align:center}
+  .score-sep{font-family:var(--font-mono);font-weight:700;color:var(--text-muted)}
+  .admin-match-card{background:var(--bg-card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+  .admin-match-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+  .admin-match-players{display:grid;grid-template-columns:1fr 80px 1fr;align-items:center;gap:8px;margin-bottom:10px}
+  .admin-match-player{font-weight:700;font-size:13px}
+  .admin-match-player.right{text-align:right}
+  .admin-match-vs{text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--text-muted)}
+  .admin-match-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .schedule-inputs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .schedule-inputs input{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 10px;color:var(--text);font-family:var(--font-body);font-size:13px}
+  .admin-search{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 13px;color:var(--text);font-size:14px;width:100%;max-width:360px;margin-bottom:14px}
+  .admin-header-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+  .admin-stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+  .admin-stat{background:var(--bg-card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;text-align:center}
+  .admin-stat .big{font-size:28px;font-weight:800;font-family:var(--font-mono);color:var(--lime)}
+  .admin-stat .lbl{font-size:11px;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+  .admin-tourn-select{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 13px;color:var(--text);font-size:13px;margin-bottom:14px}
+  .winner-select{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--text);font-size:12px;font-family:var(--font-body)}
+  /* Modale admin login */
+  .admin-login-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+  .admin-login-box{background:var(--bg-card);border:1px solid var(--gold);border-radius:16px;padding:28px;width:100%;max-width:380px;position:relative}
+  .admin-login-box h3{font-size:22px;margin-bottom:4px;color:var(--gold)}
+  .admin-login-box p{color:var(--text-muted);font-size:13px;margin-bottom:20px}
+
 </style>
 </head>
 <body>
@@ -229,10 +381,16 @@
     <div class="links" id="navLinks">
       <a onclick="showHome()" id="navHome">Accueil</a>
       <a href="#sectionComps" id="navComps">Tournois</a>
+      <a href="#sectionChampions" id="navChampions" style="color:var(--gold)">🏆 Champions</a>
+      <a href="#sectionChat" id="navChat" style="color:var(--lime)">💬 Communauté</a>
+      <a href="#sectionTourneyChat" id="navTourneyChat" style="display:none;color:var(--lime)">💬 Groupe Tournoi</a>
       <a href="#classement" id="navJoueurs" style="display:none">Classement</a>
       <a href="#tableau" id="navTableau" style="display:none">Tableau</a>
       <a onclick="openGamerRegister()" id="navGamerRegister" style="color:var(--lime);cursor:pointer">🎮 Créer compte Joueur</a>
       <a onclick="openGamerLogin()" id="navGamerLogin" style="cursor:pointer">Connexion</a>
+      <a onclick="openAdminPanel()" id="navAdmin" style="color:var(--gold);cursor:pointer;font-weight:800">🔐 Admin</a>
+      <button class="nav-install-btn" id="navInstallBtn" type="button">📲 Installer l'App</button>
+
     </div>
   </div>
 </nav>
@@ -258,13 +416,56 @@
       <div id="compList"><p class="empty-note">Chargement des compétitions...</p></div>
     </section>
 
-    <section id="sectionHistory" style="border-top:1px solid var(--line);padding:36px 0 50px">
+    <section id="sectionHistory" style="border-top:1px solid var(--line);padding:36px 0">
       <div class="section-head">
         <div class="eyebrow">Terminées</div>
         <h2>Historique des compétitions</h2>
       </div>
       <div id="historyList"><p class="empty-note">Aucune compétition terminée pour l'instant.</p></div>
     </section>
+
+    <!-- ══ GALERIE DES CHAMPIONS ══ -->
+    <section id="sectionChampions" style="border-top:1px solid var(--line);padding:36px 0">
+      <div class="section-head">
+        <div class="eyebrow">Hall of Fame</div>
+        <h2>🏆 Galerie des Champions</h2>
+      </div>
+      <div class="period-tabs">
+        <button class="period-tab active" id="tabWeek" type="button" onclick="switchWinnerPeriod('week')">📅 Cette semaine</button>
+        <button class="period-tab" id="tabMonth" type="button" onclick="switchWinnerPeriod('month')">📆 Ce mois</button>
+        <button class="period-tab" id="tabYear" type="button" onclick="switchWinnerPeriod('year')">🗓️ Cette année</button>
+      </div>
+      <div id="winnersGrid"><p class="no-winners">Chargement des champions...</p></div>
+    </section>
+
+    <!-- ══ CHAT COMMUNAUTAIRE ══ -->
+    <section id="sectionChat" style="border-top:1px solid var(--line);padding:36px 0 50px">
+      <div class="section-head">
+        <div class="eyebrow">Communauté</div>
+        <h2>💬 Chat des Joueurs</h2>
+        <p style="color:var(--text-muted);font-size:13.5px;margin-top:4px">Échangez avec tous les joueurs de la plateforme en temps réel.</p>
+      </div>
+      <div class="chat-box">
+        <div class="chat-header">
+          <span class="live-dot"></span>
+          <span class="ch-title">Salon Général — EFootLigue</span>
+          <span class="ch-online" id="chatOnlineCount">En ligne</span>
+        </div>
+        <div class="chat-messages" id="globalChatMessages">
+          <p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Chargement des messages...</p>
+        </div>
+        <!-- Prévisualisation photo avant envoi -->
+        <div class="chat-preview-wrap" id="globalChatPreviewWrap">
+          <img src="" id="globalChatPreviewImg" class="chat-preview-thumb" alt="Aperçu">
+          <div class="chat-preview-info">Photo prête à être envoyée</div>
+          <button class="chat-preview-remove" id="globalChatPreviewRemove" type="button" title="Supprimer la photo">✕</button>
+        </div>
+        <div id="chatInputArea">
+          <!-- Injecté dynamiquement : soit input+bouton, soit message "se connecter" -->
+        </div>
+      </div>
+    </section>
+
   </div>
 </div>
 
@@ -289,8 +490,9 @@
           </div>
           <div class="cta-row">
             <a href="#inscription" class="btn btn-primary" id="ctaInscription">S'inscrire</a>
-            <a href="#classement" class="btn btn-ghost" id="ctaClassement">🏆 Voir le classement</a>
-            <a href="#tableau" class="btn btn-ghost" id="ctaTableau">⚔️ Voir le tableau</a>
+            <a href="#sectionTourneyChat" class="btn btn-ghost" style="border-color:var(--lime);color:var(--lime)">💬 Groupe & Photos</a>
+            <a href="#classement" class="btn btn-ghost" id="ctaClassement">🏆 Classement</a>
+            <a href="#tableau" class="btn btn-ghost" id="ctaTableau">⚔️ Tableau</a>
             <button class="btn btn-sm btn-ghost" id="shareWaBtn" type="button">📱 Partager</button>
           </div>
         </div>
@@ -400,7 +602,48 @@
       <div class="roster" id="rosterList"></div>
     </section>
 
+    <!-- ══ CHAT COMMUNAUTAIRE DU TOURNOI (GROUPE DES PARTICIPANTS) ══ -->
+    <section id="sectionTourneyChat" style="border-top:1px solid var(--line);padding:36px 0 50px">
+      <div class="section-head">
+        <div class="eyebrow">Live Communauté</div>
+        <h2>💬 Groupe des Participants & Preuves</h2>
+        <p style="color:var(--text-muted);font-size:13.5px;margin-top:4px">Partagez vos scores, captures d'écran et échangez avec vos adversaires.</p>
+      </div>
+
+      <div class="chat-box">
+        <div class="chat-header">
+          <div class="ch-avatar">⚽</div>
+          <div class="ch-info">
+            <div class="ch-title" id="tourneyChatTitle">Groupe du Tournoi</div>
+            <div class="ch-sub"><span class="live-dot"></span> <span id="tourneyChatSubtitle">Visible par toute la communauté</span></div>
+          </div>
+          <span class="live-pill" style="font-size:10px">💬 DIRECT</span>
+        </div>
+
+        <div class="chat-messages" id="tourneyChatMessages">
+          <p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Chargement des messages du tournoi...</p>
+        </div>
+
+        <!-- Prévisualisation photo avant envoi -->
+        <div class="chat-preview-wrap" id="tourneyChatPreviewWrap">
+          <img src="" id="tourneyChatPreviewImg" class="chat-preview-thumb" alt="Aperçu">
+          <div class="chat-preview-info">Photo prête à être envoyée (capture de score...)</div>
+          <button class="chat-preview-remove" id="tourneyChatPreviewRemove" type="button" title="Supprimer la photo">✕</button>
+        </div>
+
+        <div id="tourneyChatInputArea">
+          <!-- Injecté dynamiquement selon si le joueur est inscrit au tournoi -->
+        </div>
+      </div>
+    </section>
+
   </div>
+</div>
+
+<!-- MODALE LIGHTBOX POUR PHOTOS -->
+<div class="lightbox-overlay" id="chatLightbox" role="dialog" aria-label="Agrandissement photo">
+  <button class="lightbox-close" id="closeLightboxBtn" type="button">✕</button>
+  <img src="" id="lightboxImg" class="lightbox-img" alt="Capture agrandie">
 </div>
 
 <footer>
@@ -409,6 +652,129 @@
     <p style="margin-top:6px;opacity:0.6">Plateforme EFootLigue — Données des championnats et classements synchronisées en direct.</p>
   </div>
 </footer>
+
+<!-- ======================== PAGE ADMIN ======================== -->
+<div id="pageAdmin">
+  <div class="wrap" style="padding-top:32px;padding-bottom:60px">
+    <div class="section-head" style="margin-bottom:20px">
+      <div class="eyebrow">Administration</div>
+      <h2>🔐 Panel Admin — EFootLigue</h2>
+      <p style="color:var(--text-muted);font-size:13.5px;margin-top:4px">Gérez les inscriptions, saisissez les scores et planifiez les matchs.</p>
+    </div>
+
+    <!-- Statistiques rapides -->
+    <div class="admin-stat-row" id="adminStats">
+      <div class="admin-stat"><div class="big" id="statTotalGamers">—</div><div class="lbl">Joueurs inscrits</div></div>
+      <div class="admin-stat"><div class="big" id="statTotalTournaments">—</div><div class="lbl">Tournois actifs</div></div>
+      <div class="admin-stat"><div class="big" id="statTotalMatches">—</div><div class="lbl">Matchs à jouer</div></div>
+      <div class="admin-stat"><div class="big" id="statPlayedMatches">—</div><div class="lbl">Matchs joués</div></div>
+    </div>
+
+    <!-- Onglets admin -->
+    <div class="admin-nav">
+      <button class="admin-tab-btn active" onclick="switchAdminTab('registrations')" type="button">👥 Inscriptions</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('matches')" type="button">⚽ Matchs & Scores</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('schedule')" type="button">📅 Planifier Matchs</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('addplayer')" type="button">➕ Ajouter Joueur</button>
+    </div>
+
+    <!-- ── TAB : Inscriptions ── -->
+    <div class="admin-section active" id="adminTabRegistrations">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">👥 Joueurs inscrits (tous tournois)</h3>
+        <button class="btn btn-sm btn-ghost" onclick="adminLoadRegistrations()" type="button">🔄 Actualiser</button>
+      </div>
+      <input class="admin-search" id="adminSearchGamers" type="search" placeholder="🔍 Rechercher par nom, téléphone, ID eFootball...">
+      <div id="adminRegistrationsTable">
+        <p style="color:var(--text-muted);text-align:center;padding:30px 0">Chargement...</p>
+      </div>
+    </div>
+
+    <!-- ── TAB : Scores ── -->
+    <div class="admin-section" id="adminTabMatches">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">⚽ Saisie des scores</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select class="admin-tourn-select" id="adminMatchTournSelect" onchange="adminLoadMatches()">
+            <option value="">-- Sélectionner un tournoi --</option>
+          </select>
+          <button class="btn btn-sm btn-ghost" onclick="adminLoadMatches()" type="button">🔄</button>
+        </div>
+      </div>
+      <div id="adminMatchMsg" style="margin-bottom:10px"></div>
+      <div id="adminMatchesArea">
+        <p style="color:var(--text-muted);text-align:center;padding:30px 0">Sélectionnez un tournoi pour voir les matchs.</p>
+      </div>
+    </div>
+
+    <!-- ── TAB : Planification ── -->
+    <div class="admin-section" id="adminTabSchedule">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">📅 Planifier les matchs</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <select class="admin-tourn-select" id="adminSchedTournSelect" onchange="adminLoadScheduleMatches()">
+            <option value="">-- Sélectionner un tournoi --</option>
+          </select>
+          <button class="btn btn-sm btn-ghost" onclick="adminLoadScheduleMatches()" type="button">🔄</button>
+        </div>
+      </div>
+      <div id="adminSchedMsg" style="margin-bottom:10px"></div>
+      <div id="adminScheduleArea">
+        <p style="color:var(--text-muted);text-align:center;padding:30px 0">Sélectionnez un tournoi pour planifier les matchs.</p>
+      </div>
+    </div>
+
+    <!-- ── TAB : Ajouter joueur ── -->
+    <div class="admin-section" id="adminTabAddplayer">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">➕ Ajouter un joueur à un tournoi</h3>
+        <button class="btn btn-sm btn-ghost" onclick="adminLoadRegistrations()" type="button">🔄 Actualiser liste</button>
+      </div>
+      <div id="adminAddMsg" style="margin-bottom:10px"></div>
+      <div class="form-card" style="margin-bottom:20px">
+        <h4 style="margin-bottom:14px;font-size:15px">Sélectionner un joueur inscrit sur la plateforme</h4>
+        <div class="field">
+          <label for="adminAddTournSelect">Tournoi cible</label>
+          <select id="adminAddTournSelect" class="admin-tourn-select" style="width:100%;margin:0">
+            <option value="">-- Choisir un tournoi --</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="adminAddGamerSelect">Joueur (GamerProfile)</label>
+          <select id="adminAddGamerSelect" style="width:100%">
+            <option value="">-- Choisir un joueur --</option>
+          </select>
+        </div>
+        <div class="field" style="flex-direction:row;align-items:center;gap:10px">
+          <input type="checkbox" id="adminAddPaid" style="width:auto">
+          <label for="adminAddPaid" style="margin:0;font-size:13px;text-transform:none;letter-spacing:0">Marquer comme payé</label>
+        </div>
+        <button class="btn btn-primary" onclick="adminAddPlayerToTournament()" type="button" style="width:100%">➕ Ajouter au tournoi</button>
+      </div>
+      <div id="adminTournamentPlayersList">
+        <!-- Liste des joueurs déjà inscrits dans le tournoi sélectionné -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODALE CONNEXION ADMIN -->
+<div class="admin-login-overlay" id="adminLoginModal" style="display:none">
+  <div class="admin-login-box">
+    <button class="close-x" onclick="document.getElementById('adminLoginModal').style.display='none'" type="button" style="position:absolute;top:14px;right:14px">×</button>
+    <h3>🔐 Accès Admin</h3>
+    <p>Entrez le mot de passe organisateur pour accéder au panel d'administration.</p>
+    <div id="adminLoginMsg" style="margin-bottom:10px"></div>
+    <form id="adminLoginForm">
+      <div class="field">
+        <label for="adminLoginPassword">Mot de passe organisateur</label>
+        <input id="adminLoginPassword" type="password" required placeholder="Mot de passe...">
+      </div>
+      <button class="btn btn-primary" type="submit" style="width:100%">🔓 Accéder au panel Admin</button>
+    </form>
+  </div>
+</div>
 
 <!-- MODAL COMPTE JOUEUR -->
 <div class="modal-overlay" id="gamerModal" style="display:none" role="dialog" aria-modal="true">
@@ -424,7 +790,7 @@
       <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px">Connectez-vous à votre profil joueur.</p>
       <form id="gamerLoginForm">
         <div class="field"><label for="gamerLoginPhone">Numéro de téléphone</label><input id="gamerLoginPhone" type="tel" required placeholder="Ex: 96 00 00 00"></div>
-        <div class="field"><label for="gamerLoginPwd">Mot de passe</label><input id="gamerLoginPwd" type="password" required placeholder="Votre mot de passe"></div>
+        <div class="field"><label for="gamerLoginPwd">Mot de passe</label><input id="gamerLoginPwd" type="password" required value="1234" placeholder="Par défaut : 1234"></div>
         <button class="btn btn-primary" type="submit" style="width:100%">Se connecter</button>
       </form>
     </div>
@@ -438,10 +804,22 @@
         <div class="field"><label for="gamerRegPlatform">Plateforme</label>
           <select id="gamerRegPlatform"><option>Mobile</option><option>PS4 / PS5</option><option>Xbox</option><option>PC</option></select>
         </div>
-        <div class="field"><label for="gamerRegPwd">Mot de passe</label><input id="gamerRegPwd" type="password" required minlength="4" placeholder="Au moins 4 caractères"></div>
+        <div class="field"><label for="gamerRegPwd">Mot de passe</label><input id="gamerRegPwd" type="password" required minlength="4" value="1234" placeholder="Par défaut : 1234"></div>
         <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">🎮 Créer mon compte</button>
       </form>
     </div>
+<!-- BANNIÈRE INSTALLATION PWA -->
+<div class="pwa-banner" id="pwaBanner" role="dialog" aria-label="Installer l'application">
+  <div class="pwa-icon">
+    <img src="/icons/icon-192.png" alt="EFootLigue Logo">
+  </div>
+  <div class="pwa-info">
+    <div class="pwa-title">Installer EFootLigue</div>
+    <div class="pwa-desc">Accédez aux tournois, matchs et chats instantanément depuis votre écran d'accueil.</div>
+  </div>
+  <div class="pwa-actions">
+    <button class="pwa-btn-install" id="pwaInstallBtn" type="button">Installer</button>
+    <button class="pwa-btn-close" id="pwaCloseBtn" type="button" aria-label="Fermer">✕</button>
   </div>
 </div>
 
@@ -581,8 +959,14 @@
     currentCompId = null;
     $('pageHome').style.display = 'block';
     $('pageComp').style.display = 'none';
+    const pAdmin = $('pageAdmin');
+    if(pAdmin) pAdmin.style.display = 'none';
     $('navJoueurs').style.display = 'none';
     $('navTableau').style.display = 'none';
+    const navTChat = $('navTourneyChat');
+    if(navTChat) navTChat.style.display = 'none';
+    const navGChat = $('navChat');
+    if(navGChat) navGChat.style.display = 'inline';
     renderHome();
     window.scrollTo({top:0, behavior:'smooth'});
   }
@@ -592,8 +976,14 @@
     currentCompId = compId;
     $('pageHome').style.display = 'none';
     $('pageComp').style.display = 'block';
+    const pAdmin = $('pageAdmin');
+    if(pAdmin) pAdmin.style.display = 'none';
     $('navJoueurs').style.display = 'inline';
     $('navTableau').style.display = 'inline';
+    const navTChat = $('navTourneyChat');
+    if(navTChat) navTChat.style.display = 'inline';
+    const navGChat = $('navChat');
+    if(navGChat) navGChat.style.display = 'none';
     renderComp();
     window.scrollTo({top:0, behavior:'smooth'});
   }
@@ -754,6 +1144,13 @@
         '<div class="chip '+(r.paid?'paid':'')+'"><span class="dotstate"></span>'+esc(r.name)+' — '+esc(r.gameId)+'</div>'
       ).join('');
     }
+
+    // 5. CHAT / GROUPE WHATSAPP DU TOURNOI
+    const chatTitleEl = $('tourneyChatTitle');
+    if(chatTitleEl) chatTitleEl.textContent = 'Groupe — ' + (c.name || 'Tournoi');
+    renderTourneyChatInput();
+    loadTourneyChatHistory(currentCompId);
+    switchTourneyChatFirebase(currentCompId);
   }
 
   function roundLabel(total, idx){
@@ -1055,6 +1452,12 @@
     // 3. Polling 10s — filet de securite si SSE/Firebase coupent
     setInterval(fetchAllFromDb, 10000);
 
+    // 4. Galerie des vainqueurs — chargement initial (semaine par défaut)
+    fetchWinners('week');
+
+    // 5. Chat communautaire global
+    initChat();
+
     const hash = window.location.hash.replace('#','');
     if(hash && hash.startsWith('comp-')){
       const cid = hash.replace('comp-','');
@@ -1062,8 +1465,1351 @@
     }
   }
 
+
+  // ══════════════════════════════════════════════
+  // GALERIE DES VAINQUEURS
+  // ══════════════════════════════════════════════
+  let currentWinnerPeriod = 'week';
+
+  window.switchWinnerPeriod = function(period){
+    currentWinnerPeriod = period;
+    ['week','month','year'].forEach(p => {
+      const btn = $('tab' + p.charAt(0).toUpperCase() + p.slice(1));
+      if(btn) btn.classList.toggle('active', p === period);
+    });
+    fetchWinners(period);
+  };
+
+  async function fetchWinners(period){
+    const grid = $('winnersGrid');
+    if(!grid) return;
+    grid.innerHTML = '<p class="no-winners">Chargement...</p>';
+    try {
+      const res = await fetch('/api/tournaments/winners?period=' + period);
+      const data = await res.json();
+      if(!data.ok || !data.winners || data.winners.length === 0){
+        const labels = { week:'cette semaine', month:'ce mois', year:'cette année' };
+        grid.innerHTML = '<div class="no-winners">🏆<br><br>Aucun champion ' + (labels[period]||'') + ' pour l\'instant.<br><span style="font-size:12px">Les vainqueurs de tournois apparaîtront ici dès la fin d\'une compétition.</span></div>';
+        return;
+      }
+      grid.innerHTML = '<div class="winners-grid">' + data.winners.map((w, idx) => {
+        const date = new Date(w.finishedAt);
+        const dateStr = date.toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' });
+        const prize = w.prize ? w.prize.toLocaleString('fr-FR') + ' FCFA' : '—';
+        const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '🏅';
+        return '<div class="winner-card">' +
+          '<div class="wc-rank">' + medal + ' Vainqueur</div>' +
+          '<div class="wc-name">' + esc(w.winnerName || 'Inconnu') + '</div>' +
+          (w.winnerGameId ? '<div class="wc-gameid">⚡ ' + esc(w.winnerGameId) + '</div>' : '<div class="wc-gameid" style="height:18px"></div>') +
+          '<div class="wc-tourney">🏟️ ' + esc(w.name) + '</div>' +
+          '<div class="wc-prize">💰 ' + esc(prize) + '</div>' +
+          '<div class="wc-date">📅 ' + esc(dateStr) + '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+    } catch(e){
+      console.warn('fetchWinners error:', e);
+      grid.innerHTML = '<p class="no-winners">Erreur de chargement de la galerie.</p>';
+    }
+  }
+
+  // ══════════════════════════════════════════════
+  // CHAT COMMUNAUTAIRE GLOBAL
+  // ══════════════════════════════════════════════
+  const CHAT_TOURNAMENT_ID = 'global';
+  let chatRenderedIds = new Set();
+  let chatMsgCount = 0;
+
+  function renderChatInputArea(){
+    const area = $('chatInputArea');
+    if(!area) return;
+    if(currentGamer && currentGamer.name){
+      area.innerHTML =
+        '<form class="chat-input-row" id="globalChatForm">' +
+          '<input id="globalChatInput" type="text" maxlength="500" placeholder="Écrire un message... (max 500 car.)" autocomplete="off">' +
+          '<button class="chat-send-btn" type="submit" id="chatSendBtn">Envoyer</button>' +
+        '</form>';
+      const form = $('globalChatForm');
+      if(form) form.addEventListener('submit', sendGlobalChatMessage);
+    } else {
+      area.innerHTML =
+        '<div class="chat-locked">🔒 <a onclick="openGamerLogin()">Connectez-vous</a> ou <a onclick="openGamerRegister()">créez un compte joueur</a> pour participer au chat.</div>';
+    }
+  }
+
+  // ══════════════════════════════════════════════
+  // UTILITAIRE COMPRESSION IMAGE CLIENT (POUR PHOTOS/SCORES)
+  // ══════════════════════════════════════════════
+  function compressImageFile(file, maxWidth = 1000, quality = 0.75) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ══════════════════════════════════════════════
+  // LIGHTBOX PHOTO PLEIN ÉCRAN
+  // ══════════════════════════════════════════════
+  window.openChatLightbox = function(url) {
+    const box = $('chatLightbox');
+    const img = $('lightboxImg');
+    if (box && img) {
+      img.src = url;
+      box.classList.add('show');
+    }
+  };
+
+  const _closeLightboxBtn = $('closeLightboxBtn');
+  if (_closeLightboxBtn) {
+    _closeLightboxBtn.addEventListener('click', () => {
+      const box = $('chatLightbox');
+      if (box) box.classList.remove('show');
+    });
+  }
+  const _chatLightbox = $('chatLightbox');
+  if (_chatLightbox) {
+    _chatLightbox.addEventListener('click', (e) => {
+      if (e.target === _chatLightbox) _chatLightbox.classList.remove('show');
+    });
+  }
+
+  // ══════════════════════════════════════════════
+  // GESTION DU CHAT COMMUNAUTAIRE & TOURNOI (STYLE WHATSAPP)
+  // ══════════════════════════════════════════════
+  const CHAT_GLOBAL_ID = 'global';
+  let chatRenderedGlobalIds = new Set();
+  let chatRenderedTourneyIds = new Set();
+  let selectedGlobalImageBase64 = '';
+  let selectedTourneyImageBase64 = '';
+
+  // Vérifier si l'utilisateur actuel est inscrit dans un tournoi spécifique
+  function isGamerInTournament(compId) {
+    if (!currentGamer || !compId || !allComps[compId]) return false;
+    const comp = allComps[compId];
+    const registrations = Array.isArray(comp.registrations) ? comp.registrations : [];
+    const myPhone = String(currentGamer.phone || '').trim();
+    const myName = String(currentGamer.name || '').trim().toLowerCase();
+    const myGameId = String(currentGamer.gameId || '').trim().toLowerCase();
+
+    return registrations.some(r => {
+      const rPhone = String(r.phone || '').trim();
+      const rName = String(r.name || '').trim().toLowerCase();
+      const rGameId = String(r.gameId || '').trim().toLowerCase();
+      return (myPhone && rPhone === myPhone) || (myName && rName === myName) || (myGameId && rGameId === myGameId);
+    });
+  }
+
+  // 1. Rendu zone de saisie du Chat Général (Page Accueil)
+  function renderGlobalChatInput() {
+    const area = $('chatInputArea');
+    if (!area) return;
+    if (currentGamer && currentGamer.name) {
+      area.innerHTML =
+        '<form class="chat-input-row" id="globalChatForm">' +
+          '<input type="file" id="globalChatFileInput" accept="image/*" style="display:none">' +
+          '<button class="chat-media-btn" id="globalChatMediaBtn" type="button" title="Envoyer une photo">📷</button>' +
+          '<input id="globalChatInput" type="text" maxlength="500" placeholder="Écrire un message à la communauté..." autocomplete="off">' +
+          '<button class="chat-send-btn" type="submit" id="globalChatSendBtn">Envoyer 📤</button>' +
+        '</form>';
+
+      const form = $('globalChatForm');
+      if (form) form.addEventListener('submit', sendGlobalChatMessage);
+
+      const mediaBtn = $('globalChatMediaBtn');
+      const fileInput = $('globalChatFileInput');
+      if (mediaBtn && fileInput) {
+        mediaBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', async (e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            try {
+              selectedGlobalImageBase64 = await compressImageFile(file);
+              $('globalChatPreviewImg').src = selectedGlobalImageBase64;
+              $('globalChatPreviewWrap').classList.add('show');
+            } catch (err) {
+              alert('Erreur lors du traitement de la photo.');
+            }
+          }
+        });
+      }
+    } else {
+      area.innerHTML =
+        '<div class="chat-locked">🔒 <a onclick="openGamerLogin()">Connectez-vous</a> ou <a onclick="openGamerRegister()">créez votre compte joueur</a> pour échanger avec la communauté.</div>';
+    }
+  }
+
+  const _globalRemoveBtn = $('globalChatPreviewRemove');
+  if (_globalRemoveBtn) {
+    _globalRemoveBtn.addEventListener('click', () => {
+      selectedGlobalImageBase64 = '';
+      $('globalChatPreviewWrap').classList.remove('show');
+      const fileInp = $('globalChatFileInput');
+      if (fileInp) fileInp.value = '';
+    });
+  }
+
+  // 2. Rendu zone de saisie du Chat de Tournoi (Page Compétition)
+  // RÈGLE : Seuls les inscrits à ce tournoi peuvent écrire !
+  function renderTourneyChatInput() {
+    const area = $('tourneyChatInputArea');
+    if (!area || !currentCompId) return;
+
+    const comp = allComps[currentCompId];
+    const cName = comp?.config?.name || 'ce tournoi';
+
+    if (!currentGamer || !currentGamer.name) {
+      area.innerHTML =
+        '<div class="chat-locked">🔒 <a onclick="openGamerLogin()">Connectez-vous</a> et <a href="#inscription">inscrivez-vous à ce tournoi</a> pour envoyer des messages et partager vos scores.</div>';
+      return;
+    }
+
+    const isRegistered = isGamerInTournament(currentCompId);
+
+    if (isRegistered) {
+      // Le joueur est bien inscrit dans le tournoi !
+      area.innerHTML =
+        '<form class="chat-input-row" id="tourneyChatForm">' +
+          '<input type="file" id="tourneyChatFileInput" accept="image/*" style="display:none">' +
+          '<button class="chat-media-btn" id="tourneyChatMediaBtn" type="button" title="Joindre capture de score / photo">📷</button>' +
+          '<input id="tourneyChatInput" type="text" maxlength="500" placeholder="Annoncer un score, salon, message..." autocomplete="off">' +
+          '<button class="chat-send-btn" type="submit" id="tourneyChatSendBtn">Envoyer 📤</button>' +
+        '</form>';
+
+      const form = $('tourneyChatForm');
+      if (form) form.addEventListener('submit', sendTourneyChatMessage);
+
+      const mediaBtn = $('tourneyChatMediaBtn');
+      const fileInput = $('tourneyChatFileInput');
+      if (mediaBtn && fileInput) {
+        mediaBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', async (e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            try {
+              selectedTourneyImageBase64 = await compressImageFile(file);
+              $('tourneyChatPreviewImg').src = selectedTourneyImageBase64;
+              $('tourneyChatPreviewWrap').classList.add('show');
+            } catch (err) {
+              alert('Erreur lors du traitement de la photo.');
+            }
+          }
+        });
+      }
+    } else {
+      // Le joueur est connecté mais PAS inscrit dans ce tournoi
+      area.innerHTML =
+        '<div class="chat-locked tourney-only">' +
+          '⚠️ <b>Mode lecture seule</b> : Vous devez être <a href="#inscription">inscrit à ' + esc(cName) + '</a> pour poster des messages et photos dans ce groupe.' +
+        '</div>';
+    }
+  }
+
+  const _tourneyRemoveBtn = $('tourneyChatPreviewRemove');
+  if (_tourneyRemoveBtn) {
+    _tourneyRemoveBtn.addEventListener('click', () => {
+      selectedTourneyImageBase64 = '';
+      $('tourneyChatPreviewWrap').classList.remove('show');
+      const fileInp = $('tourneyChatFileInput');
+      if (fileInp) fileInp.value = '';
+    });
+  }
+
+  // 3. Construction visuelle d'un message (WhatsApp style)
+  function createMessageElement(msg) {
+    const isMine = currentGamer && (msg.senderPhone === currentGamer.phone || msg.senderName === currentGamer.name);
+    const isAdmin = msg.isAdmin;
+    const ts = msg.createdAt ? new Date(typeof msg.createdAt === 'number' ? msg.createdAt : msg.createdAt).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' }) : '';
+
+    const div = document.createElement('div');
+    div.className = 'chat-msg' + (isMine ? ' mine' : ' other') + (isAdmin ? ' admin-msg' : '');
+
+    let imageHtml = '';
+    if (msg.imageUrl) {
+      imageHtml = '<img src="' + esc(msg.imageUrl) + '" class="cm-img" alt="Capture d\'écran / Photo" onclick="openChatLightbox(\'' + esc(msg.imageUrl) + '\')" title="Cliquer pour agrandir">';
+    }
+
+    div.innerHTML =
+      '<div class="cm-meta">' +
+        '<span class="cm-sender">' + esc(msg.senderName || 'Joueur') + '</span>' +
+        (msg.senderGameId ? '<span style="color:var(--text-muted)">· ' + esc(msg.senderGameId) + '</span>' : '') +
+        (isAdmin ? '<span style="background:var(--gold);color:#0E1712;font-size:9px;padding:1px 5px;border-radius:4px;font-weight:800">ADMIN</span>' : '') +
+      '</div>' +
+      '<div class="cm-bubble">' +
+        (msg.text ? '<div>' + esc(msg.text) + '</div>' : '') +
+        imageHtml +
+        '<div class="cm-time">' + esc(ts) + (isMine ? ' <span class="cm-check">✓✓</span>' : '') + '</div>' +
+      '</div>';
+
+    return div;
+  }
+
+  // 4. Ajouter message dans le chat général
+  function appendGlobalChatMessage(msg) {
+    const box = $('globalChatMessages');
+    if (!box || chatRenderedGlobalIds.has(msg.id)) return;
+    chatRenderedGlobalIds.add(msg.id);
+
+    const placeholder = box.querySelector('p');
+    if (placeholder) placeholder.remove();
+
+    box.appendChild(createMessageElement(msg));
+
+    const distFromBottom = box.scrollHeight - box.scrollTop - box.clientHeight;
+    if (distFromBottom < 100) box.scrollTop = box.scrollHeight;
+  }
+
+  // 5. Ajouter message dans le chat du tournoi
+  function appendTourneyChatMessage(msg) {
+    const box = $('tourneyChatMessages');
+    if (!box || chatRenderedTourneyIds.has(msg.id)) return;
+    chatRenderedTourneyIds.add(msg.id);
+
+    const placeholder = box.querySelector('p');
+    if (placeholder) placeholder.remove();
+
+    box.appendChild(createMessageElement(msg));
+
+    const distFromBottom = box.scrollHeight - box.scrollTop - box.clientHeight;
+    if (distFromBottom < 100) box.scrollTop = box.scrollHeight;
+  }
+
+  // 6. Charger l'historique du chat général
+  async function loadGlobalChatHistory() {
+    try {
+      const res = await fetch('/api/chat?tournamentId=' + CHAT_GLOBAL_ID);
+      const data = await res.json();
+      if (data.ok && Array.isArray(data.messages)) {
+        const box = $('globalChatMessages');
+        if (box) box.innerHTML = '';
+        chatRenderedGlobalIds.clear();
+        data.messages.forEach(m => appendGlobalChatMessage(m));
+        if (data.messages.length === 0 && box) {
+          box.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Bienvenue dans la communauté ! Soyez le premier à écrire un message. 👋</p>';
+        } else if (box) {
+          box.scrollTop = box.scrollHeight;
+        }
+      }
+    } catch(e) { console.warn('loadGlobalChatHistory error:', e); }
+  }
+
+  // 7. Charger l'historique du chat du tournoi sélectionné
+  async function loadTourneyChatHistory(compId) {
+    if (!compId) return;
+    try {
+      const box = $('tourneyChatMessages');
+      if (box) box.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Chargement des messages du groupe...</p>';
+      chatRenderedTourneyIds.clear();
+
+      const res = await fetch('/api/chat?tournamentId=' + compId);
+      const data = await res.json();
+      if (data.ok && Array.isArray(data.messages)) {
+        if (box) box.innerHTML = '';
+        data.messages.forEach(m => appendTourneyChatMessage(m));
+        if (data.messages.length === 0 && box) {
+          box.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-size:13px;margin:auto">Groupe ouvert ! Partagez vos codes de match et captures d\'écran de scores ici. 📸</p>';
+        } else if (box) {
+          box.scrollTop = box.scrollHeight;
+        }
+      }
+    } catch(e) { console.warn('loadTourneyChatHistory error:', e); }
+  }
+
+  // 8. Écoute temps réel Firebase
+  function startFirebaseChatListeners() {
+    if (!rtdb) return;
+    const since = Date.now() - 120000;
+
+    // Écoute Chat Général
+    rtdb.ref('chat/' + CHAT_GLOBAL_ID).orderByChild('createdAt').startAt(since).on('child_added', snap => {
+      const msg = snap.val();
+      if (msg && msg.id) appendGlobalChatMessage(msg);
+    });
+
+    // Compteur en ligne
+    rtdb.ref('presence/chat_' + CHAT_GLOBAL_ID).on('value', snap => {
+      const count = snap.numChildren ? snap.numChildren() : (snap.val() ? Object.keys(snap.val()).length : 1);
+      const el = $('chatOnlineCount');
+      if (el) el.textContent = count > 1 ? count + ' membres en ligne' : '1 membre en ligne';
+    });
+  }
+
+  // Écoute temps réel pour le tournoi actif
+  let activeTourneyListenerRef = null;
+  function switchTourneyChatFirebase(compId) {
+    if (!rtdb || !compId) return;
+    if (activeTourneyListenerRef) {
+      activeTourneyListenerRef.off();
+    }
+    const since = Date.now() - 120000;
+    activeTourneyListenerRef = rtdb.ref('chat/' + compId).orderByChild('createdAt').startAt(since);
+    activeTourneyListenerRef.on('child_added', snap => {
+      const msg = snap.val();
+      if (msg && msg.id) appendTourneyChatMessage(msg);
+    });
+  }
+
+  // 9. Envoi message Chat Général
+  async function sendGlobalChatMessage(e) {
+    e.preventDefault();
+    if (!currentGamer) return;
+    const input = $('globalChatInput');
+    const btn = $('globalChatSendBtn');
+    const text = (input ? input.value : '').trim();
+    const image = selectedGlobalImageBase64;
+
+    if (!text && !image) return;
+    if (btn) btn.disabled = true;
+    if (input) input.value = '';
+
+    // Réinitialiser aperçu
+    selectedGlobalImageBase64 = '';
+    $('globalChatPreviewWrap').classList.remove('show');
+    const fileInp = $('globalChatFileInput');
+    if (fileInp) fileInp.value = '';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tournamentId: CHAT_GLOBAL_ID,
+          senderName: currentGamer.name || 'Joueur',
+          senderPhone: currentGamer.phone || '',
+          senderGameId: currentGamer.gameId || '',
+          text,
+          imageUrl: image,
+          isAdmin: false
+        })
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        if (input) input.value = text;
+        alert(data.error || 'Erreur lors de l\'envoi du message.');
+      }
+    } catch(err) {
+      if (input) input.value = text;
+      console.error('sendGlobalChatMessage error:', err);
+    } finally {
+      if (btn) btn.disabled = false;
+      if (input) input.focus();
+    }
+  }
+
+  // 10. Envoi message Chat Tournoi
+  async function sendTourneyChatMessage(e) {
+    e.preventDefault();
+    if (!currentGamer || !currentCompId) return;
+
+    if (!isGamerInTournament(currentCompId)) {
+      alert('Vous devez être inscrit à ce tournoi pour envoyer des messages.');
+      return;
+    }
+
+    const input = $('tourneyChatInput');
+    const btn = $('tourneyChatSendBtn');
+    const text = (input ? input.value : '').trim();
+    const image = selectedTourneyImageBase64;
+
+    if (!text && !image) return;
+    if (btn) btn.disabled = true;
+    if (input) input.value = '';
+
+    // Réinitialiser aperçu
+    selectedTourneyImageBase64 = '';
+    $('tourneyChatPreviewWrap').classList.remove('show');
+    const fileInp = $('tourneyChatFileInput');
+    if (fileInp) fileInp.value = '';
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          tournamentId: currentCompId,
+          senderName: currentGamer.name || 'Joueur',
+          senderPhone: currentGamer.phone || '',
+          senderGameId: currentGamer.gameId || '',
+          text,
+          imageUrl: image,
+          isAdmin: false
+        })
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        if (input) input.value = text;
+        alert(data.error || 'Erreur lors de l\'envoi du message.');
+      }
+    } catch(err) {
+      if (input) input.value = text;
+      console.error('sendTourneyChatMessage error:', err);
+    } finally {
+      if (btn) btn.disabled = false;
+      if (input) input.focus();
+    }
+  }
+
+  function initChat() {
+    renderGlobalChatInput();
+    loadGlobalChatHistory();
+    startFirebaseChatListeners();
+  }
+
+  // Mettre à jour l'UI des chats quand l'utilisateur se connecte
+  const _origGamerLogin = $('gamerLoginForm');
+  const _origGamerRegister = $('gamerRegisterForm');
+  if (_origGamerLogin) {
+    _origGamerLogin.addEventListener('submit', () => {
+      setTimeout(() => {
+        renderGlobalChatInput();
+        if (currentCompId) renderTourneyChatInput();
+      }, 300);
+    });
+  }
+  if (_origGamerRegister) {
+    _origGamerRegister.addEventListener('submit', () => {
+      setTimeout(() => {
+        renderGlobalChatInput();
+        if (currentCompId) renderTourneyChatInput();
+      }, 300);
+    });
+  }
+
+  // ══════════════════════════════════════════════
+  // PWA (PROGRESSIVE WEB APP)
+  // ══════════════════════════════════════════════
+  let deferredPrompt = null;
+
+  function initPWA(){
+    // 1. Enregistrement du Service Worker
+    if('serviceWorker' in navigator){
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => {
+            console.log('[PWA] Service Worker actif, scope:', reg.scope);
+          })
+          .catch(err => {
+            console.warn('[PWA] Erreur enregistrement Service Worker:', err);
+          });
+      });
+    }
+
+    // 2. Gestion de l'invite d'installation (beforeinstallprompt)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator.standalone === true);
+    const bannerDismissed = sessionStorage.getItem('pwa_dismissed') === '1';
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      // Afficher le bouton dans la nav
+      const navBtn = $('navInstallBtn');
+      if(navBtn) navBtn.style.display = 'inline-flex';
+
+      // Afficher la bannière flottante si pas encore installée et pas fermée cette session
+      if(!isStandalone && !bannerDismissed){
+        setTimeout(() => {
+          const banner = $('pwaBanner');
+          if(banner) banner.classList.add('show');
+        }, 3000);
+      }
+    });
+
+    // Action d'installation
+    async function triggerInstall(){
+      if(deferredPrompt){
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('[PWA] Choix utilisateur:', outcome);
+        deferredPrompt = null;
+      }
+      const banner = $('pwaBanner');
+      if(banner) banner.classList.remove('show');
+      const navBtn = $('navInstallBtn');
+      if(navBtn) navBtn.style.display = 'none';
+    }
+
+    const pwaBtn = $('pwaInstallBtn');
+    if(pwaBtn) pwaBtn.addEventListener('click', triggerInstall);
+
+    const navBtn = $('navInstallBtn');
+    if(navBtn) navBtn.addEventListener('click', triggerInstall);
+
+    const closeBtn = $('pwaCloseBtn');
+    if(closeBtn) closeBtn.addEventListener('click', () => {
+      const banner = $('pwaBanner');
+      if(banner) banner.classList.remove('show');
+      sessionStorage.setItem('pwa_dismissed', '1');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] Application installée avec succès !');
+      const banner = $('pwaBanner');
+      if(banner) banner.classList.remove('show');
+      const navBtn = $('navInstallBtn');
+      if(navBtn) navBtn.style.display = 'none';
+      deferredPrompt = null;
+    });
+  }
+
+  // ══════════════════════════════════════════════
+  // PANEL D'ADMINISTRATION
+  // ══════════════════════════════════════════════
+  let adminGamersList = [];
+  let adminPrismaTournaments = [];
+
+  function getAdminToken(){
+    return sessionStorage.getItem('efoot_admin_token') || localStorage.getItem('efoot_admin_token') || '';
+  }
+
+  function setAdminToken(t){
+    sessionStorage.setItem('efoot_admin_token', t);
+    localStorage.setItem('efoot_admin_token', t);
+  }
+
+  window.openAdminPanel = function(){
+    const token = getAdminToken();
+    if(token){
+      showAdmin();
+    } else {
+      $('adminLoginModal').style.display = 'flex';
+    }
+  };
+
+  function showAdmin(){
+    $('pageHome').style.display = 'none';
+    $('pageComp').style.display = 'none';
+    $('pageAdmin').style.display = 'block';
+    $('navJoueurs').style.display = 'none';
+    $('navTableau').style.display = 'none';
+    const navTChat = $('navTourneyChat');
+    if(navTChat) navTChat.style.display = 'none';
+    const navGChat = $('navChat');
+    if(navGChat) navGChat.style.display = 'none';
+    $('adminLoginModal').style.display = 'none';
+    
+    adminPopulateTournamentSelects();
+    adminLoadRegistrations();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  window.showAdmin = showAdmin;
+
+  $('adminLoginForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const pwd = $('adminLoginPassword').value.trim();
+    if(!pwd) return;
+    const msgEl = $('adminLoginMsg');
+    msgEl.innerHTML = '<div class="msg">Connexion en cours...</div>';
+    try {
+      const res = await fetch('/api/organizer/unlock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pwd })
+      });
+      const data = await res.json();
+      if(data.ok && data.token){
+        setAdminToken(data.token);
+        msgEl.innerHTML = '<div class="msg ok">Accès autorisé !</div>';
+        setTimeout(showAdmin, 400);
+      } else {
+        msgEl.innerHTML = '<div class="msg error">' + esc(data.error || 'Mot de passe incorrect.') + '</div>';
+      }
+    } catch(err){
+      msgEl.innerHTML = '<div class="msg error">Erreur de communication avec le serveur.</div>';
+    }
+  });
+
+  window.switchAdminTab = function(tabName){
+    const tabs = ['registrations', 'matches', 'schedule', 'addplayer'];
+    tabs.forEach(t => {
+      const sec = $('adminTab' + t.charAt(0).toUpperCase() + t.slice(1));
+      if(sec) sec.style.display = (t === tabName) ? 'block' : 'none';
+    });
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      const isMatch = btn.getAttribute('onclick')?.includes(tabName);
+      if(isMatch) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+
+    if(tabName === 'matches') adminLoadMatches();
+    if(tabName === 'schedule') adminLoadScheduleMatches();
+    if(tabName === 'registrations') adminLoadRegistrations();
+  };
+
+  function adminPopulateTournamentSelects(){
+    const selects = ['adminMatchTournSelect', 'adminSchedTournSelect', 'adminAddTournSelect'];
+    selects.forEach(sId => {
+      const el = $(sId);
+      if(!el) return;
+      const currentVal = el.value;
+      let opts = '<option value="">-- Choisir un tournoi --</option>';
+      
+      // Tournois JSON (allComps)
+      Object.entries(allComps).forEach(([id, comp]) => {
+        if(!comp || !comp.config) return;
+        opts += '<option value="json:' + esc(id) + '">[JSON] ' + esc(comp.config.name || id) + '</option>';
+      });
+
+      // Tournois Prisma
+      adminPrismaTournaments.forEach(t => {
+        opts += '<option value="prisma:' + esc(t.id) + '">[DB] ' + esc(t.name) + ' (' + t.slug + ')</option>';
+      });
+
+      el.innerHTML = opts;
+      if(currentVal) el.value = currentVal;
+    });
+  }
+
+  // ── Onglet Inscriptions ──
+  window.adminLoadRegistrations = async function(){
+    const tableEl = $('adminRegistrationsTable');
+    if(!tableEl) return;
+    tableEl.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Chargement des inscriptions...</p>';
+
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/admin/registrations', {
+        headers: { 'x-organizer-token': token }
+      });
+      const data = await res.json();
+      if(data.ok){
+        adminGamersList = data.gamerProfiles || [];
+        adminPrismaTournaments = data.tournaments || [];
+        adminPopulateTournamentSelects();
+        renderAdminRegistrations(adminGamersList);
+        
+        // Remplir aussi le select des joueurs dans l'onglet "Ajouter Joueur"
+        const gSelect = $('adminAddGamerSelect');
+        if(gSelect){
+          let gOpts = '<option value="">-- Choisir un joueur --</option>';
+          adminGamersList.forEach(g => {
+            gOpts += '<option value="' + esc(g.id) + '">' + esc(g.name) + ' (' + esc(g.gameId) + ' - ' + esc(g.phone) + ')</option>';
+          });
+          gSelect.innerHTML = gOpts;
+        }
+
+        // Stats
+        $('statTotalGamers').textContent = adminGamersList.length;
+        let totalTourn = Object.keys(allComps).length + adminPrismaTournaments.length;
+        $('statTotalTournaments').textContent = totalTourn;
+      } else {
+        tableEl.innerHTML = '<p class="msg error">' + esc(data.error || 'Erreur chargement') + '</p>';
+      }
+    } catch(err){
+      tableEl.innerHTML = '<p class="msg error">Erreur réseau lors du chargement des inscriptions.</p>';
+    }
+  };
+
+  function renderAdminRegistrations(gamers){
+    const tableEl = $('adminRegistrationsTable');
+    if(!tableEl) return;
+    if(!gamers || gamers.length === 0){
+      tableEl.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Aucun joueur inscrit pour le moment.</p>';
+      return;
+    }
+
+    let html = '<div style="overflow-x:auto"><table class="admin-table">' +
+      '<thead><tr>' +
+      '<th>Nom / Pseudo</th>' +
+      '<th>ID eFootball</th>' +
+      '<th>Téléphone</th>' +
+      '<th>Plateforme</th>' +
+      '<th>Tournois</th>' +
+      '<th>Date</th>' +
+      '<th>Actions</th>' +
+      '</tr></thead><tbody>';
+
+    gamers.forEach(g => {
+      const tourns = Array.isArray(g.tournaments) ? g.tournaments.join(', ') : (g.tournaments || 'Aucun');
+      const d = g.createdAt ? new Date(g.createdAt).toLocaleDateString('fr-FR') : '-';
+      html += '<tr>' +
+        '<td><strong>' + esc(g.name) + '</strong></td>' +
+        '<td><span class="badge badge-green">' + esc(g.gameId || '-') + '</span></td>' +
+        '<td>' + esc(g.phone || '-') + '</td>' +
+        '<td><span class="badge badge-blue">' + esc(g.platform || 'Mobile') + '</span></td>' +
+        '<td style="font-size:11.5px;color:var(--text-muted)">' + esc(tourns) + '</td>' +
+        '<td style="font-size:11.5px;color:var(--text-muted)">' + esc(d) + '</td>' +
+        '<td>' +
+        '<button class="btn-admin" onclick="adminQuickAddPlayer(\'' + esc(g.id) + '\')" title="Inscrire à un tournoi">➕ Inscrire</button>' +
+        '</td>' +
+        '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    tableEl.innerHTML = html;
+  }
+
+  // Filtrage recherche en direct
+  const searchInput = $('adminSearchGamers');
+  if(searchInput){
+    searchInput.addEventListener('input', function(){
+      const q = this.value.toLowerCase().trim();
+      if(!q){
+        renderAdminRegistrations(adminGamersList);
+        return;
+      }
+      const filtered = adminGamersList.filter(g => {
+        return (g.name || '').toLowerCase().includes(q) ||
+               (g.gameId || '').toLowerCase().includes(q) ||
+               (g.phone || '').includes(q) ||
+               (g.platform || '').toLowerCase().includes(q);
+      });
+      renderAdminRegistrations(filtered);
+    });
+  }
+
+  window.adminQuickAddPlayer = function(gamerId){
+    switchAdminTab('addplayer');
+    const sel = $('adminAddGamerSelect');
+    if(sel) sel.value = gamerId;
+  };
+
+  // ── Onglet Matchs & Scores ──
+  window.adminLoadMatches = async function(){
+    const selVal = $('adminMatchTournSelect').value;
+    const area = $('adminMatchesArea');
+    if(!area) return;
+    if(!selVal){
+      area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Sélectionnez un tournoi ci-dessus.</p>';
+      return;
+    }
+
+    area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Chargement des matchs...</p>';
+
+    if(selVal.startsWith('json:')){
+      const compId = selVal.replace('json:', '');
+      const comp = allComps[compId];
+      if(!comp){
+        area.innerHTML = '<p class="msg error">Compétition introuvable.</p>';
+        return;
+      }
+      renderAdminJsonMatches(compId, comp);
+    } else if(selVal.startsWith('prisma:')){
+      const tId = selVal.replace('prisma:', '');
+      const tourn = adminPrismaTournaments.find(t => t.id === tId);
+      if(!tourn){
+        area.innerHTML = '<p class="msg error">Tournoi introuvable.</p>';
+        return;
+      }
+      try {
+        const res = await fetch('/api/tournaments/' + tourn.slug);
+        const data = await res.json();
+        if(data.ok && data.tournament){
+          renderAdminPrismaMatches(data.tournament);
+        } else {
+          area.innerHTML = '<p class="msg error">' + esc(data.error || 'Erreur chargement') + '</p>';
+        }
+      } catch(err){
+        area.innerHTML = '<p class="msg error">Erreur réseau.</p>';
+      }
+    }
+  };
+
+  function renderAdminJsonMatches(compId, comp){
+    const area = $('adminMatchesArea');
+    const leagueMatches = Array.isArray(comp.leagueMatches) ? comp.leagueMatches : [];
+    const bracket = comp.bracket || null;
+
+    if(leagueMatches.length === 0 && (!bracket || !bracket.rounds || bracket.rounds.length === 0)){
+      area.innerHTML = '<div class="empty-state"><div class="icon">⚽</div><p>Aucun match généré pour ce tournoi.<br>Lancez le tirage au sort ou créez des rencontres.</p></div>';
+      return;
+    }
+
+    let html = '';
+    let totalM = 0;
+    let playedM = 0;
+
+    // 1. Matchs de poules / ligue
+    if(leagueMatches.length > 0){
+      html += '<h4 style="color:var(--lime);margin:16px 0 10px;font-size:15px">🏆 Phase de Ligue / Journées</h4>';
+      leagueMatches.forEach((md, mdIdx) => {
+        html += '<div class="matchday-card">' +
+          '<div class="matchday-title"><span>📅 ' + esc(md.name || 'Journée ' + (mdIdx + 1)) + '</span></div>';
+        const matches = Array.isArray(md.matches) ? md.matches : [];
+        matches.forEach((m, mIdx) => {
+          totalM++;
+          const hasScore = m.score1 !== null && m.score1 !== undefined && m.score1 !== '';
+          if(hasScore) playedM++;
+          const s1 = hasScore ? m.score1 : '';
+          const s2 = (m.score2 !== null && m.score2 !== undefined && m.score2 !== '') ? m.score2 : '';
+          const p1Name = typeof m.p1 === 'object' ? (m.p1.name || m.p1.gameId) : m.p1;
+          const p2Name = typeof m.p2 === 'object' ? (m.p2.name || m.p2.gameId) : m.p2;
+
+          html += '<div class="admin-match-card">' +
+            '<div class="admin-match-header">' +
+              '<span class="badge ' + (hasScore ? 'badge-green' : 'badge-yellow') + '">' + (hasScore ? 'Terminé' : 'À jouer') + '</span>' +
+              (m.scheduledAt ? '<span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono)">⏰ ' + esc(new Date(m.scheduledAt).toLocaleString('fr-FR')) + '</span>' : '') +
+            '</div>' +
+            '<div class="admin-match-players">' +
+              '<div class="admin-match-player right">' + esc(p1Name || 'Joueur 1') + '</div>' +
+              '<div class="admin-match-vs">VS</div>' +
+              '<div class="admin-match-player">' + esc(p2Name || 'Joueur 2') + '</div>' +
+            '</div>' +
+            '<div class="admin-match-actions">' +
+              '<div class="score-form">' +
+                '<input class="score-input" type="number" min="0" max="99" id="s1_' + compId + '_' + mdIdx + '_' + mIdx + '" value="' + esc(s1) + '" placeholder="0">' +
+                '<span class="score-sep">-</span>' +
+                '<input class="score-input" type="number" min="0" max="99" id="s2_' + compId + '_' + mdIdx + '_' + mIdx + '" value="' + esc(s2) + '" placeholder="0">' +
+                '<button class="btn-admin success" onclick="adminSaveJsonMatchScore(\'' + compId + '\',' + mdIdx + ',' + mIdx + ')" type="button">💾 Valider score</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        });
+        html += '</div>';
+      });
+    }
+
+    // 2. Matchs éliminatoires (Bracket)
+    if(bracket && Array.isArray(bracket.rounds)){
+      html += '<h4 style="color:var(--gold);margin:20px 0 10px;font-size:15px">⚔️ Phase Finale (Arbre Éliminatoire)</h4>';
+      bracket.rounds.forEach((round, rIdx) => {
+        html += '<div class="matchday-card">' +
+          '<div class="matchday-title" style="color:var(--gold)"><span>Tour ' + (rIdx + 1) + '</span></div>';
+        round.forEach((m, mIdx) => {
+          totalM++;
+          const p1 = m.p1 ? (m.p1.gameId || m.p1.name || 'P1') : 'BYE';
+          const p2 = m.p2 ? (m.p2.gameId || m.p2.name || 'P2') : 'BYE';
+          const hasScore = m.score1 !== null && m.score1 !== undefined && m.score1 !== '';
+          if(hasScore) playedM++;
+          const s1 = hasScore ? m.score1 : '';
+          const s2 = hasScore ? m.score2 : '';
+
+          html += '<div class="admin-match-card">' +
+            '<div class="admin-match-header">' +
+              '<span class="badge ' + (m.winner ? 'badge-green' : 'badge-yellow') + '">' + (m.winner ? 'Vainqueur: ' + esc(m.winner.name || m.winner.gameId || 'Gagnant') : 'En attente') + '</span>' +
+            '</div>' +
+            '<div class="admin-match-players">' +
+              '<div class="admin-match-player right">' + esc(p1) + '</div>' +
+              '<div class="admin-match-vs">VS</div>' +
+              '<div class="admin-match-player">' + esc(p2) + '</div>' +
+            '</div>' +
+            '<div class="admin-match-actions">' +
+              '<div class="score-form">' +
+                '<input class="score-input" type="number" min="0" id="bs1_' + compId + '_' + rIdx + '_' + mIdx + '" value="' + esc(s1) + '" placeholder="0">' +
+                '<span class="score-sep">-</span>' +
+                '<input class="score-input" type="number" min="0" id="bs2_' + compId + '_' + rIdx + '_' + mIdx + '" value="' + esc(s2) + '" placeholder="0">' +
+                '<button class="btn-admin success" onclick="adminSaveJsonBracketScore(\'' + compId + '\',' + rIdx + ',' + mIdx + ')" type="button">💾 Valider score</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        });
+        html += '</div>';
+      });
+    }
+
+    $('statTotalMatches').textContent = totalM;
+    $('statPlayedMatches').textContent = playedM;
+    area.innerHTML = html;
+  }
+
+  function renderAdminPrismaMatches(tournament){
+    const area = $('adminMatchesArea');
+    const matches = tournament.matches || [];
+    if(matches.length === 0){
+      area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Aucun match dans ce tournoi (tirage non lancé).</p>';
+      return;
+    }
+
+    let totalM = matches.length;
+    let playedM = matches.filter(m => m.status === 'PLAYED').length;
+    $('statTotalMatches').textContent = totalM;
+    $('statPlayedMatches').textContent = playedM;
+
+    let html = '<div class="matchday-card">';
+    matches.forEach(m => {
+      const p1 = m.p1?.name || m.p1Name || 'Joueur 1';
+      const p2 = m.p2?.name || m.p2Name || 'Joueur 2';
+      const isPlayed = m.status === 'PLAYED';
+      const s1 = m.score1 !== null ? m.score1 : '';
+      const s2 = m.score2 !== null ? m.score2 : '';
+
+      html += '<div class="admin-match-card">' +
+        '<div class="admin-match-header">' +
+          '<span class="badge ' + (isPlayed ? 'badge-green' : 'badge-yellow') + '">' + (isPlayed ? 'Terminé (Vainqueur: ' + esc(m.winner?.name || 'Gagnant') + ')' : 'À jouer') + '</span>' +
+          (m.scheduledAt ? '<span style="font-size:11px;color:var(--text-muted)">⏰ ' + esc(new Date(m.scheduledAt).toLocaleString('fr-FR')) + '</span>' : '') +
+        '</div>' +
+        '<div class="admin-match-players">' +
+          '<div class="admin-match-player right">' + esc(p1) + '</div>' +
+          '<div class="admin-match-vs">VS</div>' +
+          '<div class="admin-match-player">' + esc(p2) + '</div>' +
+        '</div>' +
+        '<div class="admin-match-actions">' +
+          '<div class="score-form">' +
+            '<input class="score-input" type="number" min="0" id="ps1_' + m.id + '" value="' + esc(s1) + '" placeholder="0">' +
+            '<span class="score-sep">-</span>' +
+            '<input class="score-input" type="number" min="0" id="ps2_' + m.id + '" value="' + esc(s2) + '" placeholder="0">' +
+            '<button class="btn-admin success" onclick="adminSavePrismaScore(\'' + m.id + '\')" type="button">💾 Enregistrer</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '</div>';
+    area.innerHTML = html;
+  }
+
+  // Sauvegarde des scores JSON
+  window.adminSaveJsonMatchScore = async function(compId, mdIdx, mIdx){
+    const s1Val = $('s1_' + compId + '_' + mdIdx + '_' + mIdx).value;
+    const s2Val = $('s2_' + compId + '_' + mdIdx + '_' + mIdx).value;
+    if(s1Val === '' || s2Val === ''){
+      showMsg('adminMatchMsg', 'error', 'Entrez les deux scores.');
+      return;
+    }
+    const comp = allComps[compId];
+    if(!comp) return;
+
+    comp.leagueMatches[mdIdx].matches[mIdx].score1 = parseInt(s1Val, 10);
+    comp.leagueMatches[mdIdx].matches[mIdx].score2 = parseInt(s2Val, 10);
+
+    // Recalculer le classement
+    const players = Array.isArray(comp.registrations) ? comp.registrations : [];
+    comp.standings = calculateLeagueStandings(players, comp.leagueMatches);
+
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ id: compId, data: comp })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminMatchMsg', 'ok', 'Score enregistré et classement mis à jour !');
+        adminLoadMatches();
+      } else {
+        showMsg('adminMatchMsg', 'error', data.error || 'Erreur enregistrement');
+      }
+    } catch(err){
+      showMsg('adminMatchMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  window.adminSaveJsonBracketScore = async function(compId, rIdx, mIdx){
+    const s1Val = $('bs1_' + compId + '_' + rIdx + '_' + mIdx).value;
+    const s2Val = $('bs2_' + compId + '_' + rIdx + '_' + mIdx).value;
+    if(s1Val === '' || s2Val === ''){
+      showMsg('adminMatchMsg', 'error', 'Entrez les deux scores.');
+      return;
+    }
+    const comp = allComps[compId];
+    if(!comp) return;
+
+    const s1 = parseInt(s1Val, 10);
+    const s2 = parseInt(s2Val, 10);
+    const m = comp.bracket.rounds[rIdx][mIdx];
+    m.score1 = s1;
+    m.score2 = s2;
+    m.winner = s1 > s2 ? m.p1 : m.p2;
+
+    // Avancer dans le tour suivant si présent
+    if(comp.bracket.rounds[rIdx + 1]){
+      const nextMIdx = Math.floor(mIdx / 2);
+      const nextMatch = comp.bracket.rounds[rIdx + 1][nextMIdx];
+      if(nextMatch){
+        if(mIdx % 2 === 0) nextMatch.p1 = m.winner;
+        else nextMatch.p2 = m.winner;
+      }
+    }
+
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ id: compId, data: comp })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminMatchMsg', 'ok', 'Score validé et vainqueur avancé !');
+        adminLoadMatches();
+      } else {
+        showMsg('adminMatchMsg', 'error', data.error || 'Erreur enregistrement');
+      }
+    } catch(err){
+      showMsg('adminMatchMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  // Sauvegarde des scores Prisma
+  window.adminSavePrismaScore = async function(matchId){
+    const s1Val = $('ps1_' + matchId).value;
+    const s2Val = $('ps2_' + matchId).value;
+    if(s1Val === '' || s2Val === ''){
+      showMsg('adminMatchMsg', 'error', 'Entrez les deux scores.');
+      return;
+    }
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/matches/' + matchId + '/score', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ score1: parseInt(s1Val, 10), score2: parseInt(s2Val, 10) })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminMatchMsg', 'ok', 'Score enregistré avec succès !');
+        adminLoadMatches();
+      } else {
+        showMsg('adminMatchMsg', 'error', data.error || 'Erreur enregistrement');
+      }
+    } catch(err){
+      showMsg('adminMatchMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  // ── Onglet Planification Matchs ──
+  window.adminLoadScheduleMatches = async function(){
+    const selVal = $('adminSchedTournSelect').value;
+    const area = $('adminScheduleArea');
+    if(!area) return;
+    if(!selVal){
+      area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Sélectionnez un tournoi ci-dessus.</p>';
+      return;
+    }
+
+    area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Chargement...</p>';
+
+    if(selVal.startsWith('json:')){
+      const compId = selVal.replace('json:', '');
+      const comp = allComps[compId];
+      if(!comp){ area.innerHTML = '<p class="msg error">Compétition introuvable.</p>'; return; }
+      
+      const leagueMatches = Array.isArray(comp.leagueMatches) ? comp.leagueMatches : [];
+      if(leagueMatches.length === 0){
+        area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0">Aucune rencontre de ligue trouvée.</p>';
+        return;
+      }
+
+      let html = '';
+      leagueMatches.forEach((md, mdIdx) => {
+        html += '<div class="matchday-card">' +
+          '<div class="matchday-title"><span>📅 ' + esc(md.name || 'Journée ' + (mdIdx + 1)) + '</span></div>';
+        const matches = Array.isArray(md.matches) ? md.matches : [];
+        matches.forEach((m, mIdx) => {
+          const p1Name = typeof m.p1 === 'object' ? (m.p1.name || m.p1.gameId) : m.p1;
+          const p2Name = typeof m.p2 === 'object' ? (m.p2.name || m.p2.gameId) : m.p2;
+          const dateVal = m.scheduledAt ? new Date(m.scheduledAt).toISOString().slice(0, 16) : '';
+
+          html += '<div class="admin-match-card">' +
+            '<div class="admin-match-players">' +
+              '<div class="admin-match-player right">' + esc(p1Name) + '</div>' +
+              '<div class="admin-match-vs">VS</div>' +
+              '<div class="admin-match-player">' + esc(p2Name) + '</div>' +
+            '</div>' +
+            '<div class="schedule-inputs">' +
+              '<div style="flex:1;min-width:200px">' +
+                '<label style="font-size:10px">Date & Heure</label>' +
+                '<input type="datetime-local" id="sch_date_' + compId + '_' + mdIdx + '_' + mIdx + '" value="' + esc(dateVal) + '">' +
+              '</div>' +
+              '<div style="flex:1;min-width:160px">' +
+                '<label style="font-size:10px">Code Lobby / Note</label>' +
+                '<input type="text" id="sch_note_' + compId + '_' + mdIdx + '_' + mIdx + '" value="' + esc(m.hostNote || '') + '" placeholder="Ex: Salon #4489">' +
+              '</div>' +
+              '<button class="btn-admin success" style="margin-top:16px" onclick="adminSaveJsonSchedule(\'' + compId + '\',' + mdIdx + ',' + mIdx + ')" type="button">💾 Planifier</button>' +
+            '</div>' +
+          '</div>';
+        });
+        html += '</div>';
+      });
+      area.innerHTML = html;
+    } else if(selVal.startsWith('prisma:')){
+      const tId = selVal.replace('prisma:', '');
+      const tourn = adminPrismaTournaments.find(t => t.id === tId);
+      if(!tourn) return;
+      try {
+        const res = await fetch('/api/tournaments/' + tourn.slug);
+        const data = await res.json();
+        if(data.ok && data.tournament){
+          const matches = data.tournament.matches || [];
+          let html = '<div class="matchday-card">';
+          matches.forEach(m => {
+            const p1 = m.p1?.name || m.p1Name || 'Joueur 1';
+            const p2 = m.p2?.name || m.p2Name || 'Joueur 2';
+            const dateVal = m.scheduledAt ? new Date(m.scheduledAt).toISOString().slice(0, 16) : '';
+
+            html += '<div class="admin-match-card">' +
+              '<div class="admin-match-players">' +
+                '<div class="admin-match-player right">' + esc(p1) + '</div>' +
+                '<div class="admin-match-vs">VS</div>' +
+                '<div class="admin-match-player">' + esc(p2) + '</div>' +
+              '</div>' +
+              '<div class="schedule-inputs">' +
+                '<div style="flex:1;min-width:200px">' +
+                  '<label style="font-size:10px">Date & Heure</label>' +
+                  '<input type="datetime-local" id="psch_date_' + m.id + '" value="' + esc(dateVal) + '">' +
+                '</div>' +
+                '<div style="flex:1;min-width:160px">' +
+                  '<label style="font-size:10px">Code Lobby / Note</label>' +
+                  '<input type="text" id="psch_note_' + m.id + '" value="' + esc(m.hostNote || '') + '" placeholder="Note...">' +
+                '</div>' +
+                '<button class="btn-admin success" style="margin-top:16px" onclick="adminSavePrismaSchedule(\'' + m.id + '\')" type="button">💾 Planifier</button>' +
+              '</div>' +
+            '</div>';
+          });
+          html += '</div>';
+          area.innerHTML = html;
+        }
+      } catch(err){
+        area.innerHTML = '<p class="msg error">Erreur réseau.</p>';
+      }
+    }
+  };
+
+  window.adminSaveJsonSchedule = async function(compId, mdIdx, mIdx){
+    const dateVal = $('sch_date_' + compId + '_' + mdIdx + '_' + mIdx).value;
+    const noteVal = $('sch_note_' + compId + '_' + mdIdx + '_' + mIdx).value.trim();
+    const comp = allComps[compId];
+    if(!comp) return;
+
+    comp.leagueMatches[mdIdx].matches[mIdx].scheduledAt = dateVal ? new Date(dateVal).getTime() : null;
+    comp.leagueMatches[mdIdx].matches[mIdx].hostNote = noteVal;
+
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ id: compId, data: comp })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminSchedMsg', 'ok', 'Match planifié avec succès !');
+      } else {
+        showMsg('adminSchedMsg', 'error', data.error || 'Erreur');
+      }
+    } catch(err){
+      showMsg('adminSchedMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  window.adminSavePrismaSchedule = async function(matchId){
+    const dateVal = $('psch_date_' + matchId).value;
+    const noteVal = $('psch_note_' + matchId).value.trim();
+    const token = getAdminToken();
+    try {
+      const res = await fetch('/api/matches/' + matchId + '/schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+        body: JSON.stringify({ scheduledAt: dateVal || undefined, hostNote: noteVal })
+      });
+      const data = await res.json();
+      if(data.ok){
+        showMsg('adminSchedMsg', 'ok', 'Match planifié avec succès !');
+      } else {
+        showMsg('adminSchedMsg', 'error', data.error || 'Erreur');
+      }
+    } catch(err){
+      showMsg('adminSchedMsg', 'error', 'Erreur réseau');
+    }
+  };
+
+  // ── Onglet Ajouter Joueur à un Tournoi ──
+  window.adminAddPlayerToTournament = async function(){
+    const tSel = $('adminAddTournSelect').value;
+    const gId = $('adminAddGamerSelect').value;
+    const paid = $('adminAddPaid').checked;
+
+    if(!tSel || !gId){
+      showMsg('adminAddMsg', 'error', 'Veuillez sélectionner un tournoi et un joueur.');
+      return;
+    }
+
+    const gamer = adminGamersList.find(g => g.id === gId);
+    if(!gamer){
+      showMsg('adminAddMsg', 'error', 'Joueur introuvable.');
+      return;
+    }
+
+    const token = getAdminToken();
+
+    // 1. Tournoi JSON
+    if(tSel.startsWith('json:')){
+      const compId = tSel.replace('json:', '');
+      const comp = allComps[compId];
+      if(!comp){ showMsg('adminAddMsg', 'error', 'Tournoi introuvable.'); return; }
+      
+      const regs = Array.isArray(comp.registrations) ? comp.registrations : [];
+      const already = regs.some(r => r.phone === gamer.phone || r.gameId === gamer.gameId);
+      if(already){
+        showMsg('adminAddMsg', 'error', 'Ce joueur est déjà inscrit à ce tournoi.');
+        return;
+      }
+
+      const newEntry = {
+        id: 'p_' + Date.now().toString(36),
+        name: gamer.name,
+        phone: gamer.phone,
+        gameId: gamer.gameId,
+        platform: gamer.platform || 'Mobile',
+        paid: paid,
+        createdAt: Date.now()
+      };
+
+      comp.registrations = [...regs, newEntry];
+
+      try {
+        const res = await fetch('/api/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+          body: JSON.stringify({ id: compId, data: comp })
+        });
+        const data = await res.json();
+        if(data.ok){
+          showMsg('adminAddMsg', 'ok', 'Joueur ' + gamer.name + ' ajouté au tournoi avec succès !');
+          renderHome();
+        } else {
+          showMsg('adminAddMsg', 'error', data.error || 'Erreur');
+        }
+      } catch(err){
+        showMsg('adminAddMsg', 'error', 'Erreur réseau');
+      }
+    } 
+    // 2. Tournoi Prisma
+    else if(tSel.startsWith('prisma:')){
+      const tId = tSel.replace('prisma:', '');
+      try {
+        const res = await fetch('/api/admin/registrations/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-organizer-token': token },
+          body: JSON.stringify({ tournamentId: tId, gamerId: gId, paid: paid })
+        });
+        const data = await res.json();
+        if(data.ok){
+          showMsg('adminAddMsg', 'ok', 'Joueur ' + gamer.name + ' inscrit au tournoi DB avec succès !');
+        } else {
+          showMsg('adminAddMsg', 'error', data.error || 'Erreur');
+        }
+      } catch(err){
+        showMsg('adminAddMsg', 'error', 'Erreur réseau');
+      }
+    }
+  };
+
+  // Initialisation PWA
+  initPWA();
+
   init();
 })();
+
 </script>
 </body>
 </html>

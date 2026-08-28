@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 const schema = z.object({
   name: z.string().min(2).max(80),
   email: z.string().email(),
-  password: z.string().min(6).max(80),
+  password: z.string().min(4).max(80).optional().default("1234"),
   phone: z.string().max(24).optional()
 });
 
@@ -18,12 +18,13 @@ export async function POST(req: NextRequest) {
   const exists = await prisma.user.findUnique({ where: { email: body.data.email.toLowerCase() } });
   if (exists) return jsonError("Cet email est déjà utilisé.");
   const count = await prisma.user.count();
+  const rawPassword = body.data.password || "1234";
   const user = await prisma.user.create({
     data: {
       name: body.data.name.trim(),
       email: body.data.email.toLowerCase(),
       phone: body.data.phone || "",
-      passwordHash: await bcrypt.hash(body.data.password, 10),
+      passwordHash: await bcrypt.hash(rawPassword, 10),
       role: count === 0 ? "ORGANIZER" : "PLAYER"
     }
   });
