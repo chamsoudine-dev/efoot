@@ -1893,12 +1893,20 @@
     const image = selectedGlobalImageBase64;
 
     if (!text && !image) return;
+
+    // Limite taille image : max ~3MB en base64
+    if (image && image.length > 3 * 1024 * 1024) {
+      alert('Photo trop lourde. Veuillez choisir une image plus petite (max 3MB).');
+      return;
+    }
+
     if (btn) btn.disabled = true;
     if (input) input.value = '';
 
     // Réinitialiser aperçu
     selectedGlobalImageBase64 = '';
-    $('globalChatPreviewWrap').classList.remove('show');
+    const previewWrap = $('globalChatPreviewWrap');
+    if (previewWrap) previewWrap.classList.remove('show');
     const fileInp = $('globalChatFileInput');
     if (fileInp) fileInp.value = '';
 
@@ -1919,11 +1927,12 @@
       const data = await res.json();
       if (!data.ok) {
         if (input) input.value = text;
-        alert(data.error || 'Erreur lors de l\'envoi du message.');
+        alert('❌ ' + (data.error || 'Erreur lors de l\'envoi du message.'));
       }
     } catch(err) {
       if (input) input.value = text;
       console.error('sendGlobalChatMessage error:', err);
+      alert('❌ Impossible d\'envoyer le message. Vérifiez votre connexion et réessayez.');
     } finally {
       if (btn) btn.disabled = false;
       if (input) input.focus();
@@ -1946,12 +1955,20 @@
     const image = selectedTourneyImageBase64;
 
     if (!text && !image) return;
+
+    // Limite taille image : max ~3MB en base64
+    if (image && image.length > 3 * 1024 * 1024) {
+      alert('Photo trop lourde. Veuillez choisir une image plus petite (max 3MB).');
+      return;
+    }
+
     if (btn) btn.disabled = true;
     if (input) input.value = '';
 
     // Réinitialiser aperçu
     selectedTourneyImageBase64 = '';
-    $('tourneyChatPreviewWrap').classList.remove('show');
+    const previewWrap = $('tourneyChatPreviewWrap');
+    if (previewWrap) previewWrap.classList.remove('show');
     const fileInp = $('tourneyChatFileInput');
     if (fileInp) fileInp.value = '';
 
@@ -1972,11 +1989,12 @@
       const data = await res.json();
       if (!data.ok) {
         if (input) input.value = text;
-        alert(data.error || 'Erreur lors de l\'envoi du message.');
+        alert('❌ ' + (data.error || 'Erreur lors de l\'envoi du message.'));
       }
     } catch(err) {
       if (input) input.value = text;
       console.error('sendTourneyChatMessage error:', err);
+      alert('❌ Impossible d\'envoyer le message. Vérifiez votre connexion et réessayez.');
     } finally {
       if (btn) btn.disabled = false;
       if (input) input.focus();

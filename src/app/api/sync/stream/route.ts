@@ -1,4 +1,4 @@
-﻿import { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 // reduit la latence a < 1 seconde.
 // ──────────────────────────────────────────────────────
 
-const FIREBASE_DB_URL = "https://efoot-ba3de-default-rtdb.firebaseio.com";
+const FIREBASE_DB_URL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "https://efoot-ba3de-default-rtdb.firebaseio.com";
 const POLL_INTERVAL_MS = 4000; // Verification toutes les 4s
 const MAX_DURATION_MS = 25000; // 25s max (limite Vercel serverless)
 

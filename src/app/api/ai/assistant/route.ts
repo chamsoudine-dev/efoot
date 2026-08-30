@@ -11,13 +11,14 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { action, prompt, tournamentData } = body;
 
+    const orgPhone = process.env.ORGANIZER_PHONE || "91 03 80 61";
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (apiKey) {
       try {
         const ai = new GoogleGenAI({ apiKey });
         const systemPrompt = `Tu es l'Assistant IA officiel d'EFootLigue, expert dans l'organisation de compétitions eFootball Dream Team au Niger et en Afrique de l'Ouest.
-Numéro officiel de l'organisateur : 91 03 80 61 (WhatsApp / Dépôt Mynita & Amana).
+Numéro officiel de l'organisateur : ${orgPhone} (WhatsApp / Dépôt Mynita & Amana).
 
 Données actuelles du tournoi :
 ${JSON.stringify(tournamentData || {}, null, 2)}
@@ -49,7 +50,7 @@ Réponds de manière concise, percutante, professionnelle et prête à l'emploi 
       return Response.json({
         ok: true,
         provider: "template",
-        response: `📢 *RAPPEL EFOOTLIGUE — ${tname}* 🎮\n\nSalut les champions ! N'oubliez pas de confirmer vos frais d'inscription de *${fee} FCFA* avant le tirage au sort.\n\n💳 *Modes de paiement acceptés :*\n👉 *Mynita* ou *Amana Transfert* au *91 03 80 61*\n\n📸 Envoyez la capture de votre reçu sur ce groupe dès que le dépôt est fait ! Que le meilleur gagne 🏆🔥`
+        response: `📢 *RAPPEL EFOOTLIGUE — ${tname}* 🎮\n\nSalut les champions ! N'oubliez pas de confirmer vos frais d'inscription de *${fee} FCFA* avant le tirage au sort.\n\n💳 *Modes de paiement acceptés :*\n👉 *Mynita* ou *Amana Transfert* au *${orgPhone}*\n\n📸 Envoyez la capture de votre reçu sur ce groupe dès que le dépôt est fait ! Que le meilleur gagne 🏆🔥`
       });
     }
 

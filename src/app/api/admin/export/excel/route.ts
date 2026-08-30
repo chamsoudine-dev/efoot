@@ -1,4 +1,4 @@
-﻿import { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 import { verifyOrganizerToken } from "@/lib/organizer";
 import { requireAdmin } from "@/lib/auth";
@@ -28,7 +28,10 @@ export async function GET(req: NextRequest) {
     try {
       await requireAdmin();
     } catch {
-      // Autoriser également si appel direct avec paramètre de téléchargement
+      return Response.json(
+        { ok: false, error: "Accès réservé à l'administrateur." },
+        { status: 403, headers: corsHeaders }
+      );
     }
   }
 

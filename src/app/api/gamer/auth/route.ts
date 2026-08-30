@@ -11,7 +11,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-const FIREBASE_DB_URL = "https://efoot-ba3de-default-rtdb.firebaseio.com";
+const FIREBASE_DB_URL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "https://efoot-ba3de-default-rtdb.firebaseio.com";
 
 function cleanPhone(raw: string): string {
   return raw.replace(/[\s\-\.\(\)]/g, "").trim();
@@ -166,11 +166,7 @@ export async function POST(req: NextRequest) {
         gamer.passwordHash = defaultHash;
       }
 
-      let isMatch = await bcrypt.compare(finalPassword, gamer.passwordHash);
-      // Fallback permissif si mot de passe par défaut 1234
-      if (!isMatch && finalPassword === "1234") {
-        isMatch = true;
-      }
+      const isMatch = await bcrypt.compare(finalPassword, gamer.passwordHash);
 
       if (!isMatch) {
         return Response.json({

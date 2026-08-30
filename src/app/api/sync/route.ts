@@ -15,7 +15,7 @@ const corsHeaders = {
 // Pousse les donnees pour declencher les .on("value")
 // des utilisateurs instantanement (sans polling)
 // ──────────────────────────────────────────────────────
-const FIREBASE_DB_URL = "https://efoot-ba3de-default-rtdb.firebaseio.com";
+const FIREBASE_DB_URL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "https://efoot-ba3de-default-rtdb.firebaseio.com";
 
 async function pushToFirebase(path: string, data: unknown): Promise<void> {
   try {
@@ -118,22 +118,6 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { id, data, announcement, removeId, player, removePlayerId } = body;
-
-    if (removePlayerId) {
-      await prisma.gamerProfile.deleteMany({ where: { id: removePlayerId } });
-      await deleteFromFirebase(`gamers/${removePlayerId}`);
-      await notifyUpdate();
-      return Response.json({ ok: true, message: "Joueur supprime" }, { headers: corsHeaders });
-    }
-
-    if (removeId) {
-      await prisma.competitionStore.deleteMany({ where: { id: removeId } });
-      await prisma.announcementStore.deleteMany({ where: { id: removeId } });
-      await deleteFromFirebase(`competitions/${removeId}`);
-      await deleteFromFirebase(`announcements/${removeId}`);
-      await notifyUpdate(removeId);
-      return Response.json({ ok: true, message: "Supprime" }, { headers: corsHeaders });
-    }
 
     const ipAddress = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || req.headers.get("x-real-ip") || (player?.ipAddress ?? "");
     const city = req.headers.get("x-vercel-ip-city") || (player?.city ?? "");

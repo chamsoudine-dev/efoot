@@ -9,12 +9,13 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
+    const defaultPhone = process.env.ORGANIZER_PHONE || "91038061";
     const { 
       imageBase64, 
       mimeType = "image/jpeg", 
       rawText, 
       expectedAmount, 
-      expectedReceiver = "91038061", 
+      expectedReceiver = defaultPhone, 
       tournamentName = "Tournoi eFootball" 
     } = body;
 
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
 Ton rôle est d'analyser le reçu ou SMS fourni pour vérifier s'il s'agit d'un paiement authentique pour le tournoi eFootball.
 
 Paramètres attendus :
-- Numéro récepteur attendu : ${expectedReceiver} (ou 91 03 80 61 ou +22791038061)
+- Numéro récepteur attendu : ${expectedReceiver}
 - Montant attendu : ${expectedAmount ? expectedAmount + " FCFA" : "Non spécifié"}
 - Tournoi : ${tournamentName}
 
@@ -40,7 +41,7 @@ Tu dois extraire et vérifier :
 1. Opérateur : Mynita, Amana Transfert, Al Izza, Nita ou Autre.
 2. Montant exact payé en FCFA.
 3. Référence / ID de transaction / Code de retrait.
-4. Numéro ou Nom du destinataire (est-ce bien le 91038061 ?).
+4. Numéro ou Nom du destinataire (est-ce bien le ${expectedReceiver} ?).
 5. Date et heure de la transaction.
 6. Indices de fraude : capture floue, police de caractère anormale, date passée, montant modifié, numéro récepteur différent.
 
@@ -120,7 +121,8 @@ Réponds STRICTEMENT au format JSON avec cette structure :
     const amountMatch = textToScan.match(/(\d+[\s.]?\d*)\s*(fcfa|cfa|f)/i) || textToScan.match(/montant\s*:?\s*(\d+)/i);
     const detectedAmount = amountMatch ? parseInt(amountMatch[1].replace(/\s/g, ""), 10) : (expectedAmount || 500);
 
-    const receiverMatch = textToScan.includes("91038061") || textToScan.includes("91 03 80 61") || textToScan.includes("9103 8061");
+    const cleanExpected = defaultPhone.replace(/\D/g, "");
+    const receiverMatch = textToScan.replace(/\s/g, "").includes(cleanExpected);
     
     const refMatch = textToScan.match(/(ref|tx|code|trans|n°|no)\s*:?\s*([a-z0-9_-]{5,16})/i);
     const reference = refMatch ? refMatch[2].toUpperCase() : ("MN-" + Math.floor(100000 + Math.random() * 900000));
@@ -139,7 +141,7 @@ Réponds STRICTEMENT au format JSON avec cette structure :
         reference,
         amount: detectedAmount,
         currency: "FCFA",
-        receiver: receiverMatch ? "91038061" : "91038061 (Non spécifié dans le texte)",
+        receiver: receiverMatch ? defaultPhone : `${defaultPhone} (Non spécifié dans le texte)`,
         sender: "Joueur eFootball",
         date: new Date().toLocaleString("fr-FR"),
         isMatchingReceiver,
@@ -147,9 +149,9 @@ Réponds STRICTEMENT au format JSON avec cette structure :
         confidenceScore: confidence,
         verdict,
         summary: verdict === "AUTHENTIC" 
-          ? `Reçu ${service} conforme de ${detectedAmount} FCFA vers le 91038061 (Réf: ${reference}).`
+          ? `Reçu ${service} conforme de ${detectedAmount} FCFA vers le ${defaultPhone} (Réf: ${reference}).`
           : "Reçu analysé par le moteur local — vérification visuelle recommandée.",
-        fraudAlerts: isMatchingReceiver ? [] : ["Le numéro destinataire 91038061 doit être vérifié sur le reçu."]
+        fraudAlerts: isMatchingReceiver ? [] : [`Le numéro destinataire ${defaultPhone} doit être vérifié sur le reçu.`]
       }
     });
 

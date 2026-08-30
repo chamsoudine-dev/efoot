@@ -56,3 +56,24 @@ export async function PATCH(req: NextRequest) {
   });
   return Response.json({ ok: true, user });
 }
+
+// DELETE /api/admin/users?id=... — supprimer un utilisateur
+export async function DELETE(req: NextRequest) {
+  try {
+    await requireAdmin();
+  } catch {
+    return jsonError("Accès réservé à l'administrateur.", 403);
+  }
+  const url = new URL(req.url);
+  const id = url.searchParams.get("id");
+  if (!id) return jsonError("Paramètre id manquant.");
+
+  try {
+    await prisma.user.delete({ where: { id } });
+    return Response.json({ ok: true, message: "Utilisateur supprimé avec succès." });
+  } catch (err: unknown) {
+    console.error("DELETE /api/admin/users error:", err);
+    return jsonError("Erreur lors de la suppression de l'utilisateur.", 500);
+  }
+}
+

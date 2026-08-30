@@ -61,6 +61,8 @@ export async function POST(req: NextRequest) {
     return jsonError("Réservé à l'organisateur.", 403);
   }
   const s = await getSession();
+  if (!s) return jsonError("Session invalide ou expirée.", 401);
+
   const body = schema.safeParse(await req.json());
   if (!body.success) return jsonError("Formulaire tournoi invalide.");
   if (body.data.p1Pct + body.data.p2Pct + body.data.orgPct !== 100) {
@@ -84,7 +86,7 @@ export async function POST(req: NextRequest) {
       payNum: body.data.payNum || "",
       wa: body.data.wa || "",
       rules: body.data.rules || "Match eFootball, 2x6 min, TAB si égalité.",
-      organizerId: s!.id
+      organizerId: s.id
     }
   });
   return Response.json({ ok: true, tournament: t });

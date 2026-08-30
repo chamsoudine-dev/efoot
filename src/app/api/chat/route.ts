@@ -10,7 +10,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, x-organizer-token",
 };
 
-const FIREBASE_DB_URL = "https://efoot-ba3de-default-rtdb.firebaseio.com";
+const FIREBASE_DB_URL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL || "https://efoot-ba3de-default-rtdb.firebaseio.com";
 
 export async function OPTIONS() {
   return new Response(null, { status: 204, headers: corsHeaders });

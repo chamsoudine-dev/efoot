@@ -108,9 +108,19 @@ export async function maybeAdvance(tournamentId: string, round: number) {
   const maxRound = Math.max(...last.map((m) => m.round));
   const finals = last.filter((m) => m.round === maxRound);
   if (finals.length === 1 && finals[0].winnerId) {
+    const winnerUser = await prisma.user.findUnique({
+      where: { id: finals[0].winnerId },
+      include: { efootball: true }
+    });
+
     await prisma.tournament.update({
       where: { id: tournamentId },
-      data: { status: "ENDED" }
+      data: {
+        status: "ENDED",
+        finishedAt: new Date(),
+        winnerName: winnerUser?.name || "Champion",
+        winnerGameId: winnerUser?.efootball?.gameId || ""
+      }
     });
   }
 }
