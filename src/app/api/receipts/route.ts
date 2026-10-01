@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
+import { sendReceiptNotification } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +59,6 @@ export async function POST(req: NextRequest) {
     }
 
     const { playerName, phone, gameId, tournamentName, amount, receiptImageUrl } = body.data;
-    const adminEmail = process.env.ADMIN_RECEIPT_EMAIL || "admin@efootligue.local";
 
     const receiptId = `rcpt_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`;
     
@@ -76,37 +76,17 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    // 2. Tenter l'envoi d'un email de notification si RESEND_API_KEY est configuré
-    if (process.env.RESEND_API_KEY && process.env.ADMIN_RECEIPT_EMAIL) {
-      try {
-        await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          },
-          body: JSON.stringify({
-            from: "EFootLigue <onboarding@resend.dev>",
-            to: [adminEmail],
-            subject: `📸 Nouveau reçu de paiement — ${playerName} (${tournamentName})`,
-            html: `
-              <h2>Nouveau reçu de paiement reçu sur EFootLigue</h2>
-              <p><strong>Joueur :</strong> ${playerName}</p>
-              <p><strong>Téléphone :</strong> ${phone}</p>
-              <p><strong>ID eFootball :</strong> ${gameId}</p>
-              <p><strong>Tournoi :</strong> ${tournamentName}</p>
-              <p><strong>Montant :</strong> ${amount || "Non spécifié"}</p>
-              <p><strong>Date :</strong> ${new Date().toLocaleString("fr-FR")}</p>
-              <hr />
-              <h3>Capture du reçu :</h3>
-              <img src="${receiptImageUrl}" alt="Reçu de paiement" style="max-width:100%;border-radius:8px;border:1px solid #ccc" />
-            `,
-          }),
-        });
-      } catch (err) {
-        console.warn("[Email] Erreur envoi email reçu:", err);
-      }
-    }
+    // 2. Envoi automatique de l'email de notification et redirection du reçu
+    await sendReceiptNotification({
+      playerName,
+      phone,
+      gameId,
+      tournamentName,
+      amount,
+      receiptImageUrl
+    }).catch((err) => {
+      console.warn("[Email] Erreur envoi notification reçu:", err);
+    });
 
     return Response.json({
       ok: true,

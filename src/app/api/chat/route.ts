@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 import { verifyOrganizerToken } from "@/lib/organizer";
+import { sendChatMessageBackup } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -110,6 +111,18 @@ export async function POST(req: NextRequest) {
     } catch (e) {
       console.warn("[Firebase] chat push error:", e);
     }
+
+    // Envoi d'une copie de sauvegarde par email vers l'administrateur
+    sendChatMessageBackup({
+      senderName: newMsg.senderName,
+      senderPhone: newMsg.senderPhone,
+      senderGameId: newMsg.senderGameId,
+      tournamentId: newMsg.tournamentId,
+      text: newMsg.text,
+      imageUrl: newMsg.imageUrl
+    }).catch((err) => {
+      console.warn("[Email:ChatBackup] Erreur sauvegarde message:", err);
+    });
 
     return Response.json({ ok: true, message: newMsg }, { headers: corsHeaders });
   } catch (err: unknown) {

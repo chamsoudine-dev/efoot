@@ -97,3 +97,32 @@ export function applyElo(winnerElo: number, loserElo: number, k = 24) {
   const l = Math.round(loserElo + k * (0 - (1 - expected)));
   return { winner: w, loser: Math.max(100, l) };
 }
+
+export type EloRank = {
+  name: string;
+  label: string;
+  minElo: number;
+  maxElo: number;
+  color: string;
+  emoji: string;
+  badge: string;
+};
+
+export const ELO_RANKS: EloRank[] = [
+  { name: 'MASTER',   label: 'Maître',   minElo: 1800, maxElo: 9999, color: '#FFD700', emoji: '👑', badge: 'rank-master' },
+  { name: 'DIAMOND',  label: 'Diamant',  minElo: 1600, maxElo: 1799, color: '#00BFFF', emoji: '💠', badge: 'rank-diamond' },
+  { name: 'PLATINUM', label: 'Platine',  minElo: 1400, maxElo: 1599, color: '#E5E4E2', emoji: '💎', badge: 'rank-platinum' },
+  { name: 'GOLD',     label: 'Or',       minElo: 1200, maxElo: 1399, color: '#F2A83C', emoji: '🥇', badge: 'rank-gold' },
+  { name: 'SILVER',   label: 'Argent',   minElo: 1000, maxElo: 1199, color: '#C0C0C0', emoji: '🥈', badge: 'rank-silver' },
+  { name: 'BRONZE',   label: 'Bronze',   minElo:    0, maxElo:  999, color: '#CD7F32', emoji: '🥉', badge: 'rank-bronze' },
+];
+
+export function getEloRank(elo: number): EloRank {
+  return ELO_RANKS.find(r => elo >= r.minElo && elo <= r.maxElo) || ELO_RANKS[ELO_RANKS.length - 1];
+}
+
+export function getEloProgress(elo: number): number {
+  const rank = getEloRank(elo);
+  if (rank.maxElo === 9999) return 100;
+  return Math.round(((elo - rank.minElo) / (rank.maxElo - rank.minElo)) * 100);
+}

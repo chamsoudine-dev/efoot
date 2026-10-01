@@ -885,13 +885,17 @@
   // UEFA STANDINGS CALCULATOR
   // ══════════════════════════════════════════════
   function calculateLeagueStandings(players, leagueMatches){
-    const map = {};
-    players.forEach(p => {
-      const pName = (p.name || p.gameId || 'Joueur').trim();
-      map[pName] = {
-        id: p.id || pName,
+    if(!Array.isArray(players) || players.length === 0) return [];
+
+    // 1. Initialisation de la grille de classement pour chaque joueur
+    const list = players.map(p => {
+      const pId = String(p.id || '').trim();
+      const pName = String(p.name || p.gameId || 'Joueur').trim();
+      const pGameId = String(p.gameId || p.name || pName).trim();
+      return {
+        id: pId || genId(),
         name: pName,
-        gameId: p.gameId || pName,
+        gameId: pGameId,
         platform: p.platform || 'Mobile',
         played: 0,
         won: 0,
@@ -905,6 +909,24 @@
       };
     });
 
+    // Helper intelligent pour faire correspondre un joueur de match avec la liste
+    function findEntry(ref){
+      if(!ref) return null;
+      if(typeof ref === 'string'){
+        const s = ref.trim().toLowerCase();
+        return list.find(it => it.id === ref || it.name.toLowerCase() === s || it.gameId.toLowerCase() === s) || null;
+      }
+      const refId = String(ref.id || '').trim();
+      const refName = String(ref.name || '').trim().toLowerCase();
+      const refGame = String(ref.gameId || '').trim().toLowerCase();
+      return list.find(it =>
+        (refId && it.id === refId) ||
+        (refName && (it.name.toLowerCase() === refName || it.gameId.toLowerCase() === refName)) ||
+        (refGame && (it.gameId.toLowerCase() === refGame || it.name.toLowerCase() === refGame))
+      ) || null;
+    }
+
+    // 2. Traitement automatique des scores de chaque match
     if(Array.isArray(leagueMatches)){
       leagueMatches.forEach(md => {
         const matches = Array.isArray(md.matches) ? md.matches : [];
@@ -912,36 +934,53 @@
           if(m.score1 !== null && m.score2 !== null && m.score1 !== '' && m.score2 !== '' && !isNaN(m.score1) && !isNaN(m.score2)){
             const s1 = parseInt(m.score1, 10);
             const s2 = parseInt(m.score2, 10);
-            const p1Key = (m.p1?.name || m.p1?.gameId || '').trim();
-            const p2Key = (m.p2?.name || m.p2?.gameId || '').trim();
+            const st1 = findEntry(m.p1);
+            const st2 = findEntry(m.p2);
 
-            if(p1Key && map[p1Key]){
-              const st1 = map[p1Key];
+            if(st1){
               st1.played += 1;
               st1.goalsFor += s1;
               st1.goalsAgainst += s2;
               st1.goalDiff = st1.goalsFor - st1.goalsAgainst;
-              if(s1 > s2){ st1.won += 1; st1.points += 3; st1.form.push('W'); }
-              else if(s1 === s2){ st1.drawn += 1; st1.points += 1; st1.form.push('D'); }
-              else { st1.lost += 1; st1.form.push('L'); }
+              if(s1 > s2){
+                st1.won += 1;
+                st1.points += 3;
+                st1.form.push('W');
+              } else if(s1 === s2){
+                st1.drawn += 1;
+                st1.points += 1;
+                st1.form.push('D');
+              } else {
+                st1.lost += 1;
+                st1.form.push('L');
+              }
             }
 
-            if(p2Key && map[p2Key]){
-              const st2 = map[p2Key];
+            if(st2){
               st2.played += 1;
               st2.goalsFor += s2;
               st2.goalsAgainst += s1;
               st2.goalDiff = st2.goalsFor - st2.goalsAgainst;
-              if(s2 > s1){ st2.won += 1; st2.points += 3; st2.form.push('W'); }
-              else if(s1 === s2){ st2.drawn += 1; st2.points += 1; st2.form.push('D'); }
-              else { st2.lost += 1; st2.form.push('L'); }
+              if(s2 > s1){
+                st2.won += 1;
+                st2.points += 3;
+                st2.form.push('W');
+              } else if(s1 === s2){
+                st2.drawn += 1;
+                st2.points += 1;
+                st2.form.push('D');
+              } else {
+                st2.lost += 1;
+                st2.form.push('L');
+              }
             }
           }
         });
       });
     }
 
-    const sorted = Object.values(map).sort((a, b) => {
+    // 3. Tri officiel UEFA / FIFA : Points > Diff > Buts Pour > Victoires > Nom
+    const sorted = list.sort((a, b) => {
       if(b.points !== a.points) return b.points - a.points;
       if(b.goalDiff !== a.goalDiff) return b.goalDiff - a.goalDiff;
       if(b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
@@ -949,6 +988,7 @@
       return a.name.localeCompare(b.name);
     });
 
+    // 4. Attribution des rangs et zones de qualification
     const total = sorted.length;
     sorted.forEach((item, index) => {
       const rank = index + 1;
@@ -1097,15 +1137,19 @@
     '</div>';
     $('splitExplainer').textContent = 'Cagnotte calculée sur '+paidCount+' participant(s) confirmé(s) × '+fmtFcfa(c.fee)+'.';
 
-    // 1. CLASSEMENT UEFA PHASE DE LIGUE
-    const standings = comp.standings && comp.standings.length ? comp.standings : calculateLeagueStandings(registrations, leagueMatches);
+    // 1. CLASSEMENT UEFA PHASE DE LIGUE (Toujours recalculé dynamiquement sur les scores en direct)
+    const standings = calculateLeagueStandings(registrations, leagueMatches);
     const sBody = $('publicStandingsBody');
     if(standings.length === 0){
       sBody.innerHTML = '<tr><td colspan="11" class="empty-note text-center">Aucun joueur dans le classement pour le moment.</td></tr>';
     } else {
       sBody.innerHTML = standings.map(s => {
         const rowClass = s.zone === 'top8' ? 'row-top8' : (s.zone === 'playoff' ? 'row-playoff' : 'row-out');
-        const formHtml = (s.form||[]).map(f => '<span class="form-pill '+(f==='W'?'win':f==='D'?'draw':'loss')+'">'+f+'</span>').join('') || '<span style="color:var(--text-muted)">—</span>';
+        const formHtml = (s.form||[]).map(f => {
+          const letter = f === 'W' ? 'V' : (f === 'D' ? 'N' : 'D');
+          const cls = f === 'W' ? 'win' : (f === 'D' ? 'draw' : 'loss');
+          return '<span class="form-pill '+cls+'" title="'+(f==='W'?'Victoire':f==='D'?'Nul':'Défaite')+'">'+letter+'</span>';
+        }).join('') || '<span style="color:var(--text-muted)">—</span>';
         return '<tr class="'+rowClass+'">' +
           '<td><span class="rank-badge">'+s.rank+'</span></td>' +
           '<td><b>'+esc(s.name)+'</b> <span style="font-size:11px;color:var(--text-muted)">('+esc(s.platform)+')</span></td>' +

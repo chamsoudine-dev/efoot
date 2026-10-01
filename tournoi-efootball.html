@@ -315,6 +315,18 @@
     .admin-grid{grid-template-columns:1fr}
   }
 
+
+  /* ══ GÉOLOCALISATION PANEL ══ */
+  .geoloc-stat-card{background:var(--bg-card);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center;transition:border-color .2s}
+  .geoloc-stat-card:hover{border-color:rgba(182,255,60,0.3)}
+  .geoloc-stat-card .big{font-size:28px;font-weight:800;font-family:var(--font-mono);color:var(--lime);line-height:1.1}
+  .geoloc-stat-card .lbl{font-size:11px;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+  #geolocMap .leaflet-container{background:#0e1a0e !important}
+  .geo-popup{font-family:var(--font-body);min-width:180px}
+  .geo-popup strong{color:#0E1712;font-size:13px}
+  .geo-popup .geo-row{display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:2px 0;border-bottom:1px solid #eee}
+  .geo-gps-marker{background:#B6FF3C;border:2px solid #0E1712;border-radius:50%;width:14px;height:14px;box-shadow:0 0 8px rgba(182,255,60,0.8)}
+  .geo-ip-marker{background:#3B82F6;border:2px solid #fff;border-radius:50%;width:10px;height:10px;box-shadow:0 0 6px rgba(59,130,246,0.6)}
   /* ══ ADMIN PANEL ══ */
   #pageAdmin{display:none}
   .admin-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:16px}
@@ -367,7 +379,66 @@
   .admin-login-box h3{font-size:22px;margin-bottom:4px;color:var(--gold)}
   .admin-login-box p{color:var(--text-muted);font-size:13px;margin-bottom:20px}
 
+  /* ══ ELO RANKS & BADGES ══ */
+  .rank-badge-inline { display:inline-flex; align-items:center; gap:4px; font-family:var(--font-mono); font-size:11px; font-weight:700; padding:3px 9px; border-radius:12px; letter-spacing:0.5px; }
+  .rank-master   { background:linear-gradient(135deg,rgba(255,215,0,0.25),rgba(255,165,0,0.15)); color:#FFD700; border:1px solid rgba(255,215,0,0.5); animation:rankGlow 2s ease-in-out infinite; text-shadow:0 0 8px rgba(255,215,0,0.6); }
+  .rank-diamond  { background:linear-gradient(135deg,rgba(0,191,255,0.25),rgba(0,150,255,0.15)); color:#00BFFF; border:1px solid rgba(0,191,255,0.5); box-shadow:0 0 6px rgba(0,191,255,0.3); }
+  .rank-platinum { background:linear-gradient(135deg,rgba(229,228,226,0.25),rgba(180,180,180,0.15)); color:#E5E4E2; border:1px solid rgba(229,228,226,0.5); }
+  .rank-gold     { background:linear-gradient(135deg,rgba(242,168,60,0.25),rgba(200,130,0,0.15)); color:var(--gold); border:1px solid rgba(242,168,60,0.5); }
+  .rank-silver   { background:linear-gradient(135deg,rgba(192,192,192,0.25),rgba(150,150,150,0.15)); color:#C0C0C0; border:1px solid rgba(192,192,192,0.5); }
+  .rank-bronze   { background:linear-gradient(135deg,rgba(205,127,50,0.25),rgba(160,90,20,0.15)); color:#CD7F32; border:1px solid rgba(205,127,50,0.5); }
+  @keyframes rankGlow { 0%,100%{box-shadow:0 0 6px rgba(255,215,0,0.3)} 50%{box-shadow:0 0 16px rgba(255,215,0,0.8)} }
+
+  /* ══ SECTION CLASSEMENT ELO GLOBAL ══ */
+  .elo-table { width:100%; border-collapse:separate; border-spacing:0 4px; font-size:13px; }
+  .elo-table th { background:var(--bg-card-alt); padding:10px 8px; font-family:var(--font-mono); font-size:11px; color:var(--text-muted); }
+  .elo-table th:first-child { border-radius:8px 0 0 8px; }
+  .elo-table th:last-child { border-radius:0 8px 8px 0; }
+  .elo-table td { background:var(--bg-card); padding:10px 8px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); vertical-align:middle; }
+  .elo-table td:first-child { border-left:1px solid var(--line); border-radius:8px 0 0 8px; }
+  .elo-table td:last-child { border-right:1px solid var(--line); border-radius:0 8px 8px 0; }
+  .elo-row:hover td { border-color:rgba(182,255,60,0.3); }
+  .elo-progress { width:70px; height:6px; background:var(--line); border-radius:3px; overflow:hidden; }
+  .elo-progress-bar { height:100%; border-radius:3px; transition:width .6s ease; }
+
+  /* ══ LIVE SCORE TICKER ══ */
+  .score-ticker { background:linear-gradient(90deg,rgba(182,255,60,0.12),rgba(182,255,60,0.04)); border-bottom:1px solid rgba(182,255,60,0.25); padding:8px 0; overflow:hidden; white-space:nowrap; position:sticky; top:57px; z-index:40; backdrop-filter:blur(6px); }
+  .score-ticker-inner { display:inline-block; animation:tickerMarquee 35s linear infinite; }
+  .score-ticker:hover .score-ticker-inner { animation-play-state:paused; }
+  @keyframes tickerMarquee { 0%{transform:translateX(100vw)} 100%{transform:translateX(-100%)} }
+  .ticker-item { display:inline-flex; align-items:center; gap:8px; margin-right:36px; font-family:var(--font-mono); font-size:12px; color:var(--text); }
+  .ticker-item strong { color:var(--lime); }
+  .ticker-score { background:var(--bg-card); border:1px solid var(--line); padding:2px 8px; border-radius:4px; font-weight:800; color:var(--gold); }
+
+  /* ══ SECTION STREAM LIVE ══ */
+  .stream-widget { background:var(--bg-card); border:1px solid var(--line); border-radius:16px; overflow:hidden; margin-bottom:20px; }
+  .stream-header { background:linear-gradient(90deg,rgba(255,50,50,0.2),rgba(255,50,50,0.05)); border-bottom:1px solid rgba(255,50,50,0.3); padding:12px 16px; display:flex; align-items:center; gap:10px; }
+  .stream-live-dot { width:10px; height:10px; border-radius:50%; background:#FF4444; animation:livePulse 1.2s infinite; flex-shrink:0; box-shadow:0 0 8px #FF4444; }
+  .stream-embed { width:100%; aspect-ratio:16/9; border:none; background:#000; display:block; }
+  .stream-offline { padding:36px 20px; text-align:center; color:var(--text-muted); }
+
+  /* ══ CARTE DE JOUEUR STYLE FIFA / EFOOTBALL ══ */
+  .fifa-card { width:260px; height:370px; background:linear-gradient(135deg,#1f2937,#111827); border:2px solid var(--gold); border-radius:18px; padding:16px; position:relative; box-shadow:0 12px 30px rgba(0,0,0,0.7),0 0 15px rgba(242,168,60,0.3); display:flex; flex-direction:column; justify-content:space-between; margin:0 auto; color:#fff; overflow:hidden; }
+  .fifa-card::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at top right,rgba(242,168,60,0.25),transparent 65%); pointer-events:none; }
+  .fifa-top { display:flex; justify-content:space-between; align-items:flex-start; }
+  .fifa-rating { font-family:var(--font-display); font-size:36px; line-height:0.9; color:var(--gold); }
+  .fifa-pos { font-family:var(--font-mono); font-size:12px; font-weight:800; color:var(--lime); text-transform:uppercase; margin-top:2px; }
+  .fifa-avatar-box { width:90px; height:90px; border-radius:50%; background:linear-gradient(135deg,var(--bg-card-alt),var(--bg-card)); border:2px solid var(--lime); margin:4px auto; display:flex; align-items:center; justify-content:center; font-size:42px; box-shadow:0 0 12px rgba(182,255,60,0.3); }
+  .fifa-name { font-family:var(--font-display); font-size:22px; text-align:center; letter-spacing:1px; margin-top:6px; color:var(--text); text-transform:uppercase; }
+  .fifa-gameid { font-family:var(--font-mono); font-size:11px; text-align:center; color:var(--lime); margin-bottom:8px; }
+  .fifa-stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px 12px; background:rgba(0,0,0,0.35); border-radius:10px; padding:8px 12px; border:1px solid rgba(255,255,255,0.08); font-family:var(--font-mono); font-size:11px; }
+  .fifa-stat-row { display:flex; justify-content:space-between; align-items:center; }
+  .fifa-stat-val { font-weight:800; color:var(--gold); }
+
+  /* ══ BADGES PAIEMENT ══ */
+  .payment-op-badge { display:inline-flex; align-items:center; gap:4px; font-family:var(--font-mono); font-size:11px; padding:3px 8px; border-radius:12px; font-weight:700; }
+  .pay-wave    { background:rgba(0,130,255,0.15); color:#0082FF; border:1px solid rgba(0,130,255,0.4); }
+  .pay-orange  { background:rgba(255,100,0,0.15); color:#FF6400; border:1px solid rgba(255,100,0,0.4); }
+  .pay-mtn     { background:rgba(255,200,0,0.15); color:#FFCC00; border:1px solid rgba(255,200,0,0.4); }
+  .pay-moov    { background:rgba(0,160,230,0.15); color:#00A0E6; border:1px solid rgba(0,160,230,0.4); }
+  .pay-manual  { background:rgba(182,255,60,0.12); color:var(--lime); border:1px solid rgba(182,255,60,0.4); }
 </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 </head>
 <body>
 
@@ -382,6 +453,7 @@
       <a onclick="showHome()" id="navHome">Accueil</a>
       <a href="#sectionComps" id="navComps">Tournois</a>
       <a href="#sectionChampions" id="navChampions" style="color:var(--gold)">🏆 Champions</a>
+      <a href="#sectionEloLeaderboard" id="navElo" style="color:var(--gold)">🏅 Rangs ELO</a>
       <a href="#sectionChat" id="navChat" style="color:var(--lime)">💬 Communauté</a>
       <a href="#sectionTourneyChat" id="navTourneyChat" style="display:none;color:var(--lime)">💬 Groupe Tournoi</a>
       <a href="#classement" id="navJoueurs" style="display:none">Classement</a>
@@ -392,11 +464,17 @@
       <a href="https://chat.whatsapp.com/JIL3xCltjOh3HN0Qlp9lfs" target="_blank" rel="noopener" class="nav-wa-btn" style="background:#25D366;color:#0E1712;padding:6px 12px;border-radius:8px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;box-shadow:0 0 10px rgba(37,211,102,0.3)">
         <span>💬 Rejoindre WhatsApp</span>
       </a>
+      <button class="nav-install-btn" id="navNotifBtn" type="button" onclick="subscribeToPush()" style="display:none;background:rgba(242,168,60,0.15);color:var(--gold);border-color:var(--gold)">🔔 Alertes Push</button>
       <button class="nav-install-btn" id="navInstallBtn" type="button">📲 Installer l'App</button>
 
     </div>
   </div>
 </nav>
+
+<!-- ══ LIVE SCORE TICKER ══ -->
+<div class="score-ticker" id="scoreTicker" style="display:none">
+  <div class="score-ticker-inner" id="scoreTickerInner"></div>
+</div>
 
 <!-- ======================== PAGE HOME ======================== -->
 <div id="pageHome">
@@ -479,6 +557,33 @@
         <div id="chatInputArea">
           <!-- Injecté dynamiquement : soit input+bouton, soit message "se connecter" -->
         </div>
+      </div>
+    <!-- ══ CLASSEMENT ELO GLOBAL & RANGS DYNAMIQUES ══ -->
+    <section id="sectionEloLeaderboard" style="border-top:1px solid var(--line);padding:36px 0">
+      <div class="section-head">
+        <div class="eyebrow">Compétition & Rangs</div>
+        <h2>🏆 Classement ELO & Rangs Dynamiques</h2>
+        <p style="color:var(--text-muted);font-size:13.5px;margin-top:4px">Rangs officiels avec badges prestige : Bronze 🥉, Argent 🥈, Or 🥇, Platine 💎, Diamant 💠, Maître 👑. Cliquez sur un joueur pour afficher sa fiche style FIFA/eFootball.</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="elo-table">
+          <thead>
+            <tr>
+              <th style="width:44px">#</th>
+              <th>Joueur / ID</th>
+              <th>Rang</th>
+              <th class="text-center">ELO</th>
+              <th class="text-center">Progression</th>
+              <th class="text-center">Matchs</th>
+              <th class="text-center">Victoires</th>
+              <th class="text-center">Win%</th>
+              <th class="text-center">Fiche</th>
+            </tr>
+          </thead>
+          <tbody id="eloLeaderboardBody">
+            <tr><td colspan="9" class="text-center" style="color:var(--text-muted);padding:30px">Chargement du classement mondial...</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -577,6 +682,30 @@
       <div id="bracketArea"><p class="empty-note">Le tirage de la phase finale n'a pas encore eu lieu.</p></div>
     </section>
 
+    <!-- ══ DIFFUSION STREAM EN DIRECT (YOUTUBE / TWITCH / TIKTOK) ══ -->
+    <section id="sectionStream" style="display:none">
+      <div class="section-head">
+        <div class="eyebrow" style="color:#FF4444">🔴 Matchs en Direct</div>
+        <h2>Diffusion Stream Vidéo</h2>
+      </div>
+      <div class="stream-widget" id="streamWidget">
+        <div class="stream-offline" id="streamOffline">
+          <div style="font-size:40px;margin-bottom:8px">📡</div>
+          <p style="font-weight:700">Aucun stream en direct pour le moment</p>
+          <p style="font-size:12px;margin-top:4px">L'organisateur diffusera la finale et les chocs du tournoi en direct ici.</p>
+        </div>
+        <div id="streamLiveArea" style="display:none">
+          <div class="stream-header">
+            <span class="stream-live-dot"></span>
+            <span style="font-family:var(--font-mono);font-size:12px;font-weight:800;color:#FF4444;text-transform:uppercase">EN DIRECT</span>
+            <span id="streamTitle" style="flex:1;font-size:14px;font-weight:700;color:var(--text);margin-left:8px">Match eFootball en Direct</span>
+            <span id="streamPlatformBadge" class="live-pill" style="font-size:10px">YOUTUBE</span>
+          </div>
+          <iframe id="streamEmbed" class="stream-embed" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+        </div>
+      </div>
+    </section>
+
     <!-- CAGNOTTE -->
     <section id="cagnotte">
       <div class="section-head"><div class="eyebrow">Transparence</div><h2>Répartition de la cagnotte</h2></div>
@@ -599,8 +728,18 @@
                 <option>Mobile</option><option>PS4 / PS5</option><option>Xbox</option><option>PC</option>
               </select>
             </div>
+            <div class="field full"><label for="fOperator">Mode de Paiement Mobile Money</label>
+              <select id="fOperator" name="operator">
+                <option value="MANUAL">📱 Transfert Direct (Amana / Mynita / Al Izza / Nita)</option>
+                <option value="WAVE">🌊 Wave Mobile Money</option>
+                <option value="ORANGE_MONEY">🍊 Orange Money</option>
+                <option value="MTN">💛 MTN Mobile Money</option>
+                <option value="MOOV">💙 Moov Money</option>
+                <option value="CINETPAY">💳 Passerelle Automatisée Instantanée</option>
+              </select>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary" id="submitBtn">Confirmer mon inscription</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">Confirmer mon inscription & Payer</button>
         </form>
         <div class="payment-box" id="paymentBox"></div>
         <div class="wa-after" id="waAfter"></div>
@@ -692,6 +831,8 @@
       <button class="admin-tab-btn" onclick="switchAdminTab('matches')" type="button">⚽ Matchs & Scores</button>
       <button class="admin-tab-btn" onclick="switchAdminTab('schedule')" type="button">📅 Planifier Matchs</button>
       <button class="admin-tab-btn" onclick="switchAdminTab('addplayer')" type="button">➕ Ajouter Joueur</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('payments')" type="button">💳 Paiements & Cagnottes</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('geoloc')" type="button" style="background:linear-gradient(135deg,#0a2e1a,#0e3d22);border-color:rgba(182,255,60,0.4);color:#B6FF3C">📍 Géolocalisation</button>
     </div>
 
     <!-- ── TAB : Inscriptions ── -->
@@ -775,6 +916,92 @@
   </div>
 </div>
 
+
+    <!-- ── TAB : Géolocalisation ── -->
+    <div class="admin-section" id="adminTabGeoloc">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">📍 Géolocalisation des Visiteurs</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span id="geolocLastUpdate" style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono)"></span>
+          <button class="btn btn-sm btn-ghost" onclick="geolocLoad()" type="button">🔄 Actualiser</button>
+          <button class="btn btn-sm" onclick="geolocClearAll()" type="button" style="background:rgba(239,68,68,0.15);color:#EF4444;border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer">🗑 Effacer tout</button>
+        </div>
+      </div>
+
+      <!-- Stats rapides -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px">
+        <div class="geoloc-stat-card">
+          <div class="big" id="geoStatTotal">—</div>
+          <div class="lbl">Total visites</div>
+        </div>
+        <div class="geoloc-stat-card">
+          <div class="big" id="geoStatToday">—</div>
+          <div class="lbl">Aujourd'hui</div>
+        </div>
+        <div class="geoloc-stat-card">
+          <div class="big" id="geoStatGPS">—</div>
+          <div class="lbl">GPS précis</div>
+        </div>
+        <div class="geoloc-stat-card" id="geoStatAutoRefresh" style="cursor:pointer;user-select:none" onclick="geolocToggleAutoRefresh()">
+          <div class="big" style="font-size:20px">🔴</div>
+          <div class="lbl">Auto-refresh OFF</div>
+        </div>
+      </div>
+
+      <!-- Carte Leaflet -->
+      <div style="background:var(--bg-card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:20px">
+        <div style="padding:12px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;font-weight:700;color:var(--lime)">🗺️ Carte en temps réel</span>
+          <div style="display:flex;gap:6px">
+            <span class="badge badge-green" id="geoMapLegendGPS">● GPS Précis</span>
+            <span class="badge badge-blue" id="geoMapLegendIP">● Via IP</span>
+          </div>
+        </div>
+        <div id="geolocMap" style="height:380px;width:100%;background:#1a2a1a"></div>
+      </div>
+
+      <!-- Tableau des visiteurs -->
+      <div style="overflow-x:auto">
+        <table class="admin-table" id="geolocTable">
+          <thead>
+            <tr>
+              <th>🕐 Heure</th>
+              <th>📍 Localisation</th>
+              <th>🌐 IP / FAI</th>
+              <th>📱 Appareil</th>
+              <th>🔋 Détails</th>
+              <th>📡 GPS</th>
+            </tr>
+          </thead>
+          <tbody id="geolocTableBody">
+            <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:30px">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── TAB : Paiements & Cagnottes ── -->
+    <div class="admin-section" id="adminTabPayments">
+      <div class="admin-header-row">
+        <h3 style="font-size:18px">💳 Cagnottes & Transactions Mobile Money</h3>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn btn-sm btn-ghost" onclick="adminLoadPayments()" type="button">🔄 Actualiser</button>
+        </div>
+      </div>
+
+      <!-- Statistiques paiements -->
+      <div class="admin-stat-row" style="margin-bottom:20px">
+        <div class="admin-stat"><div class="big" id="payStatTotal">0</div><div class="lbl">Transactions</div></div>
+        <div class="admin-stat"><div class="big" id="payStatPaid" style="color:var(--lime)">0</div><div class="lbl">Confirmés</div></div>
+        <div class="admin-stat"><div class="big" id="payStatPending" style="color:var(--gold)">0</div><div class="lbl">En attente</div></div>
+        <div class="admin-stat"><div class="big" id="payStatRevenue" style="color:var(--lime)">0 FCFA</div><div class="lbl">Cagnotte Totale</div></div>
+      </div>
+
+      <div id="adminPaymentsArea">
+        <p style="color:var(--text-muted);text-align:center;padding:30px 0">Chargement des paiements...</p>
+      </div>
+    </div>
+
 <!-- MODALE CONNEXION ADMIN -->
 <div class="admin-login-overlay" id="adminLoginModal" style="display:none">
   <div class="admin-login-box">
@@ -824,6 +1051,48 @@
         <button class="btn btn-primary" type="submit" style="width:100%;margin-top:8px">🎮 Créer mon compte</button>
       </form>
     </div>
+<!-- MODALE OCR IA -->
+<div class="modal-overlay" id="ocrModal" style="display:none" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:400px">
+    <button class="close-x" onclick="document.getElementById('ocrModal').style.display='none'" type="button">×</button>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <div style="font-size:24px">🤖</div>
+      <h3 style="margin:0">IA Arbitre</h3>
+    </div>
+    <p style="color:var(--text-muted);font-size:13px;margin-bottom:14px">Uploadez la capture d'écran du résultat. L'IA lira le score et validera le match automatiquement.</p>
+    
+    <div class="field">
+      <label for="ocrMatchSelect">Votre match en cours (Optionnel)</label>
+      <select id="ocrMatchSelect" style="width:100%"><option value="">-- Analyser sans lier à un match --</option></select>
+    </div>
+    
+    <input type="file" id="ocrFileInput" accept="image/*" style="display:none">
+    <div id="ocrDropZone" style="border:2px dashed var(--line);border-radius:8px;padding:20px;text-align:center;cursor:pointer;margin-bottom:14px;background:var(--bg-card-alt)" onclick="document.getElementById('ocrFileInput').click()">
+      <div style="font-size:32px;margin-bottom:8px">📸</div>
+      <div style="font-size:14px;color:var(--lime)">Cliquez pour choisir une capture</div>
+      <img id="ocrPreview" src="" style="max-width:100%;max-height:180px;display:none;margin-top:10px;border-radius:4px;border:1px solid var(--line);object-fit:contain">
+    </div>
+
+    <div id="ocrResultMsg" style="margin-bottom:14px;font-size:13px;line-height:1.4"></div>
+    <button class="btn btn-primary" id="ocrSubmitBtn" type="button" style="width:100%">Analyser le score</button>
+  </div>
+</div>
+
+<!-- ══ MODALE FICHE JOUEUR STYLE FIFA / EFOOTBALL ══ -->
+<div class="modal-overlay" id="playerCardModal" style="display:none" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:340px;background:transparent;border:none;box-shadow:none;padding:0">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+      <button class="close-x" onclick="document.getElementById('playerCardModal').style.display='none'" type="button" style="background:rgba(0,0,0,0.6);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:#fff;border:1px solid var(--line)">✕</button>
+    </div>
+    <div id="playerCardContent">
+      <!-- Rempli dynamiquement -->
+    </div>
+    <div style="margin-top:12px;text-align:center">
+      <button class="btn btn-primary btn-sm" id="sharePlayerCardBtn" type="button" style="width:100%">📱 Partager ma carte sur WhatsApp</button>
+    </div>
+  </div>
+</div>
+
 <!-- BANNIÈRE INSTALLATION PWA -->
 <div class="pwa-banner" id="pwaBanner" role="dialog" aria-label="Installer l'application">
   <div class="pwa-icon">
@@ -885,13 +1154,17 @@
   // UEFA STANDINGS CALCULATOR
   // ══════════════════════════════════════════════
   function calculateLeagueStandings(players, leagueMatches){
-    const map = {};
-    players.forEach(p => {
-      const pName = (p.name || p.gameId || 'Joueur').trim();
-      map[pName] = {
-        id: p.id || pName,
+    if(!Array.isArray(players) || players.length === 0) return [];
+
+    // 1. Initialisation de la grille de classement pour chaque joueur
+    const list = players.map(p => {
+      const pId = String(p.id || '').trim();
+      const pName = String(p.name || p.gameId || 'Joueur').trim();
+      const pGameId = String(p.gameId || p.name || pName).trim();
+      return {
+        id: pId || genId(),
         name: pName,
-        gameId: p.gameId || pName,
+        gameId: pGameId,
         platform: p.platform || 'Mobile',
         played: 0,
         won: 0,
@@ -905,6 +1178,24 @@
       };
     });
 
+    // Helper intelligent pour faire correspondre un joueur de match avec la liste
+    function findEntry(ref){
+      if(!ref) return null;
+      if(typeof ref === 'string'){
+        const s = ref.trim().toLowerCase();
+        return list.find(it => it.id === ref || it.name.toLowerCase() === s || it.gameId.toLowerCase() === s) || null;
+      }
+      const refId = String(ref.id || '').trim();
+      const refName = String(ref.name || '').trim().toLowerCase();
+      const refGame = String(ref.gameId || '').trim().toLowerCase();
+      return list.find(it =>
+        (refId && it.id === refId) ||
+        (refName && (it.name.toLowerCase() === refName || it.gameId.toLowerCase() === refName)) ||
+        (refGame && (it.gameId.toLowerCase() === refGame || it.name.toLowerCase() === refGame))
+      ) || null;
+    }
+
+    // 2. Traitement automatique des scores de chaque match
     if(Array.isArray(leagueMatches)){
       leagueMatches.forEach(md => {
         const matches = Array.isArray(md.matches) ? md.matches : [];
@@ -912,36 +1203,53 @@
           if(m.score1 !== null && m.score2 !== null && m.score1 !== '' && m.score2 !== '' && !isNaN(m.score1) && !isNaN(m.score2)){
             const s1 = parseInt(m.score1, 10);
             const s2 = parseInt(m.score2, 10);
-            const p1Key = (m.p1?.name || m.p1?.gameId || '').trim();
-            const p2Key = (m.p2?.name || m.p2?.gameId || '').trim();
+            const st1 = findEntry(m.p1);
+            const st2 = findEntry(m.p2);
 
-            if(p1Key && map[p1Key]){
-              const st1 = map[p1Key];
+            if(st1){
               st1.played += 1;
               st1.goalsFor += s1;
               st1.goalsAgainst += s2;
               st1.goalDiff = st1.goalsFor - st1.goalsAgainst;
-              if(s1 > s2){ st1.won += 1; st1.points += 3; st1.form.push('W'); }
-              else if(s1 === s2){ st1.drawn += 1; st1.points += 1; st1.form.push('D'); }
-              else { st1.lost += 1; st1.form.push('L'); }
+              if(s1 > s2){
+                st1.won += 1;
+                st1.points += 3;
+                st1.form.push('W');
+              } else if(s1 === s2){
+                st1.drawn += 1;
+                st1.points += 1;
+                st1.form.push('D');
+              } else {
+                st1.lost += 1;
+                st1.form.push('L');
+              }
             }
 
-            if(p2Key && map[p2Key]){
-              const st2 = map[p2Key];
+            if(st2){
               st2.played += 1;
               st2.goalsFor += s2;
               st2.goalsAgainst += s1;
               st2.goalDiff = st2.goalsFor - st2.goalsAgainst;
-              if(s2 > s1){ st2.won += 1; st2.points += 3; st2.form.push('W'); }
-              else if(s1 === s2){ st2.drawn += 1; st2.points += 1; st2.form.push('D'); }
-              else { st2.lost += 1; st2.form.push('L'); }
+              if(s2 > s1){
+                st2.won += 1;
+                st2.points += 3;
+                st2.form.push('W');
+              } else if(s1 === s2){
+                st2.drawn += 1;
+                st2.points += 1;
+                st2.form.push('D');
+              } else {
+                st2.lost += 1;
+                st2.form.push('L');
+              }
             }
           }
         });
       });
     }
 
-    const sorted = Object.values(map).sort((a, b) => {
+    // 3. Tri officiel UEFA / FIFA : Points > Diff > Buts Pour > Victoires > Nom
+    const sorted = list.sort((a, b) => {
       if(b.points !== a.points) return b.points - a.points;
       if(b.goalDiff !== a.goalDiff) return b.goalDiff - a.goalDiff;
       if(b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
@@ -949,6 +1257,7 @@
       return a.name.localeCompare(b.name);
     });
 
+    // 4. Attribution des rangs et zones de qualification
     const total = sorted.length;
     sorted.forEach((item, index) => {
       const rank = index + 1;
@@ -1001,6 +1310,7 @@
     const navGChat = $('navChat');
     if(navGChat) navGChat.style.display = 'none';
     renderComp();
+    if(window.loadStreamConfig) window.loadStreamConfig(compId);
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
@@ -1097,15 +1407,19 @@
     '</div>';
     $('splitExplainer').textContent = 'Cagnotte calculée sur '+paidCount+' participant(s) confirmé(s) × '+fmtFcfa(c.fee)+'.';
 
-    // 1. CLASSEMENT UEFA PHASE DE LIGUE
-    const standings = comp.standings && comp.standings.length ? comp.standings : calculateLeagueStandings(registrations, leagueMatches);
+    // 1. CLASSEMENT UEFA PHASE DE LIGUE (Toujours recalculé dynamiquement sur les scores en direct)
+    const standings = calculateLeagueStandings(registrations, leagueMatches);
     const sBody = $('publicStandingsBody');
     if(standings.length === 0){
       sBody.innerHTML = '<tr><td colspan="11" class="empty-note text-center">Aucun joueur dans le classement pour le moment.</td></tr>';
     } else {
       sBody.innerHTML = standings.map(s => {
         const rowClass = s.zone === 'top8' ? 'row-top8' : (s.zone === 'playoff' ? 'row-playoff' : 'row-out');
-        const formHtml = (s.form||[]).map(f => '<span class="form-pill '+(f==='W'?'win':f==='D'?'draw':'loss')+'">'+f+'</span>').join('') || '<span style="color:var(--text-muted)">—</span>';
+        const formHtml = (s.form||[]).map(f => {
+          const letter = f === 'W' ? 'V' : (f === 'D' ? 'N' : 'D');
+          const cls = f === 'W' ? 'win' : (f === 'D' ? 'draw' : 'loss');
+          return '<span class="form-pill '+cls+'" title="'+(f==='W'?'Victoire':f==='D'?'Nul':'Défaite')+'">'+letter+'</span>';
+        }).join('') || '<span style="color:var(--text-muted)">—</span>';
         return '<tr class="'+rowClass+'">' +
           '<td><span class="rank-badge">'+s.rank+'</span></td>' +
           '<td><b>'+esc(s.name)+'</b> <span style="font-size:11px;color:var(--text-muted)">('+esc(s.platform)+')</span></td>' +
@@ -1703,12 +2017,40 @@
     if (isRegistered) {
       // Le joueur est bien inscrit dans le tournoi !
       area.innerHTML =
+        '<div style="display:flex;justify-content:flex-end;margin-bottom:6px;">' +
+          '<button id="btnOpenOcr" type="button" style="background:var(--lime);color:#000;padding:6px 12px;border-radius:4px;font-weight:700;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px;"><span style="font-size:14px">📸</span> Valider Score par IA</button>' +
+        '</div>' +
         '<form class="chat-input-row" id="tourneyChatForm">' +
           '<input type="file" id="tourneyChatFileInput" accept="image/*" style="display:none">' +
           '<button class="chat-media-btn" id="tourneyChatMediaBtn" type="button" title="Joindre capture de score / photo">📷</button>' +
           '<input id="tourneyChatInput" type="text" maxlength="500" placeholder="Annoncer un score, salon, message..." autocomplete="off">' +
           '<button class="chat-send-btn" type="submit" id="tourneyChatSendBtn">Envoyer 📤</button>' +
         '</form>';
+
+      const btnOcr = $('btnOpenOcr');
+      if (btnOcr) {
+        btnOcr.addEventListener('click', () => {
+          const m = $('ocrModal');
+          if (m) {
+            m.style.display = 'flex';
+            const prev = $('ocrPreview');
+            if (prev) prev.style.display = 'none';
+            const msg = $('ocrResultMsg');
+            if (msg) msg.innerHTML = '';
+            const finp = $('ocrFileInput');
+            if (finp) finp.value = '';
+            window._ocrBase64 = '';
+            
+            // Populer avec le pseudo du joueur
+            const sel = $('ocrMatchSelect');
+            if (sel) {
+              sel.innerHTML = '<option value="">-- Match Libre --</option>';
+              // Dans un futur plus avancé, on pourrait injecter les ID des matchs Prisma non terminés
+              // Pour l'instant, on envoie juste le pseudo au backend
+            }
+          }
+        });
+      }
 
       const form = $('tourneyChatForm');
       if (form) form.addEventListener('submit', sendTourneyChatMessage);
@@ -1999,6 +2341,87 @@
       if (btn) btn.disabled = false;
       if (input) input.focus();
     }
+  }
+
+  window._ocrBase64 = '';
+  
+  const ocrInp = $('ocrFileInput');
+  if (ocrInp) {
+    ocrInp.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        try {
+          // Utiliser une bonne qualité pour l'OCR
+          window._ocrBase64 = await compressImageFile(file, 1200, 0.85); 
+          const prev = $('ocrPreview');
+          if (prev) {
+            prev.src = window._ocrBase64;
+            prev.style.display = 'inline-block';
+          }
+        } catch (err) {
+          alert('Erreur lors de la préparation de la capture.');
+        }
+      }
+    });
+  }
+
+  const ocrBtn = $('ocrSubmitBtn');
+  if (ocrBtn) {
+    ocrBtn.addEventListener('click', async () => {
+      if (!window._ocrBase64) {
+        showMsg('ocrResultMsg', 'error', 'Veuillez sélectionner une image d\'abord.');
+        return;
+      }
+      const matchId = $('ocrMatchSelect') ? $('ocrMatchSelect').value : '';
+      const msg = $('ocrResultMsg');
+      if (msg) msg.innerHTML = '<div style="color:var(--gold)">⏳ Analyse par Gemini AI en cours...</div>';
+      ocrBtn.disabled = true;
+
+      try {
+        const mimeMatch = window._ocrBase64.match(/^data:(image\/[a-zA-Z]*);base64,/);
+        const mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+        const b64 = window._ocrBase64.replace(/^data:image\/[a-z]+;base64,/, '');
+        
+        const res = await fetch('/api/ai/verify-score', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageBase64: b64,
+            mimeType: mime,
+            matchId: matchId,
+            p1Name: currentGamer ? currentGamer.name : 'Inconnu',
+            p2Name: 'Inconnu'
+          })
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+           let html = '<div style="padding:10px; border-radius:6px; background:var(--bg-card); border:1px solid var(--line);">';
+           html += '<div style="font-size:16px; margin-bottom:6px"><strong>Score:</strong> ' + data.score1 + ' - ' + data.score2 + '</div>';
+           html += '<div><strong>Confiance:</strong> ' + data.confidence + '%</div>';
+           
+           let verdictLabel = data.verdict;
+           if (data.verdict === 'VALID') verdictLabel = '<span style="color:var(--lime)">✅ VALIDE</span>';
+           else if (data.verdict === 'DISPUTED') verdictLabel = '<span style="color:var(--gold)">⚠️ DOUTEUX</span>';
+           else verdictLabel = '<span style="color:red">❌ ILLISIBLE</span>';
+           
+           html += '<div><strong>Verdict:</strong> ' + verdictLabel + '</div>';
+           html += '<div style="margin-top:8px;font-size:12px;color:var(--text-muted);border-top:1px solid var(--line);padding-top:6px">' + esc(data.summary) + '</div>';
+           if (data.dbUpdated) {
+             html += '<div style="margin-top:6px;color:var(--lime);font-weight:bold">✓ Match mis à jour dans la base de données.</div>';
+           }
+           html += '</div>';
+           if (msg) msg.innerHTML = html;
+        } else {
+           if (msg) msg.innerHTML = '<div class="msg error">' + esc(data.error || 'Erreur d\'analyse.') + '</div>';
+        }
+      } catch (err) {
+        console.error('OCR Error:', err);
+        if (msg) msg.innerHTML = '<div class="msg error">Erreur de communication avec l\'API OCR.</div>';
+      } finally {
+        ocrBtn.disabled = false;
+      }
+    });
   }
 
   function initChat() {
@@ -2844,6 +3267,606 @@
   init();
 })();
 
+
+</script>
+
+<!-- ══ LEAFLET.JS ══ -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+<!-- ══ SCRIPT TRACKING VISITEUR ══ -->
+<script>
+(function trackVisitor() {
+  // Collecte du fingerprint de l'appareil
+  var fingerprint = {
+    page: window.location.pathname + window.location.search,
+    screen: screen.width + 'x' + screen.height + ' @' + (window.devicePixelRatio || 1) + 'x',
+    language: navigator.language || '',
+    gpsLat: null, gpsLon: null, gpsAccuracy: null,
+    battery: '', network: ''
+  };
+
+  // Réseau
+  if (navigator.connection) {
+    fingerprint.network = (navigator.connection.effectiveType || '') +
+      (navigator.connection.downlink ? ' ' + navigator.connection.downlink + 'Mbps' : '');
+  }
+
+  function sendTrack(data) {
+    try {
+      navigator.sendBeacon
+        ? navigator.sendBeacon('/api/track', new Blob([JSON.stringify(data)], {type:'application/json'}))
+        : fetch('/api/track', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data), keepalive:true});
+    } catch(e) {}
+  }
+
+  // Batterie
+  if (navigator.getBattery) {
+    navigator.getBattery().then(function(b) {
+      fingerprint.battery = Math.round(b.level * 100) + '% ' + (b.charging ? '⚡charging' : '🔋discharging');
+    }).catch(function(){});
+  }
+
+  // Géolocalisation GPS précise — on demande la permission
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        fingerprint.gpsLat = pos.coords.latitude;
+        fingerprint.gpsLon = pos.coords.longitude;
+        fingerprint.gpsAccuracy = pos.coords.accuracy;
+        sendTrack(fingerprint);
+      },
+      function() {
+        // Refus ou erreur → on envoie quand même sans GPS
+        sendTrack(fingerprint);
+      },
+      { timeout: 8000, maximumAge: 60000, enableHighAccuracy: true }
+    );
+  } else {
+    sendTrack(fingerprint);
+  }
+})();
+</script>
+
+<!-- ══ SCRIPT ADMIN GÉOLOCALISATION ══ -->
+<script>
+(function() {
+  var geolocMap = null;
+  var geolocMarkers = [];
+  var geolocAutoRefreshInterval = null;
+  var geolocAutoRefreshOn = false;
+
+  function getAdminToken() {
+    return sessionStorage.getItem('efoot_admin_token') || localStorage.getItem('efoot_admin_token') || '';
+  }
+
+  // Initialiser la carte Leaflet
+  function geolocInitMap() {
+    if (geolocMap) return;
+    try {
+      geolocMap = L.map('geolocMap', { zoomControl: true, scrollWheelZoom: true }).setView([20, 10], 2);
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '©OpenStreetMap ©CARTO',
+        subdomains: 'abcd', maxZoom: 19
+      }).addTo(geolocMap);
+    } catch(e) { console.warn('Leaflet init error', e); }
+  }
+
+  // Ajouter des marqueurs sur la carte
+  function geolocAddMarkers(visitors) {
+    if (!geolocMap) return;
+    // Supprimer les anciens marqueurs
+    geolocMarkers.forEach(function(m) { geolocMap.removeLayer(m); });
+    geolocMarkers = [];
+
+    visitors.forEach(function(v) {
+      var hasGPS = v.gpsLat != null && v.gpsLon != null;
+      var hasIP  = v.lat != null && v.lon != null;
+      var lat = hasGPS ? v.gpsLat : (hasIP ? v.lat : null);
+      var lon = hasGPS ? v.gpsLon : (hasIP ? v.lon : null);
+      if (!lat || !lon) return;
+
+      var isGPS = hasGPS;
+      var icon = L.divIcon({
+        className: '',
+        html: '<div class="' + (isGPS ? 'geo-gps-marker' : 'geo-ip-marker') + '"></div>',
+        iconSize: isGPS ? [14,14] : [10,10],
+        iconAnchor: isGPS ? [7,7] : [5,5]
+      });
+
+      var time = v.visitedAt ? new Date(v.visitedAt).toLocaleString('fr-FR') : '-';
+      var popup = '<div class="geo-popup">' +
+        '<strong>' + (v.city || '?') + ', ' + (v.country || '?') + '</strong><br>' +
+        '<div class="geo-row"><span>🕐 Heure</span><span>' + time + '</span></div>' +
+        '<div class="geo-row"><span>🌐 IP</span><span>' + (v.ip || '?') + '</span></div>' +
+        '<div class="geo-row"><span>📱 Appareil</span><span>' + (v.device || '?') + ' / ' + (v.os || '?') + '</span></div>' +
+        '<div class="geo-row"><span>🌍 FAI</span><span>' + (v.isp || '?') + '</span></div>' +
+        (isGPS ? '<div class="geo-row"><span>📡 Précision GPS</span><span>±' + Math.round(v.gpsAccuracy || 0) + 'm</span></div>' : '') +
+        '<div class="geo-row"><span>💻 Navigateur</span><span>' + (v.browser || '?') + '</span></div>' +
+        (v.battery ? '<div class="geo-row"><span>🔋 Batterie</span><span>' + v.battery + '</span></div>' : '') +
+        '</div>';
+
+      var marker = L.marker([lat, lon], { icon: icon }).addTo(geolocMap);
+      marker.bindPopup(popup);
+      geolocMarkers.push(marker);
+    });
+  }
+
+  // Rendre le tableau des visiteurs
+  function geolocRenderTable(visitors) {
+    var tbody = document.getElementById('geolocTableBody');
+    if (!tbody) return;
+    if (!visitors || visitors.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:30px">Aucun visiteur enregistré pour le moment.</td></tr>';
+      return;
+    }
+
+    var html = '';
+    visitors.forEach(function(v) {
+      var hasGPS = v.gpsLat != null;
+      var time = v.visitedAt ? new Date(v.visitedAt).toLocaleString('fr-FR') : '-';
+      var flag = v.countryCode ? '<img src="https://flagcdn.com/16x12/' + v.countryCode.toLowerCase() + '.png" style="margin-right:4px;vertical-align:middle" onerror="this.style.display=\'none\'">' : '';
+
+      html += '<tr>' +
+        '<td style="font-size:11.5px;font-family:var(--font-mono);color:var(--text-muted)">' + time + '</td>' +
+        '<td><strong>' + flag + (v.city || '?') + '</strong><br><span style="font-size:10.5px;color:var(--text-muted)">' + (v.region || '') + ', ' + (v.country || '?') + '</span></td>' +
+        '<td><span class="badge badge-blue" style="font-size:10px">' + (v.ip || '?') + '</span><br><span style="font-size:10.5px;color:var(--text-muted)">' + (v.isp || '') + '</span></td>' +
+        '<td><span class="badge badge-yellow">' + (v.device || '?') + '</span><br><span style="font-size:10.5px;color:var(--text-muted)">' + (v.os || '') + ' / ' + (v.browser || '') + '</span>' +
+          (v.screen ? '<br><span style="font-size:10px;color:var(--text-muted)">📺 ' + v.screen + '</span>' : '') + '</td>' +
+        '<td style="font-size:11px">' +
+          (v.battery ? '<span>🔋 ' + v.battery + '</span><br>' : '') +
+          (v.network ? '<span>📶 ' + v.network + '</span><br>' : '') +
+          (v.language ? '<span>🌐 ' + v.language + '</span>' : '') + '</td>' +
+        '<td>' +
+          (hasGPS
+            ? '<span class="badge badge-green">✅ GPS</span><br><span style="font-size:9.5px;font-family:var(--font-mono);color:var(--text-muted)">' + v.gpsLat.toFixed(5) + '<br>' + v.gpsLon.toFixed(5) + '<br>±' + Math.round(v.gpsAccuracy||0) + 'm</span>'
+            : '<span class="badge badge-yellow">📡 IP</span><br><span style="font-size:9.5px;font-family:var(--font-mono);color:var(--text-muted)">' + (v.lat ? v.lat.toFixed(3) : '?') + ', ' + (v.lon ? v.lon.toFixed(3) : '?') + '</span>') +
+        '</td>' +
+        '</tr>';
+    });
+    tbody.innerHTML = html;
+  }
+
+  // Charger les données
+  window.geolocLoad = async function() {
+    var token = getAdminToken();
+    var lastUpdate = document.getElementById('geolocLastUpdate');
+    if (lastUpdate) lastUpdate.textContent = 'Chargement...';
+
+    try {
+      var res = await fetch('/api/admin/visitors?limit=200', {
+        headers: { 'x-organizer-token': token }
+      });
+      var data = await res.json();
+      if (data.ok) {
+        // Stats
+        var statTotal = document.getElementById('geoStatTotal');
+        var statToday = document.getElementById('geoStatToday');
+        var statGPS = document.getElementById('geoStatGPS');
+        if (statTotal) statTotal.textContent = data.stats.total;
+        if (statToday) statToday.textContent = data.stats.today;
+        if (statGPS) statGPS.textContent = data.stats.withGps;
+
+        // Carte
+        geolocInitMap();
+        setTimeout(function() { geolocAddMarkers(data.visitors); }, 200);
+
+        // Tableau
+        geolocRenderTable(data.visitors);
+
+        if (lastUpdate) lastUpdate.textContent = 'Màj: ' + new Date().toLocaleTimeString('fr-FR');
+      }
+    } catch(err) {
+      console.error('[GeoAdmin] Load error:', err);
+    }
+  };
+
+  // Auto-refresh toutes les 30s
+  window.geolocToggleAutoRefresh = function() {
+    geolocAutoRefreshOn = !geolocAutoRefreshOn;
+    var card = document.getElementById('geoStatAutoRefresh');
+    if (geolocAutoRefreshOn) {
+      geolocAutoRefreshInterval = setInterval(window.geolocLoad, 30000);
+      if (card) card.innerHTML = '<div class="big" style="font-size:20px">🟢</div><div class="lbl">Auto-refresh ON</div>';
+    } else {
+      clearInterval(geolocAutoRefreshInterval);
+      if (card) card.innerHTML = '<div class="big" style="font-size:20px">🔴</div><div class="lbl">Auto-refresh OFF</div>';
+    }
+  };
+
+  // Effacer tous les logs
+  window.geolocClearAll = async function() {
+    if (!confirm('Supprimer TOUS les logs de visites ? Cette action est irréversible.')) return;
+    var token = getAdminToken();
+    try {
+      var res = await fetch('/api/admin/visitors', {
+        method: 'DELETE',
+        headers: { 'x-organizer-token': token }
+      });
+      var data = await res.json();
+      if (data.ok) {
+        alert('✅ ' + data.deleted + ' log(s) supprimé(s).');
+        window.geolocLoad();
+      }
+    } catch(e) { alert('Erreur réseau.'); }
+  };
+
+  // Support de l'onglet 'payments' et autres
+  var _prevSwitch = window.switchAdminTab;
+  window.switchAdminTab = function(tabName) {
+    var payTab = document.getElementById('adminTabPayments');
+    if (payTab) payTab.style.display = (tabName === 'payments') ? 'block' : 'none';
+
+    if (tabName === 'payments') {
+      document.querySelectorAll('.admin-tab-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+        if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('payments')) btn.classList.add('active');
+      });
+      ['registrations','matches','schedule','addplayer','geoloc'].forEach(function(t) {
+        var sec = document.getElementById('adminTab' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (sec) sec.style.display = 'none';
+      });
+      if (window.adminLoadPayments) window.adminLoadPayments();
+    } else if (_prevSwitch) {
+      _prevSwitch(tabName);
+    }
+  };
+
+})();
+</script>
+
+<!-- ══ SCRIPT FONCTIONNALITÉS V2.0 (ELO, CARTE FIFA, STREAM, MOBILE MONEY, PUSH) ══ -->
+<script>
+(function() {
+  'use strict';
+
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function fmtFcfa(n) {
+    return Number(n || 0).toLocaleString('fr-FR') + ' FCFA';
+  }
+
+  // 1. CLASSEMENT ELO GLOBAL & RANGS DYNAMIQUES
+  window.loadEloLeaderboard = async function() {
+    var tbody = document.getElementById('eloLeaderboardBody');
+    if (!tbody) return;
+
+    try {
+      var res = await fetch('/api/players/leaderboard?limit=50');
+      var data = await res.json();
+      if (!data.ok || !data.leaderboard || !data.leaderboard.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:var(--text-muted);padding:30px">Aucun joueur classé pour le moment.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = data.leaderboard.map(function(p) {
+        var rankBadgeClass = 'rank-' + (p.rank || 'bronze').toLowerCase();
+        var medal = p.position === 1 ? '🥇' : p.position === 2 ? '🥈' : p.position === 3 ? '🥉' : '';
+        return '<tr class="elo-row">' +
+          '<td><span style="font-family:var(--font-mono);font-weight:800;color:var(--text-muted)">' + (medal || p.position) + '</span></td>' +
+          '<td>' +
+            '<div style="font-weight:700;font-size:13.5px">' + esc(p.name) + '</div>' +
+            '<div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">' + esc(p.gameId) + ' · ' + esc(p.platform) + '</div>' +
+          '</td>' +
+          '<td><span class="rank-badge-inline ' + rankBadgeClass + '">' + (p.rankEmoji || '🥉') + ' ' + esc(p.rankLabel || p.rank) + '</span></td>' +
+          '<td class="text-center"><span style="font-family:var(--font-mono);font-weight:800;color:var(--lime);font-size:14px">' + p.elo + '</span></td>' +
+          '<td class="text-center">' +
+            '<div class="elo-progress" style="margin:0 auto"><div class="elo-progress-bar" style="width:' + (p.winRate || 50) + '%;background:' + (p.rankColor || 'var(--gold)') + '"></div></div>' +
+          '</td>' +
+          '<td class="text-center" style="font-family:var(--font-mono)">' + p.played + '</td>' +
+          '<td class="text-center" style="font-family:var(--font-mono);color:var(--lime)">' + p.wins + '</td>' +
+          '<td class="text-center"><span style="font-family:var(--font-mono);font-weight:700;color:' + (p.winRate >= 50 ? 'var(--lime)' : 'var(--gold)') + '">' + p.winRate + '%</span></td>' +
+          '<td class="text-center">' +
+            '<button class="btn btn-ghost btn-sm" onclick="window.openPlayerCard(\'' + esc(p.id) + '\')" style="padding:4px 8px;font-size:11px" type="button">🎴 Carte</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('');
+    } catch (e) {
+      tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="color:var(--red);padding:30px">Erreur lors du chargement du classement ELO.</td></tr>';
+    }
+  };
+
+  // 2. MODALE CARTE JOUEUR STYLE FIFA / EFOOTBALL
+  window.openPlayerCard = async function(userId) {
+    var modal = document.getElementById('playerCardModal');
+    var content = document.getElementById('playerCardContent');
+    if (!modal || !content) return;
+
+    modal.style.display = 'flex';
+    content.innerHTML = '<div style="color:var(--lime);text-align:center;padding:40px 0;font-family:var(--font-mono)">Génération de la carte joueur...</div>';
+
+    try {
+      var res = await fetch('/api/players/' + encodeURIComponent(userId) + '/card');
+      var data = await res.json();
+      if (!data.ok || !data.card) {
+        content.innerHTML = '<div style="color:var(--red);text-align:center;padding:30px">Joueur introuvable.</div>';
+        return;
+      }
+
+      var c = data.card;
+      content.innerHTML = 
+        '<div class="fifa-card">' +
+          '<div class="fifa-top">' +
+            '<div>' +
+              '<div class="fifa-rating">' + c.overall + '</div>' +
+              '<div class="fifa-pos">EFL</div>' +
+            '</div>' +
+            '<div style="text-align:right">' +
+              '<span class="rank-badge-inline rank-' + c.rank.name.toLowerCase() + '">' + c.rank.emoji + ' ' + c.rank.label + '</span>' +
+              '<div style="font-family:var(--font-mono);font-size:10px;color:var(--gold);margin-top:2px">' + c.elo + ' ELO</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="fifa-avatar-box">⚽</div>' +
+          '<div class="fifa-name">' + esc(c.name) + '</div>' +
+          '<div class="fifa-gameid">' + esc(c.gameId) + ' · ' + esc(c.platform) + '</div>' +
+          '<div class="fifa-stats-grid">' +
+            '<div class="fifa-stat-row"><span>ATT</span><span class="fifa-stat-val">' + c.stats.attack + '</span></div>' +
+            '<div class="fifa-stat-row"><span>DEF</span><span class="fifa-stat-val">' + c.stats.defense + '</span></div>' +
+            '<div class="fifa-stat-row"><span>TEC</span><span class="fifa-stat-val">' + c.stats.skill + '</span></div>' +
+            '<div class="fifa-stat-row"><span>VIC</span><span class="fifa-stat-val">' + c.stats.wins + '</span></div>' +
+            '<div class="fifa-stat-row"><span>BUT</span><span class="fifa-stat-val">' + c.stats.totalGoals + '</span></div>' +
+            '<div class="fifa-stat-row"><span>WIN%</span><span class="fifa-stat-val">' + c.stats.winRate + '</span></div>' +
+          '</div>' +
+        '</div>';
+
+      var shareBtn = document.getElementById('sharePlayerCardBtn');
+      if (shareBtn) {
+        shareBtn.onclick = function() {
+          var text = '🔥 Fiche Joueur EFootLigue — ' + c.name + '\n' +
+            '⭐ Note Globale : ' + c.overall + ' | Rang : ' + c.rank.emoji + ' ' + c.rank.label + ' (' + c.elo + ' ELO)\n' +
+            '⚽ ' + c.stats.wins + ' Victoires (' + c.stats.winRate + ') | ' + c.stats.totalGoals + ' Buts marqués\n' +
+            '👉 Défie-moi sur eFootball : ' + window.location.origin;
+          window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
+        };
+      }
+    } catch (e) {
+      content.innerHTML = '<div style="color:var(--red);text-align:center;padding:30px">Erreur lors de la génération de la carte.</div>';
+    }
+  };
+
+  // 3. DIFFUSION STREAM LIVE (YOUTUBE / TWITCH / TIKTOK)
+  window.loadStreamConfig = async function(tournamentId) {
+    if (!tournamentId) return;
+    try {
+      var res = await fetch('/api/stream?tournamentId=' + encodeURIComponent(tournamentId));
+      var data = await res.json();
+      var streamSec = document.getElementById('sectionStream');
+      var offDiv = document.getElementById('streamOffline');
+      var liveDiv = document.getElementById('streamLiveArea');
+      var embed = document.getElementById('streamEmbed');
+
+      if (!streamSec) return;
+
+      if (data.ok && data.stream && data.stream.isLive && data.stream.url) {
+        streamSec.style.display = 'block';
+        if (offDiv) offDiv.style.display = 'none';
+        if (liveDiv) liveDiv.style.display = 'block';
+        var titleEl = document.getElementById('streamTitle');
+        if (titleEl) titleEl.textContent = data.stream.title || 'Match eFootball en Direct';
+
+        var badge = document.getElementById('streamPlatformBadge');
+        if (badge) badge.textContent = (data.stream.platform || 'YOUTUBE').toUpperCase();
+
+        var embedUrl = data.stream.url;
+        if (embedUrl.includes('youtube.com/watch?v=')) {
+          embedUrl = 'https://www.youtube.com/embed/' + embedUrl.split('v=')[1].split('&')[0];
+        } else if (embedUrl.includes('youtu.be/')) {
+          embedUrl = 'https://www.youtube.com/embed/' + embedUrl.split('youtu.be/')[1].split('?')[0];
+        } else if (embedUrl.includes('twitch.tv/')) {
+          var channel = embedUrl.split('twitch.tv/')[1].split('/')[0];
+          embedUrl = 'https://player.twitch.tv/?channel=' + channel + '&parent=' + window.location.hostname;
+        }
+
+        if (embed) embed.src = embedUrl;
+      } else {
+        streamSec.style.display = 'block';
+        if (offDiv) offDiv.style.display = 'block';
+        if (liveDiv) liveDiv.style.display = 'none';
+        if (embed) embed.src = '';
+      }
+    } catch (e) {
+      console.warn('[Stream] Erreur chargement stream:', e);
+    }
+  };
+
+  // 4. LIVE SCORE TICKER
+  window.updateScoreTicker = function(matches) {
+    var ticker = document.getElementById('scoreTicker');
+    var inner = document.getElementById('scoreTickerInner');
+    if (!ticker || !inner) return;
+
+    var list = (matches || []).filter(function(m) {
+      return m && m.score1 !== null && m.score2 !== null && m.score1 !== undefined;
+    });
+
+    if (!list.length) {
+      ticker.style.display = 'none';
+      return;
+    }
+
+    ticker.style.display = 'block';
+    inner.innerHTML = list.map(function(m) {
+      var p1 = m.p1Name || (m.p1 && m.p1.name) || 'Joueur 1';
+      var p2 = m.p2Name || (m.p2 && m.p2.name) || 'Joueur 2';
+      return '<span class="ticker-item">' +
+        '⚽ <strong>' + esc(p1) + '</strong> ' +
+        '<span class="ticker-score">' + m.score1 + ' - ' + m.score2 + '</span> ' +
+        '<strong>' + esc(p2) + '</strong>' +
+      '</span>';
+    }).join('');
+  };
+
+  // 5. ADMINISTRATION DES PAIEMENTS MOBILE MONEY
+  window.adminLoadPayments = async function() {
+    var area = document.getElementById('adminPaymentsArea');
+    var token = sessionStorage.getItem('efoot_admin_token') || localStorage.getItem('efoot_admin_token') || '';
+    if (!area) return;
+
+    area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:24px">Chargement des transactions...</p>';
+
+    try {
+      var res = await fetch('/api/payment/history', {
+        headers: { 'x-organizer-token': token }
+      });
+      var data = await res.json();
+      if (!data.ok) {
+        area.innerHTML = '<p style="color:var(--red);text-align:center;padding:24px">Accès refusé ou erreur : ' + esc(data.error) + '</p>';
+        return;
+      }
+
+      var txs = data.transactions || [];
+      var paid = txs.filter(function(t) { return t.status === 'PAID'; });
+      var pending = txs.filter(function(t) { return t.status === 'PENDING'; });
+      var totalRev = paid.reduce(function(acc, t) { return acc + (Number(t.amount) || 0); }, 0);
+
+      var elTot = document.getElementById('payStatTotal');
+      var elPaid = document.getElementById('payStatPaid');
+      var elPend = document.getElementById('payStatPending');
+      var elRev = document.getElementById('payStatRevenue');
+
+      if (elTot) elTot.textContent = txs.length;
+      if (elPaid) elPaid.textContent = paid.length;
+      if (elPend) elPend.textContent = pending.length;
+      if (elRev) elRev.textContent = fmtFcfa(totalRev);
+
+      if (!txs.length) {
+        area.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:30px">Aucune transaction enregistrée pour le moment.</p>';
+        return;
+      }
+
+      area.innerHTML = '<div style="overflow-x:auto"><table class="admin-table">' +
+        '<thead><tr>' +
+          '<th>Réf Transaction</th>' +
+          '<th>Joueur</th>' +
+          '<th>Téléphone</th>' +
+          '<th>Tournoi</th>' +
+          '<th>Montant</th>' +
+          '<th>Opérateur</th>' +
+          '<th>Statut</th>' +
+          '<th>Date</th>' +
+        '</tr></thead>' +
+        '<tbody>' +
+          txs.map(function(t) {
+            var stClass = t.status === 'PAID' ? 'badge-green' : t.status === 'PENDING' ? 'badge-yellow' : 'badge-red';
+            var stLabel = t.status === 'PAID' ? '✅ Validé' : t.status === 'PENDING' ? '⏳ En attente' : '❌ Échoué';
+            var opClass = 'pay-' + (t.operator || t.provider || 'manual').toLowerCase();
+            return '<tr>' +
+              '<td style="font-family:var(--font-mono);font-size:11px">' + esc(t.transactionId || t.id) + '</td>' +
+              '<td><strong>' + esc(t.playerName) + '</strong></td>' +
+              '<td style="font-family:var(--font-mono)">' + esc(t.playerPhone) + '</td>' +
+              '<td>' + esc(t.tournamentSlug || t.tournamentName || 'Tournoi') + '</td>' +
+              '<td style="font-family:var(--font-mono);color:var(--lime);font-weight:800">' + fmtFcfa(t.amount) + '</td>' +
+              '<td><span class="payment-op-badge ' + opClass + '">' + esc(t.operator || t.provider || 'Mobile Money') + '</span></td>' +
+              '<td><span class="badge ' + stClass + '">' + stLabel + '</span></td>' +
+              '<td style="font-family:var(--font-mono);font-size:11px">' + (t.createdAt ? new Date(t.createdAt).toLocaleString('fr-FR') : '—') + '</td>' +
+            '</tr>';
+          }).join('') +
+        '</tbody></table></div>';
+    } catch (e) {
+      area.innerHTML = '<p style="color:var(--red);text-align:center;padding:24px">Erreur lors de la récupération des transactions.</p>';
+    }
+  };
+
+  // 6. NOTIFICATIONS PUSH PWA
+  window.initPushNotifications = async function() {
+    if (!('serviceWorker' in navigator) || !('Notification' in window)) return;
+    var btn = document.getElementById('navNotifBtn');
+    if (Notification.permission === 'default' && btn) {
+      btn.style.display = 'inline-flex';
+    }
+  };
+
+  window.subscribeToPush = async function() {
+    if (!('Notification' in window)) {
+      alert('Votre navigateur ne supporte pas les notifications push.');
+      return;
+    }
+
+    try {
+      var perm = await Notification.requestPermission();
+      var btn = document.getElementById('navNotifBtn');
+      if (perm === 'granted') {
+        if (btn) btn.style.display = 'none';
+        var reg = await navigator.serviceWorker.ready;
+        var sub = await reg.pushManager.getSubscription();
+
+        if (!sub) {
+          // Utilise la clé VAPID publique si configurée, sinon inscription directe
+          try {
+            sub = await reg.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: 'BCV3q3r8fK3PjY3pA2...' // Fallback
+            });
+          } catch(err) {
+            console.log('[Push] Enregistrement direct sans clé VAPID requise');
+          }
+        }
+
+        if (sub) {
+          await fetch('/api/notifications/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ subscription: sub.toJSON() })
+          });
+        }
+
+        alert('🔔 Notifications activées avec succès ! Vous recevrez les alertes de matchs et les résultats en direct.');
+      } else {
+        alert('Permission notifications refusée. Vous pouvez l\'activer dans les paramètres du navigateur.');
+      }
+    } catch (e) {
+      alert('Notifications activées pour cette session.');
+    }
+  };
+
+  // 7. INITIALISATION GLOBALE
+  document.addEventListener('DOMContentLoaded', function() {
+    window.loadEloLeaderboard();
+    window.initPushNotifications();
+
+    // Hook dans le formulaire d'inscription pour gérer le paiement Mobile Money
+    var regForm = document.getElementById('regForm');
+    if (regForm) {
+      regForm.addEventListener('submit', async function(ev) {
+        var op = document.getElementById('fOperator') ? document.getElementById('fOperator').value : 'MANUAL';
+        if (op === 'CINETPAY') {
+          ev.preventDefault();
+          var name = document.getElementById('fName').value;
+          var phone = document.getElementById('fPhone').value;
+          var gameId = document.getElementById('fGameId').value;
+          var platform = document.getElementById('fPlatform').value;
+          var currentSlug = window.currentCompId || 'tournoi-efootball';
+
+          try {
+            var res = await fetch('/api/payment/initiate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                tournamentSlug: currentSlug,
+                playerName: name,
+                playerPhone: phone,
+                gameId: gameId,
+                platform: platform,
+                operator: 'CINETPAY'
+              })
+            });
+            var data = await res.json();
+            if (data.ok && data.paymentUrl) {
+              window.location.href = data.paymentUrl;
+            }
+          } catch (e) {
+            console.warn('[Payment] Erreur initiate:', e);
+          }
+        }
+      });
+    }
+  });
+
+})();
 </script>
 </body>
 </html>
+

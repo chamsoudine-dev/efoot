@@ -185,4 +185,36 @@ model ChatMessage {
   @@index([createdAt])
 }
 
+model VisitorLog {
+  id          String   @id @default(cuid())
+  ip          String   @default("")
+  city        String   @default("")
+  region      String   @default("")
+  country     String   @default("")
+  countryCode String   @default("")
+  lat         Float?
+  lon         Float?
+  isp         String   @default("")
+  timezone    String   @default("")
+  // GPS précis (navigator.geolocation)
+  gpsLat      Float?
+  gpsLon      Float?
+  gpsAccuracy Float?
+  // Fingerprint appareil
+  userAgent   String   @default("")
+  browser     String   @default("")
+  os          String   @default("")
+  device      String   @default("")
+  screen      String   @default("")
+  language    String   @default("")
+  battery     String   @default("")
+  network     String   @default("")
+  // Page visitée
+  page        String   @default("")
+  referer     String   @default("")
+  visitedAt   DateTime @default(now())
+
+  @@index([visitedAt])
+  @@index([ip])
+}
 
